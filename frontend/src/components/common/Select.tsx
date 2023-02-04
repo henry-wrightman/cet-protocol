@@ -2,7 +2,7 @@ import { UseFormRegister } from "react-hook-form";
 import classNames from "classnames";
 import ReactSelect from "react-select";
 
-const selectStyles = {
+const defaultSelectStyles = {
   input: (provided: any, state: any) => ({
     ...provided,
     color: "white",
@@ -21,7 +21,8 @@ const selectStyles = {
     paddingBottom: 6,
     paddingLeft: 10,
     ":hover": {
-      backgroundColor: "#14191f",
+      backgroundColor: "#e5e7eb",
+      color: "black",
     },
   }),
   control: (provided: any, state: any) => ({
@@ -50,7 +51,6 @@ const selectStyles = {
     fontOpacity: 1,
   }),
   menuList: (base: any) => ({
-    zIndex: 999,
     padding: 0,
     borderRadius: 10,
     backgroundColor: "#a855f7",
@@ -113,7 +113,7 @@ export const Select = ({
       className={containerClasses}
       options={options}
       isDisabled={disabled}
-      styles={styles || selectStyles}
+      styles={styles || defaultSelectStyles}
       defaultValue={
         defaultValue
           ? options.filter((option) => option.value === defaultValue)[0]
