@@ -1,0 +1,29 @@
+{
+  "name": "@1v1.bet/subgraph",
+  "license": "UNLICENSED",
+  "version": "1.0.0",
+  "scripts": {
+    "codegen": "graph codegen",
+    "build": "graph build",
+    "deploy": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ GITHUB_USERNAME/WagerRegistry",
+    "create-local": "graph create --node http://localhost:8020/ WagerRegistry",
+    "remove-local": "graph remove --node http://localhost:8020/ WagerRegistry",
+    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 WagerRegistry",
+    "lint": "eslint '**/*.{js,ts}' --fix; prettier '**/*.{json,sol,md,js,ts}' --write; ",
+    "lint-ci": "eslint '**/*.{js,ts}' --max-warnings 0; prettier '**/*.{json,sol,md,js,ts}' --check; ",
+    "generate-types": "graphql-codegen --config ./subgraphTypes/codegen-subgraph-types.yml",
+    "prepare:goerli": "mustache config/goerli.json subgraph.template.yaml > subgraph.yaml"
+  },
+  "dependencies": {
+    "@graphprotocol/graph-cli": "^0.29.2",
+    "@graphprotocol/graph-ts": "^0.26.0",
+    "@graphql-codegen/cli": "^2.6.2",
+    "@graphql-codegen/typescript": "^2.4.8",
+    "ts-node": "^10.9.1"
+  },
+  "devDependencies": {
+    "@shopify/eslint-plugin-assemblyscript": "^0.1.13",
+    "eslint": "^8.23.0",
+    "mustache": "^3.1.0"
+  }
+}

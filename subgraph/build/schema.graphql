@@ -1,0 +1,34 @@
+# typings for graphql-code-generator, uncomment to generate Typscript types
+# scalar BigInt
+# scalar Bytes
+
+type Registry @entity {
+  id: ID! # address
+  wagers: [Wager!]! @derivedFrom(field: "registry")
+  wagerIds: [String!]!
+}
+
+type Wager @entity {
+  id: String! # uint256
+  partyOne: WagerParty!
+  partyTwo: WagerParty
+  partyWager: BigInt!
+  partyOneWager: Bytes!
+  partyTwoWager: Bytes
+  createdBlock: BigInt!
+  expirationBlock: BigInt!
+  wagerOracleData: Bytes
+  supplumentalWagerOracleData: Bytes
+  result: Bytes
+  state: BigInt!
+  wagerModule: Bytes!
+  oracleImpl: Bytes!
+  registry: Registry!
+  winner: Bytes
+}
+
+type WagerParty @entity {
+  id: ID! # address
+  wagerIds: [String!]!
+  uri: String # uri for metadata / NFT
+}

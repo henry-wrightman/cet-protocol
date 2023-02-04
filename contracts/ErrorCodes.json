@@ -1,0 +1,22 @@
+{
+  "registry": {
+    "W1": "wager doesn't exist",
+    "W2": "wager invalid state",
+    "W3": "wager not yet expired",
+    "W4": "sender not involved in the wager",
+    "W5": "wager exceeds contract bal",
+    "W6": "wager withdraw failed",
+    "W7": "wager expired",
+    "W8": "sender already entered",
+    "W9": "insufficient wager",
+    "W10": "invalid partyTwoWager",
+    "W11": "failed to transfer winnings",
+    "W12": "invalid wager expirationBlock",
+    "W13": "invalid partyOne",
+    "W14": "invalid partyOne wager params",
+    "W15": "wager can no longer be entered",
+    "W16": "invalid partyOne wager params",
+    "W17": "enter limit exceeds expiration",
+    "W18": "wager cannot pager other party's wager"
+  }
+}

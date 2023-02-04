@@ -1,0 +1,450 @@
+[
+  {
+    "inputs": [],
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "winner",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "bytes",
+        "name": "result",
+        "type": "bytes"
+      },
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "wagerId",
+        "type": "uint256"
+      }
+    ],
+    "name": "WagerSettled",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "partyAddr",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "partyWagerAmount",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "bytes",
+        "name": "partyWager",
+        "type": "bytes"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "createdBlock",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "expirationBlock",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "wagerModule",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "oracleModule",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "wagerId",
+        "type": "uint256"
+      }
+    ],
+    "name": "WagerCreated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "partyAddr",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "bytes",
+        "name": "partyWager",
+        "type": "bytes"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "wagerId",
+        "type": "uint256"
+      }
+    ],
+    "name": "WagerEntered",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "wagerId",
+        "type": "uint256"
+      }
+    ],
+    "name": "WagerVoided",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "recipient",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "wagerId",
+        "type": "uint256"
+      }
+    ],
+    "name": "WagerWithdraw",
+    "type": "event"
+  },
+  {
+    "inputs": [
+      {
+        "components": [
+          {
+            "internalType": "bytes",
+            "name": "parties",
+            "type": "bytes"
+          },
+          {
+            "internalType": "bytes",
+            "name": "partyOneWagerData",
+            "type": "bytes"
+          },
+          {
+            "internalType": "bytes",
+            "name": "partyTwoWagerData",
+            "type": "bytes"
+          },
+          {
+            "internalType": "uint256",
+            "name": "wagerAmount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "bytes",
+            "name": "blockData",
+            "type": "bytes"
+          },
+          {
+            "internalType": "bytes",
+            "name": "wagerOracleData",
+            "type": "bytes"
+          },
+          {
+            "internalType": "bytes",
+            "name": "supplumentalWagerOracleData",
+            "type": "bytes"
+          },
+          {
+            "internalType": "bytes",
+            "name": "result",
+            "type": "bytes"
+          },
+          {
+            "internalType": "enum WagerState",
+            "name": "state",
+            "type": "uint8"
+          },
+          {
+            "internalType": "contract IWagerModule",
+            "name": "wagerModule",
+            "type": "address"
+          },
+          {
+            "internalType": "contract IWagerOracle",
+            "name": "oracleModule",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "oracleSource",
+            "type": "address"
+          }
+        ],
+        "internalType": "struct Wager",
+        "name": "wager",
+        "type": "tuple"
+      }
+    ],
+    "name": "createWager",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes",
+        "name": "data",
+        "type": "bytes"
+      }
+    ],
+    "name": "decodeBlocks",
+    "outputs": [
+      {
+        "internalType": "uint80",
+        "name": "createdBlock",
+        "type": "uint80"
+      },
+      {
+        "internalType": "uint80",
+        "name": "expirationBlock",
+        "type": "uint80"
+      },
+      {
+        "internalType": "uint80",
+        "name": "enterLimitBlock",
+        "type": "uint80"
+      }
+    ],
+    "stateMutability": "pure",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes",
+        "name": "data",
+        "type": "bytes"
+      }
+    ],
+    "name": "decodeParties",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "partyOne",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "partyTwo",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "pure",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "wagerId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "bytes",
+        "name": "partyTwoWagerData",
+        "type": "bytes"
+      }
+    ],
+    "name": "enterWager",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "startBlock",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "endBlock",
+        "type": "uint256"
+      }
+    ],
+    "name": "executeBlockRange",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "executionSchedule",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "wagerId",
+        "type": "uint256"
+      }
+    ],
+    "name": "settleWager",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "wagerId",
+        "type": "uint256"
+      }
+    ],
+    "name": "voidWager",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "wagers",
+    "outputs": [
+      {
+        "internalType": "bytes",
+        "name": "parties",
+        "type": "bytes"
+      },
+      {
+        "internalType": "bytes",
+        "name": "partyOneWagerData",
+        "type": "bytes"
+      },
+      {
+        "internalType": "bytes",
+        "name": "partyTwoWagerData",
+        "type": "bytes"
+      },
+      {
+        "internalType": "uint256",
+        "name": "wagerAmount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "bytes",
+        "name": "blockData",
+        "type": "bytes"
+      },
+      {
+        "internalType": "bytes",
+        "name": "wagerOracleData",
+        "type": "bytes"
+      },
+      {
+        "internalType": "bytes",
+        "name": "supplumentalWagerOracleData",
+        "type": "bytes"
+      },
+      {
+        "internalType": "bytes",
+        "name": "result",
+        "type": "bytes"
+      },
+      {
+        "internalType": "enum WagerState",
+        "name": "state",
+        "type": "uint8"
+      },
+      {
+        "internalType": "contract IWagerModule",
+        "name": "wagerModule",
+        "type": "address"
+      },
+      {
+        "internalType": "contract IWagerOracle",
+        "name": "oracleModule",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "oracleSource",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  }
+]

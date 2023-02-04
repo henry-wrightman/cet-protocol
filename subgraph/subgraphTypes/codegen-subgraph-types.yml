@@ -1,0 +1,6 @@
+overwrite: true
+schema: "./src/schema.graphql"
+generates:
+  ../libraries/wager-subgraph-types/v2/index.d.ts:
+    plugins:
+      - "typescript"
