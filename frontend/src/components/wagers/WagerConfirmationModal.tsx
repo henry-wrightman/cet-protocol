@@ -6,7 +6,7 @@ import { Dialog } from "@headlessui/react";
 import { utils } from "ethers";
 import { formatDistanceToNow } from "date-fns";
 import externalLinkIcon from "../../public/externalLink.svg";
-import Image from "next/Image";
+import Image from "next/image";
 
 const DEFAULT_CONTACT_US_TITLE = "Wager confirmation";
 const DEFAULT_CONTACT_US_SUBHEADER =
