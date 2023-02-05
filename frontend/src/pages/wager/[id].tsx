@@ -234,8 +234,10 @@ const W: NextPage = () => {
       <div className="flex flex-col md:flex-row lg:flex-row">
         <div
           className={`sm:basis-full md:basis-1/3 lg:basis-1/3 justify-center m-4 p-3 ${
-            data?.wager.state! == "1" ? "shadow-md rounded-lg bg-gray-200" : ""
-          } ${potentialEnter ? "h-[300px]" : "h-[70px]"}`}
+            potentialSettle || potentialVoid || potentialEnter
+              ? "shadow-md rounded-lg bg-gray-200"
+              : ""
+          } ${potentialEnter ? "h-[350px]" : "h-[70px]"}`}
         >
           {potentialEnter && (
             <>
@@ -333,7 +335,7 @@ const W: NextPage = () => {
                     Type
                   </td>
                   <td className="border p-1 text-right border rounded-r-md">
-                    {wagerType} {wagerMetadata}
+                    {wagerType.replace("wm.", "")} {wagerMetadata}
                   </td>
                 </tr>
                 <tr className="bg-gray-200 text-left h-[40px]">

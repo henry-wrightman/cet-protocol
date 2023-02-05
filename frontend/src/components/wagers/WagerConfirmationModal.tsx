@@ -5,6 +5,8 @@ import { Modal } from "../common";
 import { Dialog } from "@headlessui/react";
 import { utils } from "ethers";
 import { formatDistanceToNow } from "date-fns";
+import externalLinkIcon from "../../public/externalLink.svg";
+import Image from "next/Image";
 
 const DEFAULT_CONTACT_US_TITLE = "Wager confirmation";
 const DEFAULT_CONTACT_US_SUBHEADER =
@@ -81,7 +83,23 @@ export const WagerConfirmationModal = ({
                   Expiration Block
                 </td>
                 <td className="p-1 text-right border rounded-r-md">
-                  {wager.wagerExpirationBlock}
+                  {wager.wagerExpirationBlock}{" "}
+                  {
+                    <a
+                      target={"_blank"}
+                      href={
+                        "https://goerli.etherscan.io/block/" +
+                        wager.wagerExpirationBlock
+                      }
+                      rel="noreferrer"
+                    >
+                      <Image
+                        width={17}
+                        height={17}
+                        src={externalLinkIcon}
+                      ></Image>
+                    </a>
+                  }
                 </td>
               </tr>
             </>

@@ -1,6 +1,6 @@
 import { useQuery, gql } from "@apollo/client";
 import { ethers } from "ethers";
-import { useEffect, useCallback, useState } from "react";
+import { useEffect, useCallback, useState, useReducer } from "react";
 import { useNetwork } from "wagmi";
 import { Wager, WagerResults } from "../../types";
 import { NETWORK, MODULES, ORACLES, TICKERS } from "../../utils/constants";
@@ -8,6 +8,7 @@ import { getSubgraphClient } from "../../graphql/client";
 import { formatDistanceToNow } from "date-fns";
 import Link from "next/link";
 import { Loading } from "../common";
+import { useAccount } from "wagmi";
 
 const WAGERS_QUERY = gql`
   {
@@ -31,6 +32,135 @@ const WAGERS_QUERY = gql`
     }
   }
 `;
+
+const WAGER_QUERY_BY_ADDRESS = gql`
+  query member($id: String!) {
+    wagers(id: $id) {
+      id
+      partyOne {
+        id
+      }
+      partyTwo {
+        id
+      }
+      partyOneWager
+      partyTwoWager
+      expirationBlock
+      partyWager
+      state
+      result
+      winner
+      wagerModule
+      oracleImpl
+    }
+  }
+`;
+
+const WAGER_QUERY_BY_STATE = gql`
+  query wagers($state: BigInt!) {
+    wagers(where: { state: $state }) {
+      id
+      partyOne {
+        id
+      }
+      partyTwo {
+        id
+      }
+      partyOneWager
+      partyTwoWager
+      expirationBlock
+      partyWager
+      state
+      result
+      winner
+      wagerModule
+      oracleImpl
+    }
+  }
+`;
+
+const WAGER_QUERY_RECENT = gql`
+  {
+    wagers(orderBy: createdBlock, orderDirection: desc) {
+      id
+      partyOne {
+        id
+      }
+      partyTwo {
+        id
+      }
+      partyOneWager
+      partyTwoWager
+      expirationBlock
+      partyWager
+      state
+      result
+      winner
+      wagerModule
+      oracleImpl
+    }
+  }
+`;
+
+const WAGER_QUERY_CLOSEST_EXPIRATION = gql`
+  {
+    wagers(orderBy: expirationBlock, orderDirection: asc, where: { state: 0 }) {
+      id
+      partyOne {
+        id
+      }
+      partyTwo {
+        id
+      }
+      partyOneWager
+      partyTwoWager
+      expirationBlock
+      partyWager
+      state
+      result
+      winner
+      wagerModule
+      oracleImpl
+    }
+  }
+`;
+
+function reducer(state: WAGERS_QUERY_STATE, action: any) {
+  switch (action.type) {
+    case "all":
+      return { ...state, query: WAGERS_QUERY };
+    case "yours":
+      return {
+        ...state,
+        query: WAGER_QUERY_BY_ADDRESS,
+        queryParams: { id: state.user },
+      };
+    case "open":
+      return {
+        ...state,
+        query: WAGER_QUERY_BY_STATE,
+        queryParams: { state: 1 },
+      };
+    case "recent":
+      return { ...state, query: WAGER_QUERY_RECENT };
+    case "closest_expiration":
+      return { ...state, query: WAGER_QUERY_CLOSEST_EXPIRATION };
+    default:
+      throw new Error();
+  }
+}
+
+type WAGERS_QUERY_STATE = {
+  user: string;
+  query: any;
+  queryParams: any;
+};
+
+const INITIAL_STATE: WAGERS_QUERY_STATE = {
+  user: "",
+  query: WAGERS_QUERY,
+  queryParams: null,
+};
 
 export const getWagerState = (state: string) => {
   switch (state) {
@@ -61,12 +191,15 @@ export const getWagerState = (state: string) => {
 
 export const WagersList = () => {
   const { chain } = useNetwork();
+  const { address } = useAccount();
   const network =
     chain && chain?.network ? (chain?.network as NETWORK) : "goerli";
-  const { data, loading, error } = useQuery<WagerResults>(WAGERS_QUERY, {
-    client: getSubgraphClient(chain?.id!),
-  });
   const [blocknumber, setBlocknumber] = useState(0);
+  const [state, dispatch] = useReducer(reducer, INITIAL_STATE);
+  const { data, loading, error } = useQuery<WagerResults>(state.query, {
+    client: getSubgraphClient(chain?.id!),
+    variables: state.queryParams,
+  });
 
   const getBlockNumber = useCallback(() => {
     ethers
@@ -103,6 +236,48 @@ export const WagersList = () => {
 
   return (
     <>
+      <table className="w-full border-b-[2px] border-black-100 border-separate border-spacing-x-0 border-spacing-y-2 bg-white rounded-md">
+        <thead>
+          <tr className="">
+            <th className="p-1 text-black">
+              <button className={""} onClick={() => dispatch({ type: "all" })}>
+                All
+              </button>
+            </th>
+            <th className="p-1 text-black">
+              <button className={""} onClick={() => dispatch({ type: "open" })}>
+                Open
+              </button>
+            </th>
+            <th className="p-1 text-black">
+              <button
+                className={""}
+                onClick={() => dispatch({ type: "yours", user: address })}
+              >
+                Yours
+              </button>
+            </th>
+            <th className="p-1 text-black">
+              <button
+                className={""}
+                onClick={() => dispatch({ type: "closest_expiration" })}
+              >
+                Expiration
+              </button>
+            </th>
+            <th className="p-1 text-black">
+              <button
+                className={""}
+                onClick={() => dispatch({ type: "recent" })}
+              >
+                Recent
+              </button>
+            </th>
+          </tr>
+          <tr></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
       <table className="w-full border-separate border-spacing-x-0 border-spacing-y-2 shadow-md">
         <thead>
           <tr>

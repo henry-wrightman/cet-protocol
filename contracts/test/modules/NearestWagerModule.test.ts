@@ -35,7 +35,7 @@ describe("NearestWagerModule", function () {
 
   });
 
-  describe.only("Nearest wagers [BTCUSD]", function () {
+  describe("Nearest wagers [BTCUSD]", function () {
     const blockData = utils.defaultAbiCoder.encode(
       ["uint80", "uint80", "uint80"],
       [0, 1500, 0]
@@ -89,7 +89,7 @@ describe("NearestWagerModule", function () {
       expect(winner).to.equal(address2.address);
     });
   });
-  describe.only("Nearest wagers [XAUUSD]", function () {
+  describe("Nearest wagers [XAUUSD]", function () {
     const blockData = utils.defaultAbiCoder.encode(
       ["uint80", "uint80", "uint80"],
       [0, 1500, 0]
@@ -144,7 +144,7 @@ describe("NearestWagerModule", function () {
       expect(winner).to.equal(address2.address);
     });
   });
-  describe.only("Nearest wagers [LINKETH]", function () {
+  describe("Nearest wagers [LINKETH]", function () {
     const blockData = utils.defaultAbiCoder.encode(
       ["uint80", "uint80", "uint80"],
       [0, 1500, 0]

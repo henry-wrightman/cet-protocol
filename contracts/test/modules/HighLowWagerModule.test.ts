@@ -34,7 +34,7 @@ describe("HighLowWagerModule", function () {
     await testChainLinkOracle.deployed();
   });
 
-  describe.only("HighLow wagers [BTCUSD]", function () {
+  describe("HighLow wagers [BTCUSD]", function () {
     const blockData = utils.defaultAbiCoder.encode(
       ["uint80", "uint80", "uint80"],
       [0, 1500, 0]
@@ -100,7 +100,7 @@ describe("HighLowWagerModule", function () {
       expect(winner).to.equal(address2.address);
     });
   });
-  describe.only("HighLow wagers [XAUUSD]", function () {
+  describe("HighLow wagers [XAUUSD]", function () {
     const blockData = utils.defaultAbiCoder.encode(
       ["uint80", "uint80", "uint80"],
       [0, 1500, 0]
@@ -166,7 +166,7 @@ describe("HighLowWagerModule", function () {
       expect(winner).to.equal(address2.address);
     });
   });
-  describe.only("HighLow wagers [LINKETH]", function () {
+  describe("HighLow wagers [LINKETH]", function () {
     const blockData = utils.defaultAbiCoder.encode(
       ["uint80", "uint80", "uint80"],
       [0, 1500, 0]
