@@ -18,7 +18,6 @@ export const CreateWager = ({
   wagerModule,
   oracleModule,
   oracleSource,
-  setStep,
 }: {
   signerAddress: string;
   wagerData: string | never[];
@@ -27,7 +26,6 @@ export const CreateWager = ({
   wagerModule: string;
   oracleModule: string;
   oracleSource: string;
-  setStep: () => void;
 }) => {
   const { chain } = useNetwork();
   const network =
@@ -82,8 +80,9 @@ export const CreateWager = ({
 
   return (
     <Transaction
-      text="Create Wager"
+      text="Confirm"
       tx={write}
+      buttonClassAdditions={"bg-white text-black font-bold"}
       error={error}
       isLoading={isLoading}
       isSuccess={isSuccess}

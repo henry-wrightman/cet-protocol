@@ -9,15 +9,28 @@ import {
 } from "../../utils/constants";
 import { ethers, utils } from "ethers";
 import EAC_ABI from "../../../../subgraph/contractDeployments/0/EACAggregatorProxy.json";
-import { Input, Label, Select } from "../common";
+import { Button, Input, Label, Select } from "../common";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { CreateWager, WagerOptions } from "./";
+import { CreateWager, WagerOptions, WagerConfirmationButton } from "./";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import TextField from "@mui/material/TextField";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import useDebounce from "../../hooks/useDebounce";
 import moment from "moment";
+import * as zod from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+export const WAGER_FORM_SCHEMA = zod.object({
+  creator: zod.string(),
+  wager: zod.string(),
+  wagerAmount: zod.string().regex(/^(0|[1-9]\d*)(\.\d+)?$/, "plz valid amount"),
+  wagerType: zod.string(),
+  wagerExpirationBlock: zod.number(),
+  wagerTicker: zod.string(),
+});
+
+export type WAGER_FORM_TYPE = zod.infer<typeof WAGER_FORM_SCHEMA>;
 
 export type SelectOption = {
   label: string;
@@ -34,14 +47,6 @@ export type OracleRoundResponse = {
 
 export type OracleDecimalsResponse = {
   decimals: number;
-};
-
-type WagerForm = {
-  wager: string;
-  wagerAmount: string;
-  wagerType: string;
-  wagerExpirationBlock: number;
-  wagerTicker: string;
 };
 
 export const constructWagerData = (
@@ -69,25 +74,24 @@ export const constructWagerData = (
 export const WagerForm = ({ signerAddress }: { signerAddress: string }) => {
   const [expirationDate, setExpirationDate] = useState(Date.now());
   const { chain } = useNetwork();
-  const {
-    setValue,
-    register,
-    watch,
-    handleSubmit,
-    formState: { errors, touchedFields },
-  } = useForm<WagerForm>({
-    defaultValues: {
-      wagerType: "wm.highlow",
-      wagerTicker: "BTCUSD",
-      wager: "",
-    },
-  });
-  const isFormTouched = Object.keys(touchedFields).length >= 1;
+  const { setValue, register, watch, handleSubmit, getValues, formState } =
+    useForm<WAGER_FORM_TYPE>({
+      defaultValues: {
+        wagerType: "wm.highlow",
+        wagerTicker: "BTCUSD",
+        wager: "",
+        creator: signerAddress,
+      },
+      resolver: zodResolver(WAGER_FORM_SCHEMA),
+    });
+  const isFormTouched = Object.keys(formState.touchedFields).length >= 1;
   const network =
     chain && chain?.network ? (chain?.network as NETWORK) : "goerli";
   const ticker = watch("wagerTicker") as TICKERS;
 
-  const onSubmit: SubmitHandler<WagerForm> = async (data: WagerForm) => {
+  const onSubmit: SubmitHandler<WAGER_FORM_TYPE> = async (
+    data: WAGER_FORM_TYPE
+  ) => {
     console.log(data);
   };
 
@@ -142,6 +146,11 @@ export const WagerForm = ({ signerAddress }: { signerAddress: string }) => {
           <fieldset className="border-[1px] w-full border-black p-2 rounded-md text-left mb-2">
             <legend className="text-xs text-black p-1">wager</legend>
             <div className="flex flex-row">
+              {formState.errors && formState.errors.wagerAmount && (
+                <>
+                  <span className="color-red">plz normal numbers</span>
+                </>
+              )}
               <Input
                 className="m-2 basis-1/2"
                 register={register}
@@ -176,7 +185,12 @@ export const WagerForm = ({ signerAddress }: { signerAddress: string }) => {
                 className="w-full"
                 value={expirationDate}
                 minDateTime={moment(moment.now()).add(30, "minutes")}
-                onChange={async (newValue) => {
+                onChange={(newValue) => {
+                  if (newValue) {
+                    setExpirationDate(Date.parse(newValue?.toLocaleString()));
+                  }
+                }}
+                onAccept={async (newValue) => {
                   if (newValue) {
                     setExpirationDate(Date.parse(newValue?.toLocaleString()));
                     const diffBlocks = Math.floor(
@@ -203,35 +217,39 @@ export const WagerForm = ({ signerAddress }: { signerAddress: string }) => {
               watch("wagerType") &&
               watch("wagerExpirationBlock") &&
               watch("wager") && (
-                <CreateWager
-                  signerAddress={signerAddress}
-                  wagerData={
-                    constructWagerData(
-                      watch("wagerType"),
-                      [
-                        watch("wager"),
-                        parseInt(currentPrice).toFixed(0).toString(),
-                      ],
-                      decimals
-                    ) || []
-                  }
-                  wagerAmount={watch("wagerAmount")}
-                  wagerExpirationBlock={watch("wagerExpirationBlock")}
-                  wagerModule={
-                    MODULES[network].filter(
-                      (x) => x.type == watch("wagerType")
-                    )[0].address
-                  }
-                  oracleModule={
-                    MODULES[network].filter(
-                      (x) => x.type == "oracle.chainlink"
-                    )[0].address
-                  }
-                  oracleSource={
-                    ORACLES[ORACLE_TYPES.CHAINLINK][network][ticker]
-                  }
-                  setStep={() => {}}
-                />
+                <WagerConfirmationButton
+                  wager={getValues()}
+                  trigger={<Button className="w-full">Create Wager</Button>}
+                >
+                  <CreateWager
+                    signerAddress={signerAddress}
+                    wagerData={
+                      constructWagerData(
+                        watch("wagerType"),
+                        [
+                          watch("wager"),
+                          parseInt(currentPrice).toFixed(0).toString(),
+                        ],
+                        decimals
+                      ) || []
+                    }
+                    wagerAmount={watch("wagerAmount")}
+                    wagerExpirationBlock={watch("wagerExpirationBlock")}
+                    wagerModule={
+                      MODULES[network].filter(
+                        (x) => x.type == watch("wagerType")
+                      )[0].address
+                    }
+                    oracleModule={
+                      MODULES[network].filter(
+                        (x) => x.type == "oracle.chainlink"
+                      )[0].address
+                    }
+                    oracleSource={
+                      ORACLES[ORACLE_TYPES.CHAINLINK][network][ticker]
+                    }
+                  />
+                </WagerConfirmationButton>
               )}
           </div>
           {/* <Label

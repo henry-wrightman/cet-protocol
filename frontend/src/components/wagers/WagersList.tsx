@@ -3,7 +3,7 @@ import { ethers } from "ethers";
 import { useEffect, useCallback, useState } from "react";
 import { useNetwork } from "wagmi";
 import { Wager, WagerResults } from "../../types";
-import { NETWORK } from "../../utils/constants";
+import { NETWORK, MODULES, ORACLES, TICKERS } from "../../utils/constants";
 import { getSubgraphClient } from "../../graphql/client";
 import { formatDistanceToNow } from "date-fns";
 import Link from "next/link";
@@ -103,11 +103,12 @@ export const WagersList = () => {
 
   return (
     <>
-      <table className="w-full border-separate border-spacing-x-0 border-spacing-y-2">
+      <table className="w-full border-separate border-spacing-x-0 border-spacing-y-2 shadow-md">
         <thead>
           <tr>
             <th className="p-1 text-white">Participants</th>
             <th className="p-1 text-white">Wager</th>
+            <th className="p-1 text-white">Type</th>
             <th className="p-1 text-white">State</th>
             <th className="p-1 text-white">Expiration</th>
           </tr>
@@ -115,52 +116,72 @@ export const WagersList = () => {
         <tbody>
           {data &&
             data.wagers.length > 0 &&
-            data.wagers.map((wager: Wager) => (
-              <Link href={"/wager/" + wager.id} key={wager.id}>
-                <tr
-                  className="text-center cursor-pointer bg-gray-200 hover:text-white hover:bg-purple-500 h-[40px]"
-                  key={wager.id}
-                >
-                  <td className="p-1 rounded-l-lg">
-                    {
-                      <span
-                        className={`m-1 p-1 bg-${
-                          wager.winner
-                            ? wager.partyOne?.id === wager.winner
-                              ? "green"
-                              : "red"
-                            : "gray"
-                        }-400 border-gray-400 rounded-md`}
-                      >
-                        {wager.partyOne?.id.slice(0, 6)}
-                      </span>
-                    }{" "}
-                    {wager.partyTwo ? (
-                      <span
-                        className={`p-1 bg-${
-                          wager.winner
-                            ? wager.partyTwo?.id === wager.winner
-                              ? "green"
-                              : "red"
-                            : "gray"
-                        }-400 border-gray-400 rounded-md`}
-                      >
-                        {wager.partyTwo?.id.slice(0, 6)}
-                      </span>
-                    ) : (
-                      ""
-                    )}
-                  </td>
-                  <td className="p-1">
-                    {ethers.utils.formatEther(wager.partyWager).toString()}E
-                  </td>
-                  <td className="p-1">{getWagerState(wager.state)}</td>
-                  <td className="p-1 rounded-r-lg">
-                    {getBlockETA(wager?.expirationBlock)}
-                  </td>
-                </tr>
-              </Link>
-            ))}
+            data.wagers.map((wager: Wager) => {
+              const module = MODULES[network].filter(
+                (x) =>
+                  x.address.toLowerCase() == wager.wagerModule.toLowerCase()
+              )[0];
+              const type = module.type;
+              const ta =
+                data && wager
+                  ? (Object.keys(TICKERS).filter(
+                      (x) =>
+                        ORACLES["CHAINLINK"][network][
+                          x as TICKERS
+                        ].toLowerCase() === wager.oracleImpl.toLowerCase()
+                    )[0] as TICKERS)
+                  : TICKERS.BTCETH;
+
+              return (
+                <Link href={"/wager/" + wager.id} key={wager.id}>
+                  <tr
+                    className="text-center cursor-pointer bg-gray-200 hover:text-white hover:bg-purple-500 h-[40px]"
+                    key={wager.id}
+                  >
+                    <td className="p-1 rounded-l-lg">
+                      {
+                        <span
+                          className={`m-1 p-1 bg-${
+                            wager.winner
+                              ? wager.partyOne?.id === wager.winner
+                                ? "green"
+                                : "red"
+                              : "gray"
+                          }-400 border-gray-400 rounded-md`}
+                        >
+                          {wager.partyOne?.id.slice(0, 6)}
+                        </span>
+                      }{" "}
+                      {wager.partyTwo ? (
+                        <span
+                          className={`p-1 bg-${
+                            wager.winner
+                              ? wager.partyTwo?.id === wager.winner
+                                ? "green"
+                                : "red"
+                              : "gray"
+                          }-400 border-gray-400 rounded-md`}
+                        >
+                          {wager.partyTwo?.id.slice(0, 6)}
+                        </span>
+                      ) : (
+                        ""
+                      )}
+                    </td>
+                    <td className="p-1">
+                      {ethers.utils.formatEther(wager.partyWager).toString()}E
+                    </td>
+                    <td className="p-1">
+                      {type.replace("wm.", "")} ({ta})
+                    </td>
+                    <td className="p-1">{getWagerState(wager.state)}</td>
+                    <td className="p-1 rounded-r-lg">
+                      {getBlockETA(wager?.expirationBlock)}
+                    </td>
+                  </tr>
+                </Link>
+              );
+            })}
         </tbody>
       </table>
     </>
