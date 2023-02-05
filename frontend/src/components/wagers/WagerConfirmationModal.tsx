@@ -3,12 +3,13 @@ import { Button, Label, Input } from "../common";
 import { WAGER_FORM_TYPE } from "./WagerForm";
 import { Modal } from "../common";
 import { Dialog } from "@headlessui/react";
-import { utils } from "ethers";
+import { utils, Transaction as T } from "ethers";
 import { formatDistanceToNow } from "date-fns";
-import externalLinkIcon from "../../public/externalLink.svg";
 import Image from "next/image";
+import externalLinkIcon from "../../public/externalLink.svg";
+import { images } from "../../public/success";
 
-const DEFAULT_CONTACT_US_TITLE = "Wager confirmation";
+const DEFAULT_CONTACT_US_TITLE = "Wager submission";
 const DEFAULT_CONTACT_US_SUBHEADER =
   "Plz ensure your wager details are correct";
 
@@ -30,7 +31,7 @@ export const WagerConfirmationModal = ({
   wager,
 }: WagerConfirmProps) => {
   const [open, setIsOpen] = useState(isOpen);
-  const [success, setSuccess] = useState(false);
+  const [data, setData] = useState("");
 
   const handleClose = () => {
     setIsOpen(false);
@@ -41,8 +42,8 @@ export const WagerConfirmationModal = ({
     ...children,
     props: {
       ...children.props,
-      successCallback: () => {
-        setSuccess(true);
+      successCallback: (data: string) => {
+        setData(data);
       },
     },
   };
@@ -55,8 +56,27 @@ export const WagerConfirmationModal = ({
         </Dialog.Title>
         <p className="text-sm text-center mb-2 mt-2">{subheader}</p>
         <div className="m-4 sm:basis-full md:basis-1/2 lg:basis-1/2 p-2 rounded-lg bg-purple-800">
-          {success && <>Success!</>}
-          {!success && (
+          {data.length > 0 && (
+            <div className="items-center text-center">
+              <h2 className="font-bold p-2">
+                Success!{" "}
+                <a
+                  target={"_blank"}
+                  href={"https://goerli.etherscan.io/tx/" + data}
+                  rel="noreferrer"
+                >
+                  <Image width={17} height={17} src={externalLinkIcon}></Image>
+                </a>
+              </h2>
+              <Image
+                objectFit="fill"
+                src={
+                  images[Math.floor(Math.random() * (5 - 0 + 1) + 0).toString()]
+                }
+              ></Image>
+            </div>
+          )}
+          {!data && (
             <>
               <table className="w-full border-separate border-spacing-x-0 border-spacing-y-2 text-black">
                 <>

@@ -192,7 +192,6 @@ export const getWagerState = (state: string) => {
 
 export const WagersList = () => {
   const { chain } = useNetwork();
-  console.log(chain);
   const { address } = useAccount();
   const network =
     chain && chain?.network ? (chain?.network as NETWORK) : "goerli";
@@ -307,7 +306,6 @@ export const WagersList = () => {
           {data &&
             data.wagers.length > 0 &&
             data.wagers.map((wager: Wager) => {
-              console.log(wager);
               const wagerModule = MODULES[network].filter(
                 (x) =>
                   x.address.toLowerCase() == wager.wagerModule.toLowerCase()
@@ -368,7 +366,7 @@ export const WagersList = () => {
                     <td className="p-1">{getWagerState(wager.state)}</td>
                     <td className="p-1 rounded-r-lg">
                       {blocknumber == 0 ? (
-                        Loading()
+                        Loading(20, 20)
                       ) : (
                         <Countdown
                           targetDate={

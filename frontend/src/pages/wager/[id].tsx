@@ -311,7 +311,7 @@ const W: NextPage = () => {
                     Party One&apos;s Bet
                   </td>
                   <td className="p-1 text-right border rounded-r-md">
-                    {partyOneWager![0].toString().length > decimals
+                    {decimals > 0
                       ? parseInt(partyOneWager![0].toString()) / 10 ** decimals
                       : partyOneWager![0].toString()}
                   </td>

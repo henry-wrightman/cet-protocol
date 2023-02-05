@@ -3,6 +3,7 @@ import { Error } from "./common/Error";
 import REGISTRY_ERROR_CODES from "../../../contracts/ErrorCodes.json";
 import classNames from "classnames";
 import Link from "next/link";
+import { ethers, utils, Transaction as T } from "ethers";
 
 export const getErrorCode = (err: string) => {
   if (!err) return "";
@@ -22,21 +23,21 @@ export const Transaction = ({
   data,
   isLoading,
   isSuccess,
-  successCallback = () => {},
+  successCallback = (txId: string) => {},
 }: {
   text: string;
   tx: ((overrideConfig?: any) => void) | undefined;
   error: Error | null;
   buttonClassAdditions?: string;
-  data?: any;
+  data: string;
   isLoading: boolean;
   isSuccess: boolean;
-  successCallback?: () => void;
+  successCallback?: (txId: string) => void;
 }) => {
   const buttonClass = classNames(buttonClassAdditions, "w-full");
-  console.log(data);
   if (isSuccess && !isLoading) {
-    successCallback();
+    console.log(data);
+    successCallback(data);
   }
   return (
     <div className="w-full">

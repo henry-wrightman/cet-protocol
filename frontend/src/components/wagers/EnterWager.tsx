@@ -6,7 +6,7 @@ import {
 } from "wagmi";
 import { REGISTRY_ADDRESSES, NETWORK } from "../../utils/constants";
 import { Transaction } from "../Transaction";
-import { ethers } from "ethers";
+import { ethers, utils, Transaction as T } from "ethers";
 import REG_ABI from "../../../../subgraph/contractDeployments/0/WagerRegistry.json";
 
 export const EnterWager = ({
@@ -18,7 +18,7 @@ export const EnterWager = ({
   wagerId: string;
   wagerData: string;
   wagerAmount: string;
-  successCallback?: () => void;
+  successCallback?: (data: string) => void;
 }) => {
   const { chain } = useNetwork();
   const network =
@@ -50,6 +50,7 @@ export const EnterWager = ({
       buttonClassAdditions={"bg-white text-black font-bold"}
       tx={write}
       error={error}
+      data={data?.hash!}
       successCallback={successCallback}
       isLoading={isLoading}
       isSuccess={isSuccess}
