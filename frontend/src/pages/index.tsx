@@ -15,7 +15,7 @@ const Page: NextPage = () => {
     <>
       <div className="min-h-screen bg-green-200 font-normal">
         <div className="flex flex-col md:p-5 md:flex-row lg:flex-row">
-          <div className="sm:basis-full md:basis-1/3 lg:basis-1/3 justify-center m-2 p-3 shadow-md rounded-lg bg-gray-200 min-h-[200px] overflow-hidden">
+          <div className="sm:basis-full md:basis-1/3 lg:basis-1/3 justify-center m-2 p-3 shadow-md rounded-lg bg-gray-200 min-h-[200px] overflow-hidden border-white border-[1px]">
             <Connect />
             {isMounted && address && (
               <>
@@ -32,7 +32,7 @@ const Page: NextPage = () => {
               </>
             )}
           </div>
-          <div className="md:h-[500px] lg:h-[500px] h-[500px] sm:basis-full md:basis-9/12 lg:basis-9/12 overflow-scroll rounded-xl p-1 lg:p-3 m-2 shadow-md bg-purple-800">
+          <div className="md:h-[500px] lg:h-[500px] h-[500px] sm:basis-full md:basis-9/12 lg:basis-9/12 overflow-scroll rounded-xl p-1 lg:p-3 m-2 shadow-md bg-white border-black border-[1px]">
             <WagersList />
           </div>
         </div>

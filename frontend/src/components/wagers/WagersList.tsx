@@ -237,7 +237,7 @@ export const WagersList = () => {
 
   return (
     <>
-      <table className="w-full border-b-[2px] border-black-100 border-separate border-spacing-x-0 border-spacing-y-2 bg-white rounded-md">
+      <table className="w-full border-black-100 border-separate border-spacing-x-0 border-spacing-y-2 bg-white rounded-md">
         <thead>
           <tr className="">
             <th className="p-1 text-black">
@@ -292,14 +292,14 @@ export const WagersList = () => {
         </thead>
         <tbody></tbody>
       </table>
-      <table className="w-full border-separate border-spacing-x-0 border-spacing-y-2 shadow-md">
+      <table className="w-full border-separate border-spacing-x-0 border-spacing-y-2">
         <thead>
           <tr>
-            <th className="p-1 text-white">Participants</th>
-            <th className="p-1 text-white">Wager</th>
-            <th className="p-1 text-white">Type</th>
-            <th className="p-1 text-white">State</th>
-            <th className="p-1 text-white">Expiration</th>
+            <th className="p-1 font-light text-black">Participants</th>
+            <th className="p-1 font-light text-black">Wager</th>
+            <th className="p-1 font-light text-black">Type</th>
+            <th className="p-1 font-light text-black">State</th>
+            <th className="p-1 font-light text-black">Expiration</th>
           </tr>
         </thead>
         <tbody>
@@ -325,7 +325,7 @@ export const WagersList = () => {
               return (
                 <Link href={"/wager/" + wager.id} key={wager.id}>
                   <tr
-                    className="text-center cursor-pointer bg-gray-200 hover:text-white hover:bg-purple-500 h-[40px]"
+                    className="text-center cursor-pointer hover:text-white hover:bg-purple-500 h-[40px]"
                     key={wager.id}
                   >
                     <td className="p-1 rounded-l-lg">
