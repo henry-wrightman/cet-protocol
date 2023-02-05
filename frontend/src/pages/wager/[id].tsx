@@ -393,7 +393,7 @@ const W: NextPage = () => {
                   <td className="p-1 text-right border rounded-r-md">
                     {/* <Countdown start={getBlockETA(data?.wager.expirationBlock)} /> */}
                     {blocknumber == 0 ? (
-                      Loading()
+                      Loading(20, 20)
                     ) : (
                       <Countdown
                         targetDate={
