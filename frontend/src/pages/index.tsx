@@ -38,7 +38,7 @@ const Page: NextPage = () => {
         </div>
       </div>
       <div className="text-center bg-purple-800 text-white bottom-0 position-absolute">
-        <span>Built with The Graph | Ethereum | ChainLink | UMA </span>
+        <span>Built with The Graph | Ethereum | ChainLink | Tegridy ❤️ </span>
       </div>
     </>
   );
