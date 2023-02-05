@@ -44,7 +44,8 @@ export const EnterWager = ({
 
   return (
     <Transaction
-      text="Enter Wager"
+      text="Confirm"
+      buttonClassAdditions={"bg-white text-black font-bold"}
       tx={write}
       error={error}
       isLoading={isLoading}

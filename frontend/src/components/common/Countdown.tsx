@@ -1,37 +1,64 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useCountdown } from "../../hooks/useCountdown";
 
-export const Countdown = (props: any) => {
-  const { initialMinutes = 0 } = props;
-  const [minutes, setMinutes] = useState(initialMinutes);
-  const [seconds, setSeconds] = useState(0);
-  useEffect(() => {
-    let myInterval = setInterval(() => {
-      if (seconds > 0) {
-        setSeconds(seconds - 1);
-      }
-      if (seconds === 0) {
-        if (minutes === 0) {
-          clearInterval(myInterval);
-        } else {
-          setMinutes(minutes - 1);
-          setSeconds(59);
-        }
-      }
-    }, 1000);
-    return () => {
-      clearInterval(myInterval);
-    };
-  });
+export const Countdown = ({ targetDate }: { targetDate: number }) => {
+  const [days, hours, minutes, seconds] = useCountdown(targetDate);
 
+  if (days + hours + minutes + seconds <= 0) {
+    return <span className="font-bold">expired</span>;
+  } else {
+    return (
+      <ShowCounter
+        days={days}
+        hours={hours}
+        minutes={minutes}
+        seconds={seconds}
+      />
+    );
+  }
+};
+
+const ShowCounter = ({
+  days,
+  hours,
+  minutes,
+  seconds,
+}: {
+  days: number;
+  hours: number;
+  minutes: number;
+  seconds: number;
+}) => {
   return (
-    <div>
-      {minutes === 0 && seconds === 0 ? null : (
-        <h1>
-          {" "}
-          {minutes}:{seconds < 10 ? `0${seconds}` : seconds}
-        </h1>
-      )}
+    <div className="show-counter">
+      <a href="" target="_blank" rel="noopener noreferrer" className="text-sm">
+        <DateTimeDisplay value={days} type={"d "} isDanger={days <= 3} />
+        <DateTimeDisplay value={hours} type={"hr "} isDanger={false} />
+        <DateTimeDisplay value={minutes} type={"m "} isDanger={false} />
+        <DateTimeDisplay value={seconds} type={"s "} isDanger={false} />
+      </a>
     </div>
+  );
+};
+
+const DateTimeDisplay = ({
+  value,
+  type,
+  isDanger,
+}: {
+  value: any;
+  type: any;
+  isDanger: any;
+}) => {
+  return (
+    <>
+      {value > 0 ? (
+        <>
+          <span>{value}</span> <span>{type}</span>
+        </>
+      ) : (
+        ""
+      )}
+    </>
   );
 };

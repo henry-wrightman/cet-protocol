@@ -7,7 +7,7 @@ import { NETWORK, MODULES, ORACLES, TICKERS } from "../../utils/constants";
 import { getSubgraphClient } from "../../graphql/client";
 import { formatDistanceToNow } from "date-fns";
 import Link from "next/link";
-import { Loading } from "../common";
+import { Loading, Countdown } from "../common";
 import { useAccount } from "wagmi";
 
 const WAGERS_QUERY = gql`
@@ -304,6 +304,7 @@ export const WagersList = () => {
           {data &&
             data.wagers.length > 0 &&
             data.wagers.map((wager: Wager) => {
+              console.log(wager);
               const wagerModule = MODULES[network].filter(
                 (x) =>
                   x.address.toLowerCase() == wager.wagerModule.toLowerCase()
@@ -363,7 +364,14 @@ export const WagersList = () => {
                     </td>
                     <td className="p-1">{getWagerState(wager.state)}</td>
                     <td className="p-1 rounded-r-lg">
-                      {getBlockETA(wager?.expirationBlock)}
+                      {
+                        <Countdown
+                          targetDate={
+                            Date.now() +
+                            (wager?.expirationBlock - blocknumber) * 12 * 1000
+                          }
+                        ></Countdown>
+                      }
                     </td>
                   </tr>
                 </Link>

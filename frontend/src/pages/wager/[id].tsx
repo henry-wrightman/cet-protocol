@@ -10,7 +10,7 @@ import {
   getWagerState,
   WagerConfirmationButton,
 } from "../../components/wagers";
-import { Loading, Button } from "../../components/common";
+import { Loading, Button, Countdown } from "../../components/common";
 import {
   MODULES,
   ORACLES,
@@ -32,6 +32,7 @@ import { getSubgraphClient } from "../../graphql/client";
 import { Connect } from "../../components/Connect";
 import { formatDistanceToNow } from "date-fns";
 import useDebounce from "../../hooks/useDebounce";
+import { useCountdown } from "../../hooks";
 
 const WAGER_QUERY = gql`
   query wager($id: String!) {
@@ -267,7 +268,7 @@ const W: NextPage = () => {
                 <>
                   <WagerConfirmationButton
                     wager={getValues()}
-                    trigger={<Button className="w-full">Create Wager</Button>}
+                    trigger={<Button className="w-full">Enter Wager</Button>}
                   >
                     <EnterWager
                       wagerId={data?.wager.id!}
@@ -391,7 +392,18 @@ const W: NextPage = () => {
                   </td>
                   <td className="p-1 text-right border rounded-r-md">
                     {/* <Countdown start={getBlockETA(data?.wager.expirationBlock)} /> */}
-                    {getBlockETA(data?.wager.expirationBlock)}
+                    {blocknumber == 0 ? (
+                      Loading()
+                    ) : (
+                      <Countdown
+                        targetDate={
+                          Date.now() +
+                          (data?.wager?.expirationBlock - blocknumber) *
+                            12 *
+                            1000
+                        }
+                      ></Countdown>
+                    )}
                   </td>
                 </tr>
               </>

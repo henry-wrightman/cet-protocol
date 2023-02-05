@@ -122,8 +122,9 @@ export const WagerConfirmationModal = ({
               </table>
               <span className="text-bold mt-2 mb-2">
                 Note: All wagers execute at midnight UTC daily if they&apos;ve
-                expired. For more volatile wagers & precise settlements, feel
-                free to manually settle the wager right as it has expired.
+                reached maturity. For more volatile wagers & precise
+                settlements, feel free to manually settle the wager once it
+                expires.
               </span>
             </>
           )}
