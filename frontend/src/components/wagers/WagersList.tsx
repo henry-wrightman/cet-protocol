@@ -192,6 +192,7 @@ export const getWagerState = (state: string) => {
 
 export const WagersList = () => {
   const { chain } = useNetwork();
+  console.log(chain);
   const { address } = useAccount();
   const network =
     chain && chain?.network ? (chain?.network as NETWORK) : "goerli";
@@ -204,7 +205,7 @@ export const WagersList = () => {
 
   const getBlockNumber = useCallback(() => {
     ethers
-      .getDefaultProvider(chain?.network)
+      .getDefaultProvider(chain?.network || "goerli")
       .getBlockNumber()
       .then((res) => {
         setBlocknumber(res);
@@ -251,16 +252,18 @@ export const WagersList = () => {
                 Open
               </button>
             </th>
-            <th className="p-1 text-black">
-              <button
-                className={""}
-                onClick={() =>
-                  dispatch({ type: "yours", user: address?.toLowerCase() })
-                }
-              >
-                Yours
-              </button>
-            </th>
+            {address && (
+              <th className="p-1 text-black">
+                <button
+                  className={""}
+                  onClick={() =>
+                    dispatch({ type: "yours", user: address?.toLowerCase() })
+                  }
+                >
+                  Yours
+                </button>
+              </th>
+            )}
             <th className="p-1 text-black">
               <button
                 className={""}
@@ -364,14 +367,16 @@ export const WagersList = () => {
                     </td>
                     <td className="p-1">{getWagerState(wager.state)}</td>
                     <td className="p-1 rounded-r-lg">
-                      {
+                      {blocknumber == 0 ? (
+                        Loading()
+                      ) : (
                         <Countdown
                           targetDate={
                             Date.now() +
                             (wager?.expirationBlock - blocknumber) * 12 * 1000
                           }
                         ></Countdown>
-                      }
+                      )}
                     </td>
                   </tr>
                 </Link>

@@ -56,7 +56,7 @@ export const Connect = () => {
           .filter((x) => isMounted && x.ready)
           .map((x) => (
             <Button
-              className="w-full"
+              className="w-full mb-5"
               key={x.id}
               onClick={() => connect({ connector: x })}
               showLoader={address && x.id === pendingConnector?.id}

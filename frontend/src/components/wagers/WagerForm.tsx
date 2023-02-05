@@ -200,7 +200,7 @@ export const WagerForm = ({ signerAddress }: { signerAddress: string }) => {
                         12
                     );
                     const curBlocks = await ethers
-                      .getDefaultProvider(chain?.network)
+                      .getDefaultProvider(chain?.network || "goerli")
                       .getBlockNumber();
                     if (curBlocks) {
                       const futBlocks = curBlocks + diffBlocks;

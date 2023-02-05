@@ -13,10 +13,12 @@ export const EnterWager = ({
   wagerId,
   wagerData,
   wagerAmount,
+  successCallback,
 }: {
   wagerId: string;
   wagerData: string;
   wagerAmount: string;
+  successCallback?: () => void;
 }) => {
   const { chain } = useNetwork();
   const network =
@@ -48,6 +50,7 @@ export const EnterWager = ({
       buttonClassAdditions={"bg-white text-black font-bold"}
       tx={write}
       error={error}
+      successCallback={successCallback}
       isLoading={isLoading}
       isSuccess={isSuccess}
     />

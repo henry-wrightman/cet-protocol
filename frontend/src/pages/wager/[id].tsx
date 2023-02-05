@@ -162,7 +162,7 @@ const W: NextPage = () => {
 
   const getBlockNumber = useCallback(() => {
     ethers
-      .getDefaultProvider(chain?.network)
+      .getDefaultProvider(chain?.network || "goerli")
       .getBlockNumber()
       .then((res) => {
         setBlocknumber(res);

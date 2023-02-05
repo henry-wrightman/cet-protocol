@@ -15,7 +15,7 @@ const Page: NextPage = () => {
     <>
       <div className="min-h-screen bg-green-200 font-normal">
         <div className="flex flex-col md:p-5 md:flex-row lg:flex-row">
-          <div className="sm:basis-full md:basis-1/3 lg:basis-1/3 justify-center m-2 p-3 shadow-md rounded-lg bg-gray-200">
+          <div className="sm:basis-full md:basis-1/3 lg:basis-1/3 justify-center m-2 p-3 shadow-md rounded-lg bg-gray-200 min-h-[200px] overflow-hidden">
             <Connect />
             {isMounted && address && (
               <>

@@ -47,18 +47,18 @@ const client = createClient({
   connectors: [
     //new InjectedConnector({ chains }),
     new MetaMaskConnector({ chains }),
-    // new CoinbaseWalletConnector({
-    //   chains,
-    //   options: {
-    //     appName: "1v1.bet",
-    //   },
-    // }),
-    // new WalletConnectConnector({
-    //   chains,
-    //   options: {
-    //     qrcode: true,
-    //   },
-    // }),
+    new CoinbaseWalletConnector({
+      chains,
+      options: {
+        appName: "1v1.bet",
+      },
+    }),
+    new WalletConnectConnector({
+      chains,
+      options: {
+        qrcode: true,
+      },
+    }),
   ],
 });
 
