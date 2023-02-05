@@ -22,6 +22,7 @@ export const Transaction = ({
   data,
   isLoading,
   isSuccess,
+  successCallback = () => {},
 }: {
   text: string;
   tx: ((overrideConfig?: any) => void) | undefined;
@@ -30,9 +31,13 @@ export const Transaction = ({
   data?: any;
   isLoading: boolean;
   isSuccess: boolean;
+  successCallback?: () => void;
 }) => {
   const buttonClass = classNames(buttonClassAdditions, "w-full");
   console.log(data);
+  if (isSuccess && !isLoading) {
+    successCallback();
+  }
   return (
     <div className="w-full">
       {isSuccess && (

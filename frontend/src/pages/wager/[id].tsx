@@ -6,8 +6,11 @@ import EAC_ABI from "../../../../subgraph/contractDeployments/0/EACAggregatorPro
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useEffect, useState, useCallback } from "react";
-import { getWagerState } from "../../components/wagers/WagersList";
-import { Loading } from "../../components/common";
+import {
+  getWagerState,
+  WagerConfirmationButton,
+} from "../../components/wagers";
+import { Loading, Button } from "../../components/common";
 import {
   MODULES,
   ORACLES,
@@ -56,6 +59,10 @@ const WAGER_QUERY = gql`
 type EnterWagerForm = {
   wager: string;
   wagerAmount: string;
+  creator: string;
+  wagerType: string;
+  wagerExpirationBlock: number;
+  wagerTicker: string;
 };
 
 const decodeWagerData = (_type: string, data: string) => {
@@ -85,17 +92,6 @@ const W: NextPage = () => {
     variables: { id },
     client: getSubgraphClient(chain?.id!),
   });
-  const {
-    setValue,
-    register,
-    watch,
-    handleSubmit,
-    formState: { errors, touchedFields },
-  } = useForm<EnterWagerForm>({
-    defaultValues: {
-      wager: "",
-    },
-  });
   const network =
     chain && chain?.network ? (chain?.network as NETWORK) : "goerli";
   const ticker =
@@ -106,7 +102,24 @@ const W: NextPage = () => {
             data?.wager.oracleImpl.toLowerCase()
         )[0] as TICKERS)
       : TICKERS.BTCETH;
-  console.log(ticker);
+
+  const {
+    setValue,
+    register,
+    watch,
+    getValues,
+    handleSubmit,
+    formState: { errors, touchedFields },
+  } = useForm<EnterWagerForm>({
+    defaultValues: {
+      wager: "",
+      creator: "",
+      wagerAmount: "",
+      wagerTicker: "",
+      wagerType: "",
+      wagerExpirationBlock: 0,
+    },
+  });
   const onSubmit: SubmitHandler<EnterWagerForm> = async (
     data: EnterWagerForm
   ) => {
@@ -195,7 +208,7 @@ const W: NextPage = () => {
     data &&
     data?.wager &&
     data?.wager.partyOne &&
-    data?.wager.partyOne?.id.toLowerCase() === address!.toLowerCase();
+    data?.wager.partyOne.toLowerCase() === address!.toLowerCase();
 
   const wagerMetadata =
     wagerType == WM_HIGHLOW
@@ -212,10 +225,11 @@ const W: NextPage = () => {
       )
     : null;
 
-  // TODO: enforce checks against party wager's to disallow parity
-  // console.log(partyOneWager![0].toString() == watch("wager"));
-  // console.log(partyOneWager![0] == enterPartyData);
-  // console.log(enterPartyData);
+  // setValue("wagerTicker", ticker);
+  // setValue("creator", data?.wager.partyOne.slice(0, 6));
+  // setValue("wagerAmount", data?.wager.partyWager);
+  // setValue("wagerExpirationBlock", data?.wager.expirationBlock);
+  // setValue("wagerType", wagerType);
 
   const potentialEnter =
     data?.wager.state! == "1" &&
@@ -250,13 +264,20 @@ const W: NextPage = () => {
                 register={register}
               />
               {watch("wager") && data?.wager?.state == "1" && (
-                <EnterWager
-                  wagerId={data?.wager.id!}
-                  wagerAmount={ethers.utils
-                    .formatEther(data?.wager.partyWager!)
-                    .toString()}
-                  wagerData={enterPartyData || "0x"}
-                />
+                <>
+                  <WagerConfirmationButton
+                    wager={getValues()}
+                    trigger={<Button className="w-full">Create Wager</Button>}
+                  >
+                    <EnterWager
+                      wagerId={data?.wager.id!}
+                      wagerAmount={ethers.utils
+                        .formatEther(data?.wager.partyWager!)
+                        .toString()}
+                      wagerData={enterPartyData || "0x"}
+                    />
+                  </WagerConfirmationButton>
+                </>
               )}
             </>
           )}
@@ -279,7 +300,7 @@ const W: NextPage = () => {
                   <td className="p-1 text-right border rounded-r-md">
                     {
                       <span className="p-1 bg-gray-400 border-gray-400 rounded-md">
-                        {data?.wager.partyOne?.id.slice(0, 6)}
+                        {data?.wager.partyOne.slice(0, 6)}
                       </span>
                     }
                   </td>
@@ -301,7 +322,7 @@ const W: NextPage = () => {
                   <td className="p-1 text-right border rounded-r-md">
                     {data?.wager.partyTwo ? (
                       <span className="p-1 bg-gray-400 border-gray-400 rounded-md">
-                        {data?.wager.partyTwo?.id.slice(0, 6)}
+                        {data?.wager.partyTwo.slice(0, 6)}
                       </span>
                     ) : (
                       "TBA"

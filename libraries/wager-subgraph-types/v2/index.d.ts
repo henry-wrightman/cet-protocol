@@ -27,9 +27,9 @@ export type Wager = {
   expirationBlock: Scalars['BigInt'];
   id: Scalars['String'];
   oracleImpl: Scalars['Bytes'];
-  partyOne: WagerParty;
+  partyOne: Scalars['Bytes'];
   partyOneWager: Scalars['Bytes'];
-  partyTwo?: Maybe<WagerParty>;
+  partyTwo?: Maybe<Scalars['Bytes']>;
   partyTwoWager?: Maybe<Scalars['Bytes']>;
   partyWager: Scalars['BigInt'];
   registry: Registry;

@@ -9,13 +9,14 @@ export type WagerResult = {
 export type WagerParty = {
   id: string;
   wagerIds: string[];
+  uri: string;
 };
 
 export type Wager = {
   id: string;
-  partyOne: WagerParty;
+  partyOne: string;
   partyOneWager: string;
-  partyTwo: WagerParty;
+  partyTwo: string;
   partyTwoWager: string;
   expirationBlock: number;
   partyWager: string;

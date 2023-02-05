@@ -16,14 +16,9 @@ contract WagerExecutor is AutomationCompatibleInterface {
     uint public executions;
     address public registry;
 
-    /**
-     * Use an interval in seconds and a timestamp to slow execution of Upkeep
-     */
-    uint256 public immutable interval;
     uint256 public lastBlock;
 
-    constructor(uint256 updateInterval, address registryAddress) {
-        interval = updateInterval;
+    constructor(address registryAddress) {
         lastBlock = block.number;
         executions = 0;
         registry = registryAddress;
@@ -36,16 +31,14 @@ contract WagerExecutor is AutomationCompatibleInterface {
         override
         returns (bool upkeepNeeded, bytes memory /* performData */)
     {
-        upkeepNeeded = (block.number - lastBlock) > interval;
+        upkeepNeeded = (block.number - lastBlock) > 0;
         if (upkeepNeeded) {
             IWagerRegistry(registry).executeBlockRange(lastBlock, block.number);
+            executions++;
         }
+        lastBlock = block.number;
     }
 
     function performUpkeep(bytes calldata /* performData */) external override {
-        if ((block.number - lastBlock) > interval) {
-            lastBlock = block.number;
-            executions = executions + 1;
-        }
     }
 }

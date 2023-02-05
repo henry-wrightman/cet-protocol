@@ -4,102 +4,110 @@ import { time, mine } from "@nomicfoundation/hardhat-network-helpers";
 
 async function main() {
   // await mineUpTo(100);
-  const HighLowWagerModule = await ethers.getContractFactory(
-    "HighLowWagerModule"
-  );
-  const highLowWagerModule = await HighLowWagerModule.deploy();
-  await highLowWagerModule.deployed();
-  console.log("highlow wager module", highLowWagerModule.address);
+  // const HighLowWagerModule = await ethers.getContractFactory(
+  //   "HighLowWagerModule"
+  // );
+  // const highLowWagerModule = await HighLowWagerModule.deploy();
+  // await highLowWagerModule.deployed();
+  // console.log("highlow wager module", highLowWagerModule.address);
 
-  const NearestWagerModule = await ethers.getContractFactory(
-    "NearestWagerModule"
-  );
-  const nearestWagerModule = await NearestWagerModule.deploy();
-  await nearestWagerModule.deployed();
-  console.log("nearest wager module", nearestWagerModule.address);
+  // const NearestWagerModule = await ethers.getContractFactory(
+  //   "NearestWagerModule"
+  // );
+  // const nearestWagerModule = await NearestWagerModule.deploy();
+  // await nearestWagerModule.deployed();
+  // console.log("nearest wager module", nearestWagerModule.address);
 
-  const ChainLinkOracleModule = await ethers.getContractFactory(
-    "ChainLinkOracleModule"
-  );
-  const chainLinkOracleModule = await ChainLinkOracleModule.deploy();
-  await chainLinkOracleModule.deployed();
-  console.log("chainlink module", chainLinkOracleModule.address);
+  // const ChainLinkOracleModule = await ethers.getContractFactory(
+  //   "ChainLinkOracleModule"
+  // );
+  // const chainLinkOracleModule = await ChainLinkOracleModule.deploy();
+  // await chainLinkOracleModule.deployed();
+  // console.log("chainlink module", chainLinkOracleModule.address);
 
-  const TestChainLinkOracleSource = await ethers.getContractFactory(
-    "TestChainLinkOracleSource"
-  );
-  const testChainLinkOracleSource = await TestChainLinkOracleSource.deploy();
-  await testChainLinkOracleSource.deployed();
-  console.log("testChainLinkOracleSource", testChainLinkOracleSource.address);
+  // const TestChainLinkOracleSource = await ethers.getContractFactory(
+  //   "TestChainLinkOracleSource"
+  // );
+  // const testChainLinkOracleSource = await TestChainLinkOracleSource.deploy();
+  // await testChainLinkOracleSource.deployed();
+  // console.log("testChainLinkOracleSource", testChainLinkOracleSource.address);
 
-  const WagerRegistry = await ethers.getContractFactory("WagerRegistry");
-  const wagerRegistry = await WagerRegistry.deploy();
-  await wagerRegistry.deployed();
-  console.log("registry", wagerRegistry.address);
+  // const WagerRegistry = await ethers.getContractFactory("WagerRegistry");
+  // const wagerRegistry = await WagerRegistry.deploy();
+  // await wagerRegistry.deployed();
+  // console.log("registry", wagerRegistry.address);
 
-  const WagerFactory = await ethers.getContractFactory("WagerFactory");
-  const wagerFactory = await WagerFactory.deploy(wagerRegistry.address);
-  await wagerFactory.deployed();
-  console.log("factory", wagerFactory.address);
+  // const WagerFactory = await ethers.getContractFactory("WagerFactory");
+  // const wagerFactory = await WagerFactory.deploy(wagerRegistry.address);
+  // await wagerFactory.deployed();
+  // console.log("factory", wagerFactory.address);
 
-  console.log("setting factory wager modules");
-  await wagerFactory.setWagerModule("wm.highlow", highLowWagerModule.address);
-  await wagerFactory.setWagerModule("wm.nearest", nearestWagerModule.address);
+  // console.log("setting factory wager modules");
+  // await wagerFactory.setWagerModule("wm.highlow", highLowWagerModule.address);
+  // await wagerFactory.setWagerModule("wm.nearest", nearestWagerModule.address);
+
+  const wagerRegistry = { address: "0x1B28f36915C24a7ADc6c544C34eE68f63fE649B0" };
 
   const WagerExecutor = await ethers.getContractFactory("WagerExecutor");
-  const wagerExecutor = await WagerExecutor.deploy(50, wagerRegistry.address);
+  const wagerExecutor = await WagerExecutor.deploy(wagerRegistry.address);
   await wagerExecutor.deployed();
   console.log("wager executor module", wagerExecutor.address);
 
   console.log("verifying..");
 
-  try {
-    await run("verify:verify", {
-      contract:
-        "contracts/modules/wagers/HighLowWagerModule.sol:HighLowWagerModule",
-      address: highLowWagerModule.address,
-    });
-  } catch (error) {
-    console.log(error);
-  }
-  try {
-    await run("verify:verify", {
-      contract:
-        "contracts/modules/wagers/NearestWagerModule.sol:NearestWagerModule",
-      address: nearestWagerModule.address,
-    });
-  } catch (error) {
-    console.log(error);
-  }
-  try {
-    await run("verify:verify", {
-      contract:
-        "contracts/modules/oracles/ChainLinkOracleModule.sol:ChainLinkOracleModule",
-      address: chainLinkOracleModule.address,
-    });
-  } catch (error) {
-    console.log(error);
-  }
-  try {
-    await run("verify:verify", {
-      contract: "contracts/WagerRegistry.sol:WagerRegistry",
-      address: wagerRegistry.address,
-    });
-  } catch (error) {
-    console.log(error);
-  }
-  try {
-    await run("verify:verify", {
-      contract: "contracts/factory/WagerFactory.sol:WagerFactory",
-      address: wagerFactory.address,
-    });
-  } catch (error) {
-    console.log(error);
-  }
+  // try {
+  //   await run("verify:verify", {
+  //     contract:
+  //       "contracts/modules/wagers/HighLowWagerModule.sol:HighLowWagerModule",
+  //     address: highLowWagerModule.address,
+  //   });
+  // } catch (error) {
+  //   console.log(error);
+  // }
+  // try {
+  //   await run("verify:verify", {
+  //     contract:
+  //       "contracts/modules/wagers/NearestWagerModule.sol:NearestWagerModule",
+  //     address: nearestWagerModule.address,
+  //   });
+  // } catch (error) {
+  //   console.log(error);
+  // }
+  // try {
+  //   await run("verify:verify", {
+  //     contract:
+  //       "contracts/modules/oracles/ChainLinkOracleModule.sol:ChainLinkOracleModule",
+  //     address: chainLinkOracleModule.address,
+  //   });
+  // } catch (error) {
+  //   console.log(error);
+  // }
+  // try {
+  //   await run("verify:verify", {
+  //     contract: "contracts/WagerRegistry.sol:WagerRegistry",
+  //     address: wagerRegistry.address,
+  //   });
+  // } catch (error) {
+  //   console.log(error);
+  // }
+  // try {
+  //   await run("verify:verify", {
+  //     contract: "contracts/factory/WagerFactory.sol:WagerFactory",
+  //     address: wagerFactory.address,
+  //     constructorArguments: [
+  //       wagerRegistry.address
+  //     ]
+  //   });
+  // } catch (error) {
+  //   console.log(error);
+  // }
   try {
     await run("verify:verify", {
       contract: "contracts/jobs/WagerExecutor.sol:WagerExecutor",
       address: wagerExecutor.address,
+      constructorArguments: [
+        wagerRegistry.address
+      ]
     });
   } catch (error) {
     console.log(error);

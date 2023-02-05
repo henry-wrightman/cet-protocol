@@ -30,10 +30,21 @@ export const WagerConfirmationModal = ({
   wager,
 }: WagerConfirmProps) => {
   const [open, setIsOpen] = useState(isOpen);
+  const [success, setSuccess] = useState(false);
 
   const handleClose = () => {
     setIsOpen(false);
     onClose();
+  };
+
+  children = {
+    ...children,
+    props: {
+      ...children.props,
+      successCallback: () => {
+        setSuccess(true);
+      },
+    },
   };
 
   return (
@@ -44,66 +55,78 @@ export const WagerConfirmationModal = ({
         </Dialog.Title>
         <p className="text-sm text-center mb-2 mt-2">{subheader}</p>
         <div className="m-4 sm:basis-full md:basis-1/2 lg:basis-1/2 p-2 rounded-lg bg-purple-800">
-          <table className="w-full border-separate border-spacing-x-0 border-spacing-y-2 text-black">
+          {success && <>Success!</>}
+          {!success && (
             <>
-              <tr className="bg-gray-200 text-left h-[40px]">
-                <td className="p-1 font-bold border rounded-l-md">Creator</td>
-                <td className="p-1 text-right border rounded-r-md">
-                  {
-                    <span className="p-1 bg-gray-400 border-gray-400 rounded-md">
-                      {wager.creator.slice(0, 6)}
-                    </span>
-                  }
-                </td>
-              </tr>
-              <tr className="bg-gray-200 text-left h-[40px]">
-                <td className="p-1 font-bold border rounded-l-md">
-                  Your Wager
-                </td>
-                <td className="p-1 text-right border rounded-r-md">
-                  {wager.wager}
-                </td>
-              </tr>
-              <tr className="bg-gray-200 text-left h-[40px]">
-                <td className="p-1 font-bold border rounded-l-md">Wager</td>
-                <td className="p-1 text-right border rounded-r-md">
-                  {wager.wagerAmount}E
-                </td>
-              </tr>
-              <tr className="bg-gray-200 text-left h-[40px]">
-                <td className="border p-1 font-bold border rounded-l-md">
-                  Type
-                </td>
-                <td className="border p-1 text-right border rounded-r-md">
-                  {wager.wagerType.replace("wm.", "")} ({wager.wagerTicker})
-                </td>
-              </tr>
-              <tr className="bg-gray-200 text-left h-[40px]">
-                <td className="p-1 font-bold border rounded-l-md">
-                  Expiration Block
-                </td>
-                <td className="p-1 text-right border rounded-r-md">
-                  {wager.wagerExpirationBlock}{" "}
-                  {
-                    <a
-                      target={"_blank"}
-                      href={
-                        "https://goerli.etherscan.io/block/" +
-                        wager.wagerExpirationBlock
+              <table className="w-full border-separate border-spacing-x-0 border-spacing-y-2 text-black">
+                <>
+                  <tr className="bg-gray-200 text-left h-[40px]">
+                    <td className="p-1 font-bold border rounded-l-md">
+                      Creator
+                    </td>
+                    <td className="p-1 text-right border rounded-r-md">
+                      {
+                        <span className="p-1 bg-gray-400 border-gray-400 rounded-md">
+                          {wager.creator.slice(0, 6)}
+                        </span>
                       }
-                      rel="noreferrer"
-                    >
-                      <Image
-                        width={17}
-                        height={17}
-                        src={externalLinkIcon}
-                      ></Image>
-                    </a>
-                  }
-                </td>
-              </tr>
+                    </td>
+                  </tr>
+                  <tr className="bg-gray-200 text-left h-[40px]">
+                    <td className="p-1 font-bold border rounded-l-md">Wager</td>
+                    <td className="p-1 text-right border rounded-r-md">
+                      {wager.wager}
+                    </td>
+                  </tr>
+                  <tr className="bg-gray-200 text-left h-[40px]">
+                    <td className="p-1 font-bold border rounded-l-md">
+                      Amount
+                    </td>
+                    <td className="p-1 text-right border rounded-r-md">
+                      {wager.wagerAmount}E
+                    </td>
+                  </tr>
+                  <tr className="bg-gray-200 text-left h-[40px]">
+                    <td className="border p-1 font-bold border rounded-l-md">
+                      Type
+                    </td>
+                    <td className="border p-1 text-right border rounded-r-md">
+                      {wager.wagerType.replace("wm.", "")} ({wager.wagerTicker})
+                    </td>
+                  </tr>
+                  <tr className="bg-gray-200 text-left h-[40px]">
+                    <td className="p-1 font-bold border rounded-l-md">
+                      Expiration Block
+                    </td>
+                    <td className="p-1 text-right border rounded-r-md">
+                      {wager.wagerExpirationBlock}{" "}
+                      {
+                        <a
+                          target={"_blank"}
+                          href={
+                            "https://goerli.etherscan.io/block/" +
+                            wager.wagerExpirationBlock
+                          }
+                          rel="noreferrer"
+                        >
+                          <Image
+                            width={17}
+                            height={17}
+                            src={externalLinkIcon}
+                          ></Image>
+                        </a>
+                      }
+                    </td>
+                  </tr>
+                </>
+              </table>
+              <span className="text-bold mt-2 mb-2">
+                Note: All wagers execute at midnight UTC daily if they've
+                expired. For more volatile wagers & precise settlements, feel
+                free to manually settle the wager right as it has expired.
+              </span>
             </>
-          </table>
+          )}
         </div>
         {children}
       </div>

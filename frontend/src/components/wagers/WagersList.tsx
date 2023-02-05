@@ -14,12 +14,8 @@ const WAGERS_QUERY = gql`
   {
     wagers {
       id
-      partyOne {
-        id
-      }
-      partyTwo {
-        id
-      }
+      partyOne
+      partyTwo
       partyOneWager
       partyTwoWager
       expirationBlock
@@ -34,15 +30,11 @@ const WAGERS_QUERY = gql`
 `;
 
 const WAGER_QUERY_BY_ADDRESS = gql`
-  query member($id: String!) {
-    wagers(id: $id) {
+  query wagers($id: String!) {
+    wagers(where: { partyOne: $id }) {
       id
-      partyOne {
-        id
-      }
-      partyTwo {
-        id
-      }
+      partyOne
+      partyTwo
       partyOneWager
       partyTwoWager
       expirationBlock
@@ -60,12 +52,8 @@ const WAGER_QUERY_BY_STATE = gql`
   query wagers($state: BigInt!) {
     wagers(where: { state: $state }) {
       id
-      partyOne {
-        id
-      }
-      partyTwo {
-        id
-      }
+      partyOne
+      partyTwo
       partyOneWager
       partyTwoWager
       expirationBlock
@@ -83,12 +71,8 @@ const WAGER_QUERY_LATEST = gql`
   {
     wagers(orderBy: createdBlock, orderDirection: desc) {
       id
-      partyOne {
-        id
-      }
-      partyTwo {
-        id
-      }
+      partyOne
+      partyTwo
       partyOneWager
       partyTwoWager
       expirationBlock
@@ -106,12 +90,27 @@ const WAGER_QUERY_CLOSEST_EXPIRATION = gql`
   {
     wagers(orderBy: expirationBlock, orderDirection: asc, where: { state: 0 }) {
       id
-      partyOne {
-        id
-      }
-      partyTwo {
-        id
-      }
+      partyOne
+      partyTwo
+      partyOneWager
+      partyTwoWager
+      expirationBlock
+      partyWager
+      state
+      result
+      winner
+      wagerModule
+      oracleImpl
+    }
+  }
+`;
+
+const WAGER_QUERY_HOTTEST = gql`
+  {
+    wagers(orderBy: partyWager, orderDirection: desc, where: { state: 0 }) {
+      id
+      partyOne
+      partyTwo
       partyOneWager
       partyTwoWager
       expirationBlock
@@ -133,7 +132,7 @@ function reducer(state: WAGERS_QUERY_STATE, action: any) {
       return {
         ...state,
         query: WAGER_QUERY_BY_ADDRESS,
-        queryParams: { id: state.user },
+        queryParams: { id: action.user },
       };
     case "open":
       return {
@@ -145,6 +144,8 @@ function reducer(state: WAGERS_QUERY_STATE, action: any) {
       return { ...state, query: WAGER_QUERY_LATEST };
     case "closest_expiration":
       return { ...state, query: WAGER_QUERY_CLOSEST_EXPIRATION };
+    case "hottest":
+      return { ...state, query: WAGER_QUERY_HOTTEST };
     default:
       throw new Error();
   }
@@ -242,6 +243,7 @@ export const WagersList = () => {
             <th className="p-1 text-black">
               <button className={""} onClick={() => dispatch({ type: "all" })}>
                 All
+                {/* ({data && data.wagers.length > 0 ? data.wagers.length : ""}) */}
               </button>
             </th>
             <th className="p-1 text-black">
@@ -252,7 +254,9 @@ export const WagersList = () => {
             <th className="p-1 text-black">
               <button
                 className={""}
-                onClick={() => dispatch({ type: "yours", user: address })}
+                onClick={() =>
+                  dispatch({ type: "yours", user: address?.toLowerCase() })
+                }
               >
                 Yours
               </button>
@@ -263,6 +267,14 @@ export const WagersList = () => {
                 onClick={() => dispatch({ type: "closest_expiration" })}
               >
                 Expiration
+              </button>
+            </th>
+            <th className="p-1 text-black">
+              <button
+                className={""}
+                onClick={() => dispatch({ type: "hottest" })}
+              >
+                Hottest
               </button>
             </th>
             <th className="p-1 text-black">
@@ -318,26 +330,26 @@ export const WagersList = () => {
                         <span
                           className={`m-1 p-1 bg-${
                             wager.winner
-                              ? wager.partyOne?.id === wager.winner
+                              ? wager.partyOne === wager.winner
                                 ? "green"
                                 : "red"
                               : "gray"
                           }-400 border-gray-400 rounded-md`}
                         >
-                          {wager.partyOne?.id.slice(0, 6)}
+                          {wager.partyOne.slice(0, 6)}
                         </span>
                       }{" "}
                       {wager.partyTwo ? (
                         <span
                           className={`p-1 bg-${
                             wager.winner
-                              ? wager.partyTwo?.id === wager.winner
+                              ? wager.partyTwo === wager.winner
                                 ? "green"
                                 : "red"
                               : "gray"
                           }-400 border-gray-400 rounded-md`}
                         >
-                          {wager.partyTwo?.id.slice(0, 6)}
+                          {wager.partyTwo.slice(0, 6)}
                         </span>
                       ) : (
                         ""

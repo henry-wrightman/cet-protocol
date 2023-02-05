@@ -92,29 +92,29 @@ export class Wager extends Entity {
     this.set("id", Value.fromString(value));
   }
 
-  get partyOne(): string {
+  get partyOne(): Bytes {
     let value = this.get("partyOne");
-    return value!.toString();
+    return value!.toBytes();
   }
 
-  set partyOne(value: string) {
-    this.set("partyOne", Value.fromString(value));
+  set partyOne(value: Bytes) {
+    this.set("partyOne", Value.fromBytes(value));
   }
 
-  get partyTwo(): string | null {
+  get partyTwo(): Bytes | null {
     let value = this.get("partyTwo");
     if (!value || value.kind == ValueKind.NULL) {
       return null;
     } else {
-      return value.toString();
+      return value.toBytes();
     }
   }
 
-  set partyTwo(value: string | null) {
+  set partyTwo(value: Bytes | null) {
     if (!value) {
       this.unset("partyTwo");
     } else {
-      this.set("partyTwo", Value.fromString(<string>value));
+      this.set("partyTwo", Value.fromBytes(<Bytes>value));
     }
   }
 

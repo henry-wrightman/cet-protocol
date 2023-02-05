@@ -43,7 +43,7 @@ export const MODULES: ModuleEntries = {
     },
     {
       type: "oracle.chainlink",
-      address: "0x2CadA81B2a080dbB7E59BcA49cde8D158A47f81D", // executor: 0x8012333A8077632bb03948675F08205ef36AF650
+      address: "0x2CadA81B2a080dbB7E59BcA49cde8D158A47f81D", // executor: 0xaDBA16259DC75A757CbbcAf1Cd7515fE7A54f53B
     },
   ],
   hardhat: [

@@ -112,9 +112,9 @@ describe("WagerExecutor", function () {
         // console.log(ethers.utils.formatEther(startingBalCreator));
         // console.log(ethers.utils.formatEther(startingBalAddress2));
 
-        for (let i = 0; i < 40; i++) {
-          await testWagerExecutor.performUpkeep([]);
-          await mine(i);
+        for (let i = 0; i < 20; i++) {
+          //await testWagerExecutor.performUpkeep([]);
+          await mine(i+50);
           await testChainLinkOracle.setPrice(
             20000 + Math.floor(Math.random() * (1000 - -1000) + -1000)
           );

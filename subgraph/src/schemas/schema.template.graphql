@@ -10,8 +10,8 @@ type Registry @entity {
 
 type Wager @entity {
   id: String! # uint256
-  partyOne: WagerParty!
-  partyTwo: WagerParty
+  partyOne: Bytes!
+  partyTwo: Bytes
   partyWager: BigInt!
   partyOneWager: Bytes!
   partyTwoWager: Bytes

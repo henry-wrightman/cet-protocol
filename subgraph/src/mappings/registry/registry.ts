@@ -43,7 +43,7 @@ export function handleWagerCreated(event: WagerCreated): void {
   let wagerPartyOne = getOrCreateWagerParty(event.params.partyAddr.toHex());
 
   const wager = new Wager(event.params.wagerId.toString());
-  wager.partyOne = wagerPartyOne.id;
+  wager.partyOne = event.params.partyAddr;
   wager.partyWager = event.params.partyWagerAmount;
   wager.partyOneWager = event.params.partyWager;
   wager.state = BigInt.fromI32(1); // created
@@ -55,6 +55,9 @@ export function handleWagerCreated(event: WagerCreated): void {
 
   wagerPartyOne.wagerIds = wagerPartyOne.wagerIds.concat([wager.id]);
   registry.wagerIds = registry.wagerIds.concat([wager.id]);
+  
+  registry.save();
+  wagerPartyOne.save();
   wager.save();
 }
 
@@ -63,10 +66,11 @@ export function handleWagerEntered(event: WagerEntered): void {
 
   const wager = new Wager(event.params.wagerId.toString());
   wagerPartyTwo.wagerIds = wagerPartyTwo.wagerIds.concat([wager.id]);
-  wager.partyTwo = wagerPartyTwo.id;
+  wager.partyTwo = event.params.partyAddr;
   wager.partyTwoWager = event.params.partyWager;
   wager.state = BigInt.fromI32(0); // active
 
+  wagerPartyTwo.save();
   wager.save();
 }
 

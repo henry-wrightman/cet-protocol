@@ -18,6 +18,7 @@ export const CreateWager = ({
   wagerModule,
   oracleModule,
   oracleSource,
+  successCallback,
 }: {
   signerAddress: string;
   wagerData: string | never[];
@@ -26,6 +27,7 @@ export const CreateWager = ({
   wagerModule: string;
   oracleModule: string;
   oracleSource: string;
+  successCallback?: () => void;
 }) => {
   const { chain } = useNetwork();
   const network =
@@ -85,6 +87,7 @@ export const CreateWager = ({
       buttonClassAdditions={"bg-white text-black font-bold"}
       error={error}
       data={data}
+      successCallback={successCallback}
       isLoading={isLoading}
       isSuccess={isSuccess}
     />

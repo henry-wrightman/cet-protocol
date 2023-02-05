@@ -5,7 +5,7 @@ export {
   constructWagerData,
   type SelectOption,
 } from "./WagerForm";
-export { WagersList } from "./WagersList";
+export { WagersList, getWagerState } from "./WagersList";
 export { WagerOptions } from "./WagerOptions";
 export { EnterWager } from "./EnterWager";
 export { SettleWager } from "./SettleWager";

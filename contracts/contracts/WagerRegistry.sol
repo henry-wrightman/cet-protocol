@@ -142,7 +142,9 @@ contract WagerRegistry is IWagerRegistry {
         for (uint256 block_ = startBlock; block_ <= endBlock; block_++) {
             uint256[] memory ids = executionSchedule[block_];
             for (uint256 j = 0; j < ids.length; j++) {
-                this.settleWager(ids[j]);
+                if (wagers[ids[j]].state == WagerState.active) {
+                    this.settleWager(ids[j]);
+                }
             }
         }
     }
