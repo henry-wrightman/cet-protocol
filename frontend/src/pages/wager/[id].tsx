@@ -217,52 +217,54 @@ const W: NextPage = () => {
   // console.log(partyOneWager![0] == enterPartyData);
   // console.log(enterPartyData);
 
+  const potentialEnter =
+    data?.wager.state! == "1" &&
+    !isPartyOne &&
+    isConnected &&
+    partyOneWager != enterPartyData;
+  const potentialSettle =
+    blocknumber >= data?.wager.expirationBlock && data?.wager?.state == "0";
+  const potentialVoid =
+    data?.wager.expirationBlock >= blocknumber &&
+    isPartyOne &&
+    (data?.wager?.state == "0" || data?.wager?.state == "1");
+
   return (
     <div className="min-h-screen bg-green-200 font-normal justify-center items-center">
       <div className="flex flex-col md:flex-row lg:flex-row">
         <div
-          className={`sm:basis-full md:basis-1/3 lg:basis-1/3 justify-center m-2 p-3 ${
-            data?.wager.state! == "1" ? "shadow-md rounded-lg bg-gray-200 h-[300px]" : ""
-          }`}
+          className={`sm:basis-full md:basis-1/3 lg:basis-1/3 justify-center m-4 p-3 ${
+            data?.wager.state! == "1" ? "shadow-md rounded-lg bg-gray-200" : ""
+          } ${potentialEnter ? "h-[300px]" : "h-[70px]"}`}
         >
-          {data?.wager.state! == "1" &&
-            !isPartyOne &&
-            isConnected &&
-            partyOneWager != enterPartyData && (
-              <>
-                <WagerOptions
-                  wagerType={wagerType}
-                  currentPrice={currentPrice}
-                  ticker={ticker}
-                  watch={watch}
-                  setValue={setValue}
-                  register={register}
+          {potentialEnter && (
+            <>
+              <WagerOptions
+                wagerType={wagerType}
+                currentPrice={currentPrice}
+                ticker={ticker}
+                watch={watch}
+                setValue={setValue}
+                register={register}
+              />
+              {watch("wager") && data?.wager?.state == "1" && (
+                <EnterWager
+                  wagerId={data?.wager.id!}
+                  wagerAmount={ethers.utils
+                    .formatEther(data?.wager.partyWager!)
+                    .toString()}
+                  wagerData={enterPartyData || "0x"}
                 />
-                {watch("wager") && data?.wager?.state == "1" && (
-                  <EnterWager
-                    wagerId={data?.wager.id!}
-                    wagerAmount={ethers.utils
-                      .formatEther(data?.wager.partyWager!)
-                      .toString()}
-                    wagerData={enterPartyData || "0x"}
-                  />
-                )}
-              </>
-            )}
+              )}
+            </>
+          )}
           {!isConnected && !address && (
             <>
               <Connect />
             </>
           )}
-          {blocknumber >= data?.wager.expirationBlock &&
-            data?.wager?.state == "0" && (
-              <SettleWager wagerId={data?.wager.id!} />
-            )}
-          {data?.wager.expirationBlock >= blocknumber &&
-            isPartyOne &&
-            (data?.wager?.state == "0" || data?.wager?.state == "1") && (
-              <VoidWager wagerId={data?.wager.id!} />
-            )}
+          {potentialSettle && <SettleWager wagerId={data?.wager.id!} />}
+          {potentialVoid && <VoidWager wagerId={data?.wager.id!} />}
         </div>
         <div className="m-4 sm:basis-full md:basis-1/2 lg:basis-1/2 pt-4 p-2 rounded-lg bg-purple-800">
           <table className="w-full border-separate border-spacing-x-0 border-spacing-y-2">

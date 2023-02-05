@@ -2,6 +2,7 @@ import { Button } from "./common/Button";
 import { Error } from "./common/Error";
 import REGISTRY_ERROR_CODES from "../../../contracts/ErrorCodes.json";
 import classNames from "classnames";
+import Link from "next/link";
 
 export const getErrorCode = (err: string) => {
   if (!err) return "";
@@ -18,6 +19,7 @@ export const Transaction = ({
   tx,
   error,
   buttonClassAdditions,
+  data,
   isLoading,
   isSuccess,
 }: {
@@ -25,15 +27,20 @@ export const Transaction = ({
   tx: ((overrideConfig?: any) => void) | undefined;
   error: Error | null;
   buttonClassAdditions?: string;
+  data?: any;
   isLoading: boolean;
   isSuccess: boolean;
 }) => {
   const buttonClass = classNames(buttonClassAdditions, "w-full");
-
+  console.log(data);
   return (
     <div className="w-full">
-      {isSuccess && <span>done</span>}
-      {!error && (
+      {isSuccess && (
+        <Link href="/wagers/">
+          <span className="w-full text-center"></span>
+        </Link>
+      )}
+      {!error && !isSuccess && (
         <Button
           className={buttonClass}
           type="submit"

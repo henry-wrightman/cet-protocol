@@ -73,9 +73,9 @@ export const CreateWager = ({
       console.log("suc" + res);
     },
   });
-  const { data, write } = useContractWrite(config);
-  const { isLoading, isSuccess } = useWaitForTransaction({
-    hash: data?.hash,
+  const { data: tx, write } = useContractWrite(config);
+  const { isLoading, isSuccess, data } = useWaitForTransaction({
+    hash: tx?.hash,
   });
 
   return (
@@ -84,6 +84,7 @@ export const CreateWager = ({
       tx={write}
       buttonClassAdditions={"bg-white text-black font-bold"}
       error={error}
+      data={data}
       isLoading={isLoading}
       isSuccess={isSuccess}
     />

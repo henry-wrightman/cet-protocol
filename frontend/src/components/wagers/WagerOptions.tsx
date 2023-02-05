@@ -5,11 +5,11 @@ import { TICKERS } from "../../utils/constants";
 const HIGHLOW_OPTIONS = [
   {
     value: "1",
-    label: "higher",
+    label: "higher (1)",
   },
   {
     value: "0",
-    label: "lower",
+    label: "lower (0)",
   },
 ];
 
@@ -35,7 +35,6 @@ export const WagerOptions = ({
   watch: any;
   setValue: any;
 }) => {
-  console.log(ticker);
   return (
     <div className="flex flex-row">
       <fieldset className="border-[1px] border-black p-3 rounded-md text-left mb-2 w-full">

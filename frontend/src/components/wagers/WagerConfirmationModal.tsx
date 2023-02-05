@@ -40,7 +40,7 @@ export const WagerConfirmationModal = ({
         <Dialog.Title className="text-2xl text-center font-bold">
           {title}
         </Dialog.Title>
-        <p className="text-sm text-center mb-10 mt-2">{subheader}</p>
+        <p className="text-sm text-center mb-2 mt-2">{subheader}</p>
         <div className="m-4 sm:basis-full md:basis-1/2 lg:basis-1/2 p-2 rounded-lg bg-purple-800">
           <table className="w-full border-separate border-spacing-x-0 border-spacing-y-2 text-black">
             <>
@@ -73,17 +73,15 @@ export const WagerConfirmationModal = ({
                   Type
                 </td>
                 <td className="border p-1 text-right border rounded-r-md">
-                  {wager.wagerType} ({wager.wagerTicker})
+                  {wager.wagerType.replace("wm.", "")} ({wager.wagerTicker})
                 </td>
               </tr>
               <tr className="bg-gray-200 text-left h-[40px]">
                 <td className="p-1 font-bold border rounded-l-md">
-                  Expiration
+                  Expiration Block
                 </td>
                 <td className="p-1 text-right border rounded-r-md">
-                  {formatDistanceToNow(
-                    new Date(wager.wagerExpirationBlock * 12 * 1000)
-                  )}
+                  {wager.wagerExpirationBlock}
                 </td>
               </tr>
             </>
