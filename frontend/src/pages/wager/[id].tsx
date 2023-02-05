@@ -220,7 +220,11 @@ const W: NextPage = () => {
   return (
     <div className="min-h-screen bg-green-200 font-normal justify-center items-center">
       <div className="flex flex-col md:flex-row lg:flex-row">
-        <div className="pt-4 m-1 sm:basis-full h-[400px] md:basis-1/3 lg:basis-1/3">
+        <div
+          className={`sm:basis-full md:basis-1/3 lg:basis-1/3 justify-center m-2 p-3 ${
+            data?.wager.state! == "1" ? "shadow-md rounded-lg bg-gray-200" : ""
+          } h-[300px]`}
+        >
           {}
           {data?.wager.state! == "1" &&
             !isPartyOne &&
