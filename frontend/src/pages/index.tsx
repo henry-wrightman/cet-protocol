@@ -32,7 +32,7 @@ const Page: NextPage = () => {
               </>
             )}
           </div>
-          <div className="md:h-[500px] lg:h-[500px] h-[500px] sm:basis-full md:basis-9/12 lg:basis-9/12 overflow-scroll rounded-xl p-1 lg:p-3 m-2 shadow-sm bg-purple-800">
+          <div className="md:h-[500px] lg:h-[500px] h-[500px] sm:basis-full md:basis-9/12 lg:basis-9/12 overflow-scroll rounded-xl p-1 lg:p-3 m-2 shadow-md bg-purple-800">
             <WagersList />
           </div>
         </div>
