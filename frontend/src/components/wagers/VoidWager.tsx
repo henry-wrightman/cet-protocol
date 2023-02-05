@@ -36,6 +36,7 @@ export const VoidWager = ({ wagerId }: { wagerId: string }) => {
       text="Void Wager"
       tx={write}
       error={error}
+      data={data?.hash!}
       isLoading={isLoading}
       isSuccess={isSuccess}
     />

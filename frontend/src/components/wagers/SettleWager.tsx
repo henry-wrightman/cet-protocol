@@ -35,6 +35,7 @@ export const SettleWager = ({ wagerId }: { wagerId: string }) => {
     <Transaction
       text="Settle Wager"
       tx={write}
+      data={data?.hash!}
       error={error}
       isLoading={isLoading}
       isSuccess={isSuccess}
