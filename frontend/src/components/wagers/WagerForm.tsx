@@ -185,6 +185,7 @@ export const WagerForm = ({ signerAddress }: { signerAddress: string }) => {
                 className="w-full"
                 value={expirationDate}
                 minDateTime={moment(moment.now()).add(30, "minutes")}
+                disablePast={true}
                 onChange={(newValue) => {
                   if (newValue) {
                     setExpirationDate(Date.parse(newValue?.toLocaleString()));

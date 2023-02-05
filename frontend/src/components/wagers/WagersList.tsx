@@ -117,11 +117,11 @@ export const WagersList = () => {
           {data &&
             data.wagers.length > 0 &&
             data.wagers.map((wager: Wager) => {
-              const module = MODULES[network].filter(
+              const wagerModule = MODULES[network].filter(
                 (x) =>
                   x.address.toLowerCase() == wager.wagerModule.toLowerCase()
               )[0];
-              const type = module.type;
+              const type = wagerModule.type;
               const ta =
                 data && wager
                   ? (Object.keys(TICKERS).filter(

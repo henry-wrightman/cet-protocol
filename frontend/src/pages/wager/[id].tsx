@@ -222,10 +222,9 @@ const W: NextPage = () => {
       <div className="flex flex-col md:flex-row lg:flex-row">
         <div
           className={`sm:basis-full md:basis-1/3 lg:basis-1/3 justify-center m-2 p-3 ${
-            data?.wager.state! == "1" ? "shadow-md rounded-lg bg-gray-200" : ""
-          } h-[300px]`}
+            data?.wager.state! == "1" ? "shadow-md rounded-lg bg-gray-200 h-[300px]" : ""
+          }`}
         >
-          {}
           {data?.wager.state! == "1" &&
             !isPartyOne &&
             isConnected &&
