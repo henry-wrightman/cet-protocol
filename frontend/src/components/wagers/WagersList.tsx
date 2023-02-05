@@ -79,7 +79,7 @@ const WAGER_QUERY_BY_STATE = gql`
   }
 `;
 
-const WAGER_QUERY_RECENT = gql`
+const WAGER_QUERY_LATEST = gql`
   {
     wagers(orderBy: createdBlock, orderDirection: desc) {
       id
@@ -141,8 +141,8 @@ function reducer(state: WAGERS_QUERY_STATE, action: any) {
         query: WAGER_QUERY_BY_STATE,
         queryParams: { state: 1 },
       };
-    case "recent":
-      return { ...state, query: WAGER_QUERY_RECENT };
+    case "latest":
+      return { ...state, query: WAGER_QUERY_LATEST };
     case "closest_expiration":
       return { ...state, query: WAGER_QUERY_CLOSEST_EXPIRATION };
     default:
@@ -268,9 +268,9 @@ export const WagersList = () => {
             <th className="p-1 text-black">
               <button
                 className={""}
-                onClick={() => dispatch({ type: "recent" })}
+                onClick={() => dispatch({ type: "latest" })}
               >
-                Recent
+                Latest
               </button>
             </th>
           </tr>
