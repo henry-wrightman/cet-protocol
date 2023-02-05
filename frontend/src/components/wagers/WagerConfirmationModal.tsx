@@ -99,7 +99,7 @@ export const WagerConfirmationModal = ({
                       Expiration Block
                     </td>
                     <td className="p-1 text-right border rounded-r-md">
-                      {wager.wagerExpirationBlock}{" "}
+                      {wager.wagerExpirationBlock}
                       {
                         <a
                           target={"_blank"}
@@ -121,7 +121,7 @@ export const WagerConfirmationModal = ({
                 </>
               </table>
               <span className="text-bold mt-2 mb-2">
-                Note: All wagers execute at midnight UTC daily if they've
+                Note: All wagers execute at midnight UTC daily if they&apos;ve
                 expired. For more volatile wagers & precise settlements, feel
                 free to manually settle the wager right as it has expired.
               </span>
