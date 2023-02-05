@@ -306,6 +306,7 @@ export const WagersList = () => {
           {data &&
             data.wagers.length > 0 &&
             data.wagers.map((wager: Wager) => {
+              if (!wager.partyOne.length || wager.partyOne.length <= 0) return;
               const wagerModule = MODULES[network].filter(
                 (x) =>
                   x.address.toLowerCase() == wager.wagerModule.toLowerCase()
