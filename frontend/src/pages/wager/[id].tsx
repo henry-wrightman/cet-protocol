@@ -244,9 +244,9 @@ const W: NextPage = () => {
     <div className="min-h-screen bg-green-200 font-normal justify-center items-center border-white border-[1px]">
       <div className="flex flex-col md:flex-row lg:flex-row">
         <div
-          className={`sm:basis-full md:basis-1/3 lg:basis-1/3 items-center m-4 p-3 border-black border-[1px] ${
+          className={`${
             potentialSettle || potentialVoid || potentialEnter
-              ? "shadow-md rounded-lg bg-white"
+              ? "sm:basis-full md:basis-1/3 lg:basis-1/3 items-center m-4 p-3 shadow-md rounded-lg bg-white border-black border-[1px]"
               : ""
           } ${potentialEnter ? "h-[350px]" : "h-[70px]"}`}
         >
@@ -286,7 +286,7 @@ const W: NextPage = () => {
           {potentialSettle && <SettleWager wagerId={data?.wager.id!} />}
           {potentialVoid && <VoidWager wagerId={data?.wager.id!} />}
         </div>
-        <div className="m-4 sm:basis-full md:basis-1/2 lg:basis-1/2 pt-4 p-2 rounded-lg bg-purple-800 border-black border-[1px]">
+        <div className="m-4 sm:basis-full md:basis-1/2 lg:basis-1/2 pt-4 p-2 rounded-lg bg-gray-100 border-black border-[1px]">
           <table className="w-full border-separate border-spacing-x-0 border-spacing-y-2">
             {data && data.wager && (
               <>
