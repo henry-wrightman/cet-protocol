@@ -244,7 +244,7 @@ const W: NextPage = () => {
     <div className="min-h-screen bg-green-200 font-normal justify-center items-center border-white border-[1px]">
       <div className="flex flex-col md:flex-row lg:flex-row">
         <div
-          className={`sm:basis-full md:basis-1/3 lg:basis-1/3 justify-center m-4 p-3 ${
+          className={`sm:basis-full md:basis-1/3 lg:basis-1/3 items-center m-4 p-3 border-black border-[1px] ${
             potentialSettle || potentialVoid || potentialEnter
               ? "shadow-md rounded-lg bg-white"
               : ""

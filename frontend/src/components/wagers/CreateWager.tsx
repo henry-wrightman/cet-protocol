@@ -84,7 +84,7 @@ export const CreateWager = ({
     <Transaction
       text="Confirm"
       tx={write}
-      buttonClassAdditions={"bg-white text-black font-bold"}
+      buttonClassAdditions={"bg-gray-100 text-black font-bold"}
       error={error}
       data={tx?.hash!}
       successCallback={successCallback}

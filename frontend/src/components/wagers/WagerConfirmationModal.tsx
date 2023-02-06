@@ -140,7 +140,7 @@ export const WagerConfirmationModal = ({
                   </tr>
                 </>
               </table>
-              <span className="text-bold mt-2 mb-2">
+              <span className="text-bold text-sm mt-2 mb-2">
                 Note: All wagers execute at midnight UTC daily if they&apos;ve
                 reached maturity. For more volatile wagers & precise
                 settlements, feel free to manually settle the wager once it
@@ -150,6 +150,10 @@ export const WagerConfirmationModal = ({
           )}
         </div>
         {children}
+        <span className="text-bold text-center text-xs m-5 pl-2 pr-2">
+          By clicking confirm, you acknowledge that the integrity of the data
+          used for settlement is reliant on the wager's oracle.
+        </span>
       </div>
     </Modal>
   );

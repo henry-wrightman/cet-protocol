@@ -11,7 +11,7 @@ import { InjectedConnector } from "wagmi/connectors/injected";
 import { NETWORK } from "../utils/constants";
 import { SelectOption } from "../components/wagers";
 
-const NETWORK_OPTIONS = ["goerli", "mainnet"].map((x) => {
+const NETWORK_OPTIONS = ["goerli"].map((x) => {
   return {
     label: x,
     value: x,
