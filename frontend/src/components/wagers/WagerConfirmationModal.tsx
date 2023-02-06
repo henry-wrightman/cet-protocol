@@ -152,7 +152,7 @@ export const WagerConfirmationModal = ({
         {children}
         <span className="text-bold text-center text-xs m-5 pl-2 pr-2">
           By clicking confirm, you acknowledge that the integrity of the data
-          used for settlement is reliant on the wager's oracle.
+          used for settlement is reliant on the wager&apos;s oracle.
         </span>
       </div>
     </Modal>
