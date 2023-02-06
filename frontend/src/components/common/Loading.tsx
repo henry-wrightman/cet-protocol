@@ -10,6 +10,7 @@ export const Loading = (width?: number, height?: number) => {
           height: ${height ? height : 50}px;
           animation: spin 2s linear infinite;
           margin: auto;
+          align: left;
         }
 
         @keyframes spin {

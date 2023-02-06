@@ -7,7 +7,7 @@ import { NETWORK, MODULES, ORACLES, TICKERS } from "../../utils/constants";
 import { getSubgraphClient } from "../../graphql/client";
 import { formatDistanceToNow } from "date-fns";
 import Link from "next/link";
-import { Loading, Countdown } from "../common";
+import { Loading, Countdown, Button } from "../common";
 import { useAccount } from "wagmi";
 
 const WAGERS_QUERY = gql`
@@ -241,51 +241,57 @@ export const WagersList = () => {
         <thead>
           <tr className="">
             <th className="p-1 text-black">
-              <button className={""} onClick={() => dispatch({ type: "all" })}>
+              <Button
+                className={"font-normal bg-purple-800 w-full h-[30px]"}
+                onClick={() => dispatch({ type: "all" })}
+              >
                 All
                 {/* ({data && data.wagers.length > 0 ? data.wagers.length : ""}) */}
-              </button>
+              </Button>
             </th>
             <th className="p-1 text-black">
-              <button className={""} onClick={() => dispatch({ type: "open" })}>
+              <Button
+                className={"font-normal bg-purple-800 w-full h-[30px]"}
+                onClick={() => dispatch({ type: "open" })}
+              >
                 Open
-              </button>
+              </Button>
             </th>
             {address && (
               <th className="p-1 text-black">
-                <button
-                  className={""}
+                <Button
+                  className={"font-normal bg-purple-800 w-full h-[30px]"}
                   onClick={() =>
                     dispatch({ type: "yours", user: address?.toLowerCase() })
                   }
                 >
                   Yours
-                </button>
+                </Button>
               </th>
             )}
             <th className="p-1 text-black">
-              <button
-                className={""}
+              <Button
+                className={"font-normal bg-purple-800 w-full h-[30px]"}
                 onClick={() => dispatch({ type: "closest_expiration" })}
               >
                 Expiration
-              </button>
+              </Button>
             </th>
             <th className="p-1 text-black">
-              <button
-                className={""}
+              <Button
+                className={"font-normal bg-purple-800 w-full h-[30px]"}
                 onClick={() => dispatch({ type: "hottest" })}
               >
                 Hottest
-              </button>
+              </Button>
             </th>
             <th className="p-1 text-black">
-              <button
-                className={""}
+              <Button
+                className={"font-normal bg-purple-800 w-full h-[30px]"}
                 onClick={() => dispatch({ type: "latest" })}
               >
                 Latest
-              </button>
+              </Button>
             </th>
           </tr>
           <tr></tr>
@@ -293,8 +299,9 @@ export const WagersList = () => {
         <tbody></tbody>
       </table>
       <table className="w-full border-separate border-spacing-x-0 border-spacing-y-2">
-        <thead>
+        <thead className="border-[2px] border-black">
           <tr>
+            <th className="p-1 font-light text-black">#</th>
             <th className="p-1 font-light text-black">Participants</th>
             <th className="p-1 font-light text-black">Wager</th>
             <th className="p-1 font-light text-black">Type</th>
@@ -328,7 +335,8 @@ export const WagersList = () => {
                     className="text-center cursor-pointer hover:text-white hover:bg-purple-500 h-[40px]"
                     key={wager.id}
                   >
-                    <td className="p-1 rounded-l-lg">
+                    <td className="p-1 rounded-l-lg">{wager.id}</td>
+                    <td className="p-1">
                       {
                         <span
                           className={`m-1 p-1 bg-${
@@ -362,7 +370,7 @@ export const WagersList = () => {
                       {ethers.utils.formatEther(wager.partyWager).toString()}E
                     </td>
                     <td className="p-1">
-                      {type.replace("wm.", "")} ({ta})
+                      {type.replace("wm.", "")} | {ta}
                     </td>
                     <td className="p-1">{getWagerState(wager.state)}</td>
                     <td className="p-1 rounded-r-lg">

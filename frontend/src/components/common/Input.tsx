@@ -24,7 +24,7 @@ export const Input = ({
 }: InputProps) => {
   const classes = classNames(
     className,
-    "block w-full px-2 py-2 border-b-[1px] border-input-border-black sm:text-sm text-black rounded-md"
+    "block w-full px-2 py-2 border-[1px] border-gray-400 border-input-border-purple-800 sm:text-sm text-black rounded-xl"
     //"focus:outline-none"
   );
   return (

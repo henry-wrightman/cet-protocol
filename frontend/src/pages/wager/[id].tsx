@@ -38,12 +38,8 @@ const WAGER_QUERY = gql`
   query wager($id: String!) {
     wager(id: $id) {
       id
-      partyOne {
-        id
-      }
-      partyTwo {
-        id
-      }
+      partyOne
+      partyTwo
       partyOneWager
       partyTwoWager
       expirationBlock
@@ -245,12 +241,12 @@ const W: NextPage = () => {
     (data?.wager?.state == "0" || data?.wager?.state == "1");
 
   return (
-    <div className="min-h-screen bg-green-200 font-normal justify-center items-center">
+    <div className="min-h-screen bg-green-200 font-normal justify-center items-center border-white border-[1px]">
       <div className="flex flex-col md:flex-row lg:flex-row">
         <div
           className={`sm:basis-full md:basis-1/3 lg:basis-1/3 justify-center m-4 p-3 ${
             potentialSettle || potentialVoid || potentialEnter
-              ? "shadow-md rounded-lg bg-gray-200"
+              ? "shadow-md rounded-lg bg-white"
               : ""
           } ${potentialEnter ? "h-[350px]" : "h-[70px]"}`}
         >
@@ -290,7 +286,7 @@ const W: NextPage = () => {
           {potentialSettle && <SettleWager wagerId={data?.wager.id!} />}
           {potentialVoid && <VoidWager wagerId={data?.wager.id!} />}
         </div>
-        <div className="m-4 sm:basis-full md:basis-1/2 lg:basis-1/2 pt-4 p-2 rounded-lg bg-purple-800">
+        <div className="m-4 sm:basis-full md:basis-1/2 lg:basis-1/2 pt-4 p-2 rounded-lg bg-purple-800 border-black border-[1px]">
           <table className="w-full border-separate border-spacing-x-0 border-spacing-y-2">
             {data && data.wager && (
               <>
@@ -382,7 +378,9 @@ const W: NextPage = () => {
                   <td className="p-1 font-bold border rounded-l-md">Outcome</td>
                   <td className="p-1 text-right border rounded-r-md">
                     {wagerResult
-                      ? (wagerResult![0].toString() / 10 ** decimals).toFixed(4)
+                      ? wagerResult![0].toString().length > decimals
+                        ? parseInt(wagerResult![0].toString()) / 10 ** decimals
+                        : wagerResult![0].toString()
                       : "TBA"}
                   </td>
                 </tr>
