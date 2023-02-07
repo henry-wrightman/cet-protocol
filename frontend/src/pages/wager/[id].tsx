@@ -212,18 +212,25 @@ const W: NextPage = () => {
   setValue("wagerExpirationBlock", data?.wager.expirationBlock);
   setValue("wagerType", wagerType);
 
+  const authorized = isConnected && address;
+
   const potentialEnter =
+    authorized &&
     data?.wager.state! == "1" &&
     !isPartyOne &&
     isConnected &&
     partyOneWager != enterPartyData &&
     blocknumber <= data?.wager.expirationBlock;
   const potentialSettle =
-    blocknumber >= data?.wager.expirationBlock && data?.wager?.state == "0";
+    authorized &&
+    blocknumber >= data?.wager.expirationBlock &&
+    data?.wager?.state == "0";
   const potentialVoid =
-    isPartyOne && (data?.wager?.state == "0" || data?.wager?.state == "1");
+    authorized &&
+    isPartyOne &&
+    (data?.wager?.state == "0" || data?.wager?.state == "1");
   const enterReady = watch("wager") && data?.wager?.state == "1";
-  console.log(data?.wager.expirationBlock);
+
   return (
     <div className="min-h-screen bg-green-200 font-normal justify-center items-center border-white border-[1px]">
       <div className="flex flex-col md:flex-row lg:flex-row">
@@ -232,7 +239,7 @@ const W: NextPage = () => {
             potentialSettle || potentialVoid || potentialEnter
               ? "sm:basis-full md:basis-1/3 lg:basis-1/3 items-center m-4 p-3 shadow-md rounded-lg bg-white border-black border-[1px]"
               : ""
-          } ${potentialEnter ? "h-[350px]" : "h-[70px]"}`}
+          } ${potentialEnter ? "h-[350px]" : "h-fit"}`}
         >
           {potentialEnter && (
             <>
