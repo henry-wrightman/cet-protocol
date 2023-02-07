@@ -261,14 +261,14 @@ const W: NextPage = () => {
             </>
           )}
           {!isConnected && !address && (
-            <>
+            <div className="sm:basis-full md:basis-1/3 lg:basis-1/3 justify-center m-2 p-3 shadow-md rounded-lg bg-white min-w-[250px] min-h-[50px] border-black border-[1px]">
               <Connect />
-            </>
+            </div>
           )}
           {potentialSettle && <SettleWager wagerId={data?.wager.id!} />}
           {potentialVoid && <VoidWager wagerId={data?.wager.id!} />}
         </div>
-        <div className="m-4 sm:basis-full md:basis-1/2 lg:basis-1/2 pt-4 p-2 rounded-lg bg-gray-100 border-black border-[1px]">
+        <div className="m-4 sm:basis-full md:basis-1/2 lg:basis-1/2 pt-4 p-2 rounded-lg bg-white border-black border-[1px]">
           <table className="w-full border-separate border-spacing-x-0 border-spacing-y-2">
             {data && data.wager && (
               <>

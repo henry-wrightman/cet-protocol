@@ -60,7 +60,9 @@ export const WagerConfirmationModal = ({
                 Success!{" "}
                 <a
                   target={"_blank"}
-                  href={"https://goerli.etherscan.io/tx/" + data}
+                  href={
+                    "https://goerli.etherscan.io/tx/" + data.transactionHash
+                  }
                   rel="noreferrer"
                 >
                   <Image width={17} height={17} src={externalLinkIcon}></Image>
