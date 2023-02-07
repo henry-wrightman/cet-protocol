@@ -216,7 +216,8 @@ const W: NextPage = () => {
     data?.wager.state! == "1" &&
     !isPartyOne &&
     isConnected &&
-    partyOneWager != enterPartyData;
+    partyOneWager != enterPartyData &&
+    blocknumber <= data?.wager.expirationBlock;
   const potentialSettle =
     blocknumber >= data?.wager.expirationBlock && data?.wager?.state == "0";
   const potentialVoid =
