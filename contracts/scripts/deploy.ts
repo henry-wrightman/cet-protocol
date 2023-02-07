@@ -32,10 +32,10 @@ async function main() {
   // await testChainLinkOracleSource.deployed();
   // console.log("testChainLinkOracleSource", testChainLinkOracleSource.address);
 
-  // const WagerRegistry = await ethers.getContractFactory("WagerRegistry");
-  // const wagerRegistry = await WagerRegistry.deploy();
-  // await wagerRegistry.deployed();
-  // console.log("registry", wagerRegistry.address);
+  const WagerRegistry = await ethers.getContractFactory("WagerRegistry");
+  const wagerRegistry = await WagerRegistry.deploy();
+  await wagerRegistry.deployed();
+  console.log("registry", wagerRegistry.address);
 
   // const WagerFactory = await ethers.getContractFactory("WagerFactory");
   // const wagerFactory = await WagerFactory.deploy(wagerRegistry.address);
@@ -45,8 +45,6 @@ async function main() {
   // console.log("setting factory wager modules");
   // await wagerFactory.setWagerModule("wm.highlow", highLowWagerModule.address);
   // await wagerFactory.setWagerModule("wm.nearest", nearestWagerModule.address);
-
-  const wagerRegistry = { address: "0x1B28f36915C24a7ADc6c544C34eE68f63fE649B0" };
 
   const WagerExecutor = await ethers.getContractFactory("WagerExecutor");
   const wagerExecutor = await WagerExecutor.deploy(wagerRegistry.address);
@@ -82,14 +80,14 @@ async function main() {
   // } catch (error) {
   //   console.log(error);
   // }
-  // try {
-  //   await run("verify:verify", {
-  //     contract: "contracts/WagerRegistry.sol:WagerRegistry",
-  //     address: wagerRegistry.address,
-  //   });
-  // } catch (error) {
-  //   console.log(error);
-  // }
+  try {
+    await run("verify:verify", {
+      contract: "contracts/WagerRegistry.sol:WagerRegistry",
+      address: wagerRegistry.address,
+    });
+  } catch (error) {
+    console.log(error);
+  }
   // try {
   //   await run("verify:verify", {
   //     contract: "contracts/factory/WagerFactory.sol:WagerFactory",
@@ -105,9 +103,7 @@ async function main() {
     await run("verify:verify", {
       contract: "contracts/jobs/WagerExecutor.sol:WagerExecutor",
       address: wagerExecutor.address,
-      constructorArguments: [
-        wagerRegistry.address
-      ]
+      constructorArguments: [wagerRegistry.address],
     });
   } catch (error) {
     console.log(error);

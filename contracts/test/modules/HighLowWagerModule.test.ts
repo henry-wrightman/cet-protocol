@@ -52,11 +52,11 @@ describe("HighLowWagerModule", function () {
         parties: partiesData,
         partyOneWagerData: utils.defaultAbiCoder.encode(
           ["uint", "uint"],
-          ["1", 20000*10**decimals]
+          ["1", 20000 * 10 ** decimals]
         ),
         partyTwoWagerData: utils.defaultAbiCoder.encode(
           ["uint", "uint"],
-          ["0", 20000*10**decimals]
+          ["0", 20000 * 10 ** decimals]
         ),
         wagerAmount: 1, // 1 ETH
         blockData: blockData,
@@ -70,7 +70,7 @@ describe("HighLowWagerModule", function () {
       });
       expect(winner).to.equal(address1.address);
     });
-    
+
     it("partyTwo should win", async function () {
       await testChainLinkOracle.setPrice(2340505921583); // 23400
       const partiesData = utils.defaultAbiCoder.encode(
@@ -81,11 +81,11 @@ describe("HighLowWagerModule", function () {
         parties: partiesData,
         partyOneWagerData: utils.defaultAbiCoder.encode(
           ["uint", "uint"],
-          ["0", 20000*10**decimals]
+          ["0", 20000 * 10 ** decimals]
         ),
         partyTwoWagerData: utils.defaultAbiCoder.encode(
           ["uint", "uint"],
-          ["1", 20000*10**decimals]
+          ["1", 20000 * 10 ** decimals]
         ),
         wagerAmount: 1, // 1 ETH
         blockData: blockData,
@@ -118,11 +118,11 @@ describe("HighLowWagerModule", function () {
         parties: partiesData,
         partyOneWagerData: utils.defaultAbiCoder.encode(
           ["uint", "uint"],
-          ["1", BigInt(1800*10**decimals)]
+          ["1", BigInt(1800 * 10 ** decimals)]
         ),
         partyTwoWagerData: utils.defaultAbiCoder.encode(
           ["uint", "uint"],
-          ["0", BigInt(1800*10**decimals)]
+          ["0", BigInt(1800 * 10 ** decimals)]
         ),
         wagerAmount: 1, // 1 ETH
         blockData: blockData,
@@ -136,7 +136,7 @@ describe("HighLowWagerModule", function () {
       });
       expect(winner).to.equal(address1.address);
     });
-    
+
     it("partyTwo should win", async function () {
       await testChainLinkOracle.setPrice("1865751481500000050000"); // 1865
       const partiesData = utils.defaultAbiCoder.encode(
@@ -147,11 +147,11 @@ describe("HighLowWagerModule", function () {
         parties: partiesData,
         partyOneWagerData: utils.defaultAbiCoder.encode(
           ["uint", "uint"],
-          ["0", BigInt(1800*10**decimals)]
+          ["0", BigInt(1800 * 10 ** decimals)]
         ),
         partyTwoWagerData: utils.defaultAbiCoder.encode(
           ["uint", "uint"],
-          ["1", BigInt(1800*10**decimals)]
+          ["1", BigInt(1800 * 10 ** decimals)]
         ),
         wagerAmount: 1, // 1 ETH
         blockData: blockData,
@@ -184,11 +184,11 @@ describe("HighLowWagerModule", function () {
         parties: partiesData,
         partyOneWagerData: utils.defaultAbiCoder.encode(
           ["uint", "uint"],
-          ["1", BigInt(0.000432*10**decimals)]
+          ["1", BigInt(0.000432 * 10 ** decimals)]
         ),
         partyTwoWagerData: utils.defaultAbiCoder.encode(
           ["uint", "uint"],
-          ["0", BigInt(0.000432*10**decimals)]
+          ["0", BigInt(0.000432 * 10 ** decimals)]
         ),
         wagerAmount: 1, // 1 ETH
         blockData: blockData,
@@ -202,7 +202,7 @@ describe("HighLowWagerModule", function () {
       });
       expect(winner).to.equal(address1.address);
     });
-    
+
     it("partyTwo should win", async function () {
       await testChainLinkOracle.setPrice("4329926867255340"); // 0.000432
       const partiesData = utils.defaultAbiCoder.encode(
@@ -213,11 +213,11 @@ describe("HighLowWagerModule", function () {
         parties: partiesData,
         partyOneWagerData: utils.defaultAbiCoder.encode(
           ["uint", "uint"],
-          ["0", BigInt(0.000432*10**decimals)]
+          ["0", BigInt(0.000432 * 10 ** decimals)]
         ),
         partyTwoWagerData: utils.defaultAbiCoder.encode(
           ["uint", "uint"],
-          ["1", BigInt(0.000432*10**decimals)]
+          ["1", BigInt(0.000432 * 10 ** decimals)]
         ),
         wagerAmount: 1, // 1 ETH
         blockData: blockData,

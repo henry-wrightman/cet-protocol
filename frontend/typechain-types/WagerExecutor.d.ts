@@ -23,7 +23,6 @@ interface WagerExecutorInterface extends ethers.utils.Interface {
   functions: {
     "checkUpkeep(bytes)": FunctionFragment;
     "executions()": FunctionFragment;
-    "interval()": FunctionFragment;
     "lastBlock()": FunctionFragment;
     "performUpkeep(bytes)": FunctionFragment;
     "registry()": FunctionFragment;
@@ -37,7 +36,6 @@ interface WagerExecutorInterface extends ethers.utils.Interface {
     functionFragment: "executions",
     values?: undefined
   ): string;
-  encodeFunctionData(functionFragment: "interval", values?: undefined): string;
   encodeFunctionData(functionFragment: "lastBlock", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "performUpkeep",
@@ -50,7 +48,6 @@ interface WagerExecutorInterface extends ethers.utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "executions", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "interval", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "lastBlock", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "performUpkeep",
@@ -112,8 +109,6 @@ export class WagerExecutor extends BaseContract {
 
     executions(overrides?: CallOverrides): Promise<[BigNumber]>;
 
-    interval(overrides?: CallOverrides): Promise<[BigNumber]>;
-
     lastBlock(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     performUpkeep(
@@ -130,8 +125,6 @@ export class WagerExecutor extends BaseContract {
   ): Promise<ContractTransaction>;
 
   executions(overrides?: CallOverrides): Promise<BigNumber>;
-
-  interval(overrides?: CallOverrides): Promise<BigNumber>;
 
   lastBlock(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -150,8 +143,6 @@ export class WagerExecutor extends BaseContract {
 
     executions(overrides?: CallOverrides): Promise<BigNumber>;
 
-    interval(overrides?: CallOverrides): Promise<BigNumber>;
-
     lastBlock(overrides?: CallOverrides): Promise<BigNumber>;
 
     performUpkeep(arg0: BytesLike, overrides?: CallOverrides): Promise<void>;
@@ -168,8 +159,6 @@ export class WagerExecutor extends BaseContract {
     ): Promise<BigNumber>;
 
     executions(overrides?: CallOverrides): Promise<BigNumber>;
-
-    interval(overrides?: CallOverrides): Promise<BigNumber>;
 
     lastBlock(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -188,8 +177,6 @@ export class WagerExecutor extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     executions(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    interval(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     lastBlock(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 

@@ -105,6 +105,7 @@ describe("WagerRegistry", function () {
             ethers.utils.parseEther("1.0"),
             partyOneWagerData,
             latestBlock + 1,
+            0,
             latestBlock + 1000,
             highLowWagerModule.address,
             ethers.constants.AddressZero,

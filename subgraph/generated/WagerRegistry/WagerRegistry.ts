@@ -10,6 +10,82 @@ import {
   BigInt
 } from "@graphprotocol/graph-ts";
 
+export class WagerCreated extends ethereum.Event {
+  get params(): WagerCreated__Params {
+    return new WagerCreated__Params(this);
+  }
+}
+
+export class WagerCreated__Params {
+  _event: WagerCreated;
+
+  constructor(event: WagerCreated) {
+    this._event = event;
+  }
+
+  get partyAddr(): Address {
+    return this._event.parameters[0].value.toAddress();
+  }
+
+  get partyWagerAmount(): BigInt {
+    return this._event.parameters[1].value.toBigInt();
+  }
+
+  get partyWager(): Bytes {
+    return this._event.parameters[2].value.toBytes();
+  }
+
+  get createdBlock(): BigInt {
+    return this._event.parameters[3].value.toBigInt();
+  }
+
+  get enterLimitBlock(): BigInt {
+    return this._event.parameters[4].value.toBigInt();
+  }
+
+  get expirationBlock(): BigInt {
+    return this._event.parameters[5].value.toBigInt();
+  }
+
+  get wagerModule(): Address {
+    return this._event.parameters[6].value.toAddress();
+  }
+
+  get oracleModule(): Address {
+    return this._event.parameters[7].value.toAddress();
+  }
+
+  get wagerId(): BigInt {
+    return this._event.parameters[8].value.toBigInt();
+  }
+}
+
+export class WagerEntered extends ethereum.Event {
+  get params(): WagerEntered__Params {
+    return new WagerEntered__Params(this);
+  }
+}
+
+export class WagerEntered__Params {
+  _event: WagerEntered;
+
+  constructor(event: WagerEntered) {
+    this._event = event;
+  }
+
+  get partyAddr(): Address {
+    return this._event.parameters[0].value.toAddress();
+  }
+
+  get partyWager(): Bytes {
+    return this._event.parameters[1].value.toBytes();
+  }
+
+  get wagerId(): BigInt {
+    return this._event.parameters[2].value.toBigInt();
+  }
+}
+
 export class WagerSettled extends ethereum.Event {
   get params(): WagerSettled__Params {
     return new WagerSettled__Params(this);
@@ -40,78 +116,6 @@ export class WagerSettled__Params {
   }
 }
 
-export class WagerCreated extends ethereum.Event {
-  get params(): WagerCreated__Params {
-    return new WagerCreated__Params(this);
-  }
-}
-
-export class WagerCreated__Params {
-  _event: WagerCreated;
-
-  constructor(event: WagerCreated) {
-    this._event = event;
-  }
-
-  get partyAddr(): Address {
-    return this._event.parameters[0].value.toAddress();
-  }
-
-  get partyWagerAmount(): BigInt {
-    return this._event.parameters[1].value.toBigInt();
-  }
-
-  get partyWager(): Bytes {
-    return this._event.parameters[2].value.toBytes();
-  }
-
-  get createdBlock(): BigInt {
-    return this._event.parameters[3].value.toBigInt();
-  }
-
-  get expirationBlock(): BigInt {
-    return this._event.parameters[4].value.toBigInt();
-  }
-
-  get wagerModule(): Address {
-    return this._event.parameters[5].value.toAddress();
-  }
-
-  get oracleModule(): Address {
-    return this._event.parameters[6].value.toAddress();
-  }
-
-  get wagerId(): BigInt {
-    return this._event.parameters[7].value.toBigInt();
-  }
-}
-
-export class WagerEntered extends ethereum.Event {
-  get params(): WagerEntered__Params {
-    return new WagerEntered__Params(this);
-  }
-}
-
-export class WagerEntered__Params {
-  _event: WagerEntered;
-
-  constructor(event: WagerEntered) {
-    this._event = event;
-  }
-
-  get partyAddr(): Address {
-    return this._event.parameters[0].value.toAddress();
-  }
-
-  get partyWager(): Bytes {
-    return this._event.parameters[1].value.toBytes();
-  }
-
-  get wagerId(): BigInt {
-    return this._event.parameters[2].value.toBigInt();
-  }
-}
-
 export class WagerVoided extends ethereum.Event {
   get params(): WagerVoided__Params {
     return new WagerVoided__Params(this);
@@ -127,32 +131,6 @@ export class WagerVoided__Params {
 
   get wagerId(): BigInt {
     return this._event.parameters[0].value.toBigInt();
-  }
-}
-
-export class WagerWithdraw extends ethereum.Event {
-  get params(): WagerWithdraw__Params {
-    return new WagerWithdraw__Params(this);
-  }
-}
-
-export class WagerWithdraw__Params {
-  _event: WagerWithdraw;
-
-  constructor(event: WagerWithdraw) {
-    this._event = event;
-  }
-
-  get recipient(): Address {
-    return this._event.parameters[0].value.toAddress();
-  }
-
-  get amount(): BigInt {
-    return this._event.parameters[1].value.toBigInt();
-  }
-
-  get wagerId(): BigInt {
-    return this._event.parameters[2].value.toBigInt();
   }
 }
 

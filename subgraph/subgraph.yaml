@@ -6,7 +6,7 @@ dataSources:
     name: WagerRegistry
     network: goerli
     source:
-      address: "0x1B28f36915C24a7ADc6c544C34eE68f63fE649B0"
+      address: "0xC69626736c6D17A8BC7c31dBc9C1A86AD60Abb0d"
       abi: WagerRegistry
       startBlock: 8419128
     mapping:
@@ -19,14 +19,12 @@ dataSources:
         - name: WagerRegistry
           file: ./contractDeployments/0/WagerRegistry.json
       eventHandlers:
-        - event: WagerCreated(indexed address,indexed uint256,bytes,uint256,uint256,address,address,uint256)
+        - event: WagerCreated(indexed address,uint256,bytes,uint256,uint256,uint256,address,address,indexed uint256)
           handler: handleWagerCreated
-        - event: WagerEntered(indexed address,bytes,uint256)
+        - event: WagerEntered(indexed address,bytes,indexed uint256)
           handler: handleWagerEntered
         - event: WagerSettled(indexed address,uint256,bytes,indexed uint256)
           handler: handleWagerSettled
         - event: WagerVoided(indexed uint256)
           handler: handleWagerVoided
-        - event: WagerWithdraw(address,uint256,indexed uint256)
-          handler: handleWagerWithdraw
       file: ./src/mappings/registry/registry.ts

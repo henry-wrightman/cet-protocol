@@ -32,7 +32,6 @@ describe("NearestWagerModule", function () {
     );
     testChainLinkOracle = await TestChainLinkOracle.deploy();
     await testChainLinkOracle.deployed();
-
   });
 
   describe("Nearest wagers [BTCUSD]", function () {
@@ -51,8 +50,14 @@ describe("NearestWagerModule", function () {
       );
       const [wager, winner] = await nearestWagerModule.callStatic.settle({
         parties: partiesData,
-        partyOneWagerData: utils.defaultAbiCoder.encode(["uint256"], [21000*10**decimals]),
-        partyTwoWagerData: utils.defaultAbiCoder.encode(["uint256"], [19005*10**decimals]),
+        partyOneWagerData: utils.defaultAbiCoder.encode(
+          ["uint256"],
+          [21000 * 10 ** decimals]
+        ),
+        partyTwoWagerData: utils.defaultAbiCoder.encode(
+          ["uint256"],
+          [19005 * 10 ** decimals]
+        ),
         wagerAmount: 1, // 1 ETH
         blockData: blockData,
         wagerOracleData: [],
@@ -74,8 +79,14 @@ describe("NearestWagerModule", function () {
       );
       const [wager, winner] = await nearestWagerModule.callStatic.settle({
         parties: partiesData,
-        partyOneWagerData: utils.defaultAbiCoder.encode(["uint256"], [19050*10**decimals]),
-        partyTwoWagerData: utils.defaultAbiCoder.encode(["uint256"], [21000*10**decimals]),
+        partyOneWagerData: utils.defaultAbiCoder.encode(
+          ["uint256"],
+          [19050 * 10 ** decimals]
+        ),
+        partyTwoWagerData: utils.defaultAbiCoder.encode(
+          ["uint256"],
+          [21000 * 10 ** decimals]
+        ),
         wagerAmount: 1, // 1 ETH
         blockData: blockData,
         wagerOracleData: [],
@@ -106,8 +117,14 @@ describe("NearestWagerModule", function () {
 
       const [wager, winner] = await nearestWagerModule.callStatic.settle({
         parties: partiesData,
-        partyOneWagerData: utils.defaultAbiCoder.encode(["uint256"], [BigInt(1850*10**decimals)]),
-        partyTwoWagerData: utils.defaultAbiCoder.encode(["uint256"], [BigInt(1890*10**decimals)]),
+        partyOneWagerData: utils.defaultAbiCoder.encode(
+          ["uint256"],
+          [BigInt(1850 * 10 ** decimals)]
+        ),
+        partyTwoWagerData: utils.defaultAbiCoder.encode(
+          ["uint256"],
+          [BigInt(1890 * 10 ** decimals)]
+        ),
         wagerAmount: 1, // 1 ETH
         blockData: blockData,
         wagerOracleData: [],
@@ -129,8 +146,14 @@ describe("NearestWagerModule", function () {
       );
       const [wager, winner] = await nearestWagerModule.callStatic.settle({
         parties: partiesData,
-        partyOneWagerData: utils.defaultAbiCoder.encode(["uint256"], [BigInt(1950*10**decimals)]),
-        partyTwoWagerData: utils.defaultAbiCoder.encode(["uint256"], [BigInt(1840*10**decimals)]),
+        partyOneWagerData: utils.defaultAbiCoder.encode(
+          ["uint256"],
+          [BigInt(1950 * 10 ** decimals)]
+        ),
+        partyTwoWagerData: utils.defaultAbiCoder.encode(
+          ["uint256"],
+          [BigInt(1840 * 10 ** decimals)]
+        ),
         wagerAmount: 1, // 1 ETH
         blockData: blockData,
         wagerOracleData: [],
@@ -161,8 +184,14 @@ describe("NearestWagerModule", function () {
 
       const [wager, winner] = await nearestWagerModule.callStatic.settle({
         parties: partiesData,
-        partyOneWagerData: utils.defaultAbiCoder.encode(["uint256"], [BigInt(0.000433*10**decimals)]),
-        partyTwoWagerData: utils.defaultAbiCoder.encode(["uint256"], [BigInt(0.000432*10**decimals)]),
+        partyOneWagerData: utils.defaultAbiCoder.encode(
+          ["uint256"],
+          [BigInt(0.000433 * 10 ** decimals)]
+        ),
+        partyTwoWagerData: utils.defaultAbiCoder.encode(
+          ["uint256"],
+          [BigInt(0.000432 * 10 ** decimals)]
+        ),
         wagerAmount: 1, // 1 ETH
         blockData: blockData,
         wagerOracleData: [],
@@ -184,8 +213,14 @@ describe("NearestWagerModule", function () {
       );
       const [wager, winner] = await nearestWagerModule.callStatic.settle({
         parties: partiesData,
-        partyOneWagerData: utils.defaultAbiCoder.encode(["uint256"], [BigInt(0.000431*10**decimals)]),
-        partyTwoWagerData: utils.defaultAbiCoder.encode(["uint256"], [BigInt(0.000436*10**decimals)]),
+        partyOneWagerData: utils.defaultAbiCoder.encode(
+          ["uint256"],
+          [BigInt(0.000431 * 10 ** decimals)]
+        ),
+        partyTwoWagerData: utils.defaultAbiCoder.encode(
+          ["uint256"],
+          [BigInt(0.000436 * 10 ** decimals)]
+        ),
         wagerAmount: 1, // 1 ETH
         blockData: blockData,
         wagerOracleData: [],

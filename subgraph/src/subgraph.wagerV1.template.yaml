@@ -19,14 +19,12 @@ dataSources:
         - name: WagerRegistry
           file: ./contractDeployments/0/WagerRegistry.json
       eventHandlers:
-        - event: WagerCreated(indexed address,indexed uint256,bytes,uint256,uint256,address,address,uint256)
+        - event: WagerCreated(indexed address,uint256,bytes,uint256,uint256,uint256,address,address,indexed uint256)
           handler: handleWagerCreated
-        - event: WagerEntered(indexed address,bytes,uint256)
+        - event: WagerEntered(indexed address,bytes,indexed uint256)
           handler: handleWagerEntered
         - event: WagerSettled(indexed address,uint256,bytes,indexed uint256)
           handler: handleWagerSettled
         - event: WagerVoided(indexed uint256)
           handler: handleWagerVoided
-        - event: WagerWithdraw(address,uint256,indexed uint256)
-          handler: handleWagerWithdraw
       file: ./src/mappings/registry/registry.ts

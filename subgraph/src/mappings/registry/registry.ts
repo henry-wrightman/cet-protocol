@@ -3,8 +3,7 @@ import {
   WagerCreated,
   WagerEntered,
   WagerSettled,
-  WagerVoided,
-  WagerWithdraw
+  WagerVoided
 } from "../../../generated/WagerRegistry/WagerRegistry";
 
 import { Registry, Wager, WagerParty } from "../../../generated/schema";
@@ -48,6 +47,7 @@ export function handleWagerCreated(event: WagerCreated): void {
   wager.partyOneWager = event.params.partyWager;
   wager.state = BigInt.fromI32(1); // created
   wager.createdBlock = event.params.createdBlock;
+  wager.enterLimitBlock = event.params.enterLimitBlock;
   wager.expirationBlock = event.params.expirationBlock;
   wager.wagerModule = event.params.wagerModule;
   wager.oracleImpl = event.params.oracleModule;

@@ -16,6 +16,7 @@ type Wager @entity {
   partyOneWager: Bytes!
   partyTwoWager: Bytes
   createdBlock: BigInt!
+  enterLimitBlock: BigInt!
   expirationBlock: BigInt!
   wagerOracleData: Bytes
   supplumentalWagerOracleData: Bytes

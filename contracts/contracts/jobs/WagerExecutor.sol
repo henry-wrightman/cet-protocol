@@ -39,6 +39,7 @@ contract WagerExecutor is AutomationCompatibleInterface {
         lastBlock = block.number;
     }
 
-    function performUpkeep(bytes calldata /* performData */) external override {
-    }
+    function performUpkeep(
+        bytes calldata /* performData */
+    ) external override {}
 }

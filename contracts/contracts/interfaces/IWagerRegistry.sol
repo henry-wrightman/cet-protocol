@@ -8,28 +8,24 @@ interface IWagerRegistry {
     // -- events --
     event WagerCreated(
         address indexed partyAddr,
-        uint256 indexed partyWagerAmount,
+        uint256 partyWagerAmount,
         bytes partyWager,
         uint256 createdBlock,
+        uint256 enterLimitBlock,
         uint256 expirationBlock,
         address wagerModule,
         address oracleModule,
-        uint256 wagerId
+        uint256 indexed wagerId
     );
     event WagerEntered(
         address indexed partyAddr,
         bytes partyWager,
-        uint256 wagerId
+        uint256 indexed wagerId
     );
     event WagerSettled(
         address indexed winner,
         uint256 amount,
         bytes result,
-        uint256 indexed wagerId
-    );
-    event WagerWithdraw(
-        address recipient,
-        uint256 amount,
         uint256 indexed wagerId
     );
     event WagerVoided(uint256 indexed wagerId);

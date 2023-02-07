@@ -162,6 +162,15 @@ export class Wager extends Entity {
     this.set("createdBlock", Value.fromBigInt(value));
   }
 
+  get enterLimitBlock(): BigInt {
+    let value = this.get("enterLimitBlock");
+    return value!.toBigInt();
+  }
+
+  set enterLimitBlock(value: BigInt) {
+    this.set("enterLimitBlock", Value.fromBigInt(value));
+  }
+
   get expirationBlock(): BigInt {
     let value = this.get("expirationBlock");
     return value!.toBigInt();

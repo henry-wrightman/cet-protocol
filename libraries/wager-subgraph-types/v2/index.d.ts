@@ -24,6 +24,7 @@ export type Registry = {
 export type Wager = {
   __typename?: 'Wager';
   createdBlock: Scalars['BigInt'];
+  enterLimitBlock: Scalars['BigInt'];
   expirationBlock: Scalars['BigInt'];
   id: Scalars['String'];
   oracleImpl: Scalars['Bytes'];

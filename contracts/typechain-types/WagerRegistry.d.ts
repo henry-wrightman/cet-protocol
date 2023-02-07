@@ -114,18 +114,16 @@ interface WagerRegistryInterface extends ethers.utils.Interface {
   decodeFunctionResult(functionFragment: "wagers", data: BytesLike): Result;
 
   events: {
-    "WagerCreated(address,uint256,bytes,uint256,uint256,address,address,uint256)": EventFragment;
+    "WagerCreated(address,uint256,bytes,uint256,uint256,uint256,address,address,uint256)": EventFragment;
     "WagerEntered(address,bytes,uint256)": EventFragment;
     "WagerSettled(address,uint256,bytes,uint256)": EventFragment;
     "WagerVoided(uint256)": EventFragment;
-    "WagerWithdraw(address,uint256,uint256)": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "WagerCreated"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "WagerEntered"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "WagerSettled"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "WagerVoided"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "WagerWithdraw"): EventFragment;
 }
 
 export type WagerCreatedEvent = TypedEvent<
@@ -133,6 +131,7 @@ export type WagerCreatedEvent = TypedEvent<
     string,
     BigNumber,
     string,
+    BigNumber,
     BigNumber,
     BigNumber,
     string,
@@ -143,6 +142,7 @@ export type WagerCreatedEvent = TypedEvent<
     partyWagerAmount: BigNumber;
     partyWager: string;
     createdBlock: BigNumber;
+    enterLimitBlock: BigNumber;
     expirationBlock: BigNumber;
     wagerModule: string;
     oracleModule: string;
@@ -168,14 +168,6 @@ export type WagerSettledEvent = TypedEvent<
 >;
 
 export type WagerVoidedEvent = TypedEvent<[BigNumber] & { wagerId: BigNumber }>;
-
-export type WagerWithdrawEvent = TypedEvent<
-  [string, BigNumber, BigNumber] & {
-    recipient: string;
-    amount: BigNumber;
-    wagerId: BigNumber;
-  }
->;
 
 export class WagerRegistry extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
@@ -507,20 +499,22 @@ export class WagerRegistry extends BaseContract {
   };
 
   filters: {
-    "WagerCreated(address,uint256,bytes,uint256,uint256,address,address,uint256)"(
+    "WagerCreated(address,uint256,bytes,uint256,uint256,uint256,address,address,uint256)"(
       partyAddr?: string | null,
-      partyWagerAmount?: BigNumberish | null,
+      partyWagerAmount?: null,
       partyWager?: null,
       createdBlock?: null,
+      enterLimitBlock?: null,
       expirationBlock?: null,
       wagerModule?: null,
       oracleModule?: null,
-      wagerId?: null
+      wagerId?: BigNumberish | null
     ): TypedEventFilter<
       [
         string,
         BigNumber,
         string,
+        BigNumber,
         BigNumber,
         BigNumber,
         string,
@@ -532,6 +526,7 @@ export class WagerRegistry extends BaseContract {
         partyWagerAmount: BigNumber;
         partyWager: string;
         createdBlock: BigNumber;
+        enterLimitBlock: BigNumber;
         expirationBlock: BigNumber;
         wagerModule: string;
         oracleModule: string;
@@ -541,18 +536,20 @@ export class WagerRegistry extends BaseContract {
 
     WagerCreated(
       partyAddr?: string | null,
-      partyWagerAmount?: BigNumberish | null,
+      partyWagerAmount?: null,
       partyWager?: null,
       createdBlock?: null,
+      enterLimitBlock?: null,
       expirationBlock?: null,
       wagerModule?: null,
       oracleModule?: null,
-      wagerId?: null
+      wagerId?: BigNumberish | null
     ): TypedEventFilter<
       [
         string,
         BigNumber,
         string,
+        BigNumber,
         BigNumber,
         BigNumber,
         string,
@@ -564,6 +561,7 @@ export class WagerRegistry extends BaseContract {
         partyWagerAmount: BigNumber;
         partyWager: string;
         createdBlock: BigNumber;
+        enterLimitBlock: BigNumber;
         expirationBlock: BigNumber;
         wagerModule: string;
         oracleModule: string;
@@ -574,7 +572,7 @@ export class WagerRegistry extends BaseContract {
     "WagerEntered(address,bytes,uint256)"(
       partyAddr?: string | null,
       partyWager?: null,
-      wagerId?: null
+      wagerId?: BigNumberish | null
     ): TypedEventFilter<
       [string, string, BigNumber],
       { partyAddr: string; partyWager: string; wagerId: BigNumber }
@@ -583,7 +581,7 @@ export class WagerRegistry extends BaseContract {
     WagerEntered(
       partyAddr?: string | null,
       partyWager?: null,
-      wagerId?: null
+      wagerId?: BigNumberish | null
     ): TypedEventFilter<
       [string, string, BigNumber],
       { partyAddr: string; partyWager: string; wagerId: BigNumber }
@@ -616,24 +614,6 @@ export class WagerRegistry extends BaseContract {
     WagerVoided(
       wagerId?: BigNumberish | null
     ): TypedEventFilter<[BigNumber], { wagerId: BigNumber }>;
-
-    "WagerWithdraw(address,uint256,uint256)"(
-      recipient?: null,
-      amount?: null,
-      wagerId?: BigNumberish | null
-    ): TypedEventFilter<
-      [string, BigNumber, BigNumber],
-      { recipient: string; amount: BigNumber; wagerId: BigNumber }
-    >;
-
-    WagerWithdraw(
-      recipient?: null,
-      amount?: null,
-      wagerId?: BigNumberish | null
-    ): TypedEventFilter<
-      [string, BigNumber, BigNumber],
-      { recipient: string; amount: BigNumber; wagerId: BigNumber }
-    >;
   };
 
   estimateGas: {

@@ -48,6 +48,7 @@ contract WagerRegistry is IWagerRegistry {
             msg.value,
             wager.partyOneWagerData,
             block.number,
+            enterBlockLimit,
             expirationBlock,
             address(wager.wagerModule),
             address(wager.oracleSource),
@@ -84,12 +85,14 @@ contract WagerRegistry is IWagerRegistry {
                 partyTwoWagerData.length > 0) ||
                 ((wager.partyTwoWagerData.length > 0 &&
                     partyTwoWagerData.length > 0) &&
-                    bytes32(wager.partyTwoWagerData) == bytes32(partyTwoWagerData)),
+                    bytes32(wager.partyTwoWagerData) ==
+                    bytes32(partyTwoWagerData)),
             "W10"
         );
         require(
             bytes32(wager.partyOneWagerData) != bytes32(partyTwoWagerData) &&
-                bytes32(wager.partyOneWagerData) != bytes32(wager.partyTwoWagerData),
+                bytes32(wager.partyOneWagerData) !=
+                bytes32(wager.partyTwoWagerData),
             "W18"
         );
 

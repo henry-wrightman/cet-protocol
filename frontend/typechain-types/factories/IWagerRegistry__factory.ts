@@ -20,7 +20,7 @@ const _abi = [
         type: "address",
       },
       {
-        indexed: true,
+        indexed: false,
         internalType: "uint256",
         name: "partyWagerAmount",
         type: "uint256",
@@ -35,6 +35,12 @@ const _abi = [
         indexed: false,
         internalType: "uint256",
         name: "createdBlock",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "enterLimitBlock",
         type: "uint256",
       },
       {
@@ -56,7 +62,7 @@ const _abi = [
         type: "address",
       },
       {
-        indexed: false,
+        indexed: true,
         internalType: "uint256",
         name: "wagerId",
         type: "uint256",
@@ -81,7 +87,7 @@ const _abi = [
         type: "bytes",
       },
       {
-        indexed: false,
+        indexed: true,
         internalType: "uint256",
         name: "wagerId",
         type: "uint256",
@@ -132,31 +138,6 @@ const _abi = [
       },
     ],
     name: "WagerVoided",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: false,
-        internalType: "address",
-        name: "recipient",
-        type: "address",
-      },
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "amount",
-        type: "uint256",
-      },
-      {
-        indexed: true,
-        internalType: "uint256",
-        name: "wagerId",
-        type: "uint256",
-      },
-    ],
-    name: "WagerWithdraw",
     type: "event",
   },
   {
