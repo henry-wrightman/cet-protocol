@@ -87,7 +87,7 @@ export const WagerConfirmationModal = ({
                     <td className="p-1 text-right border rounded-r-md">
                       {
                         <span className="p-1 bg-gray-400 border-gray-400 rounded-md">
-                          {wager.creator.slice(0, 6)}
+                          {wager.partyOne.slice(0, 6)}
                         </span>
                       }
                     </td>

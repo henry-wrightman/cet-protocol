@@ -1,6 +1,7 @@
 import { Label, Select, Input } from "../common";
-import { SelectOption } from "./WagerForm";
+import { SelectOption, WAGER_FORM_TYPE } from "./WagerForm";
 import { TICKERS } from "../../utils/constants";
+import { UseFormReturn } from "react-hook-form";
 
 const HIGHLOW_OPTIONS = [
   {
@@ -24,17 +25,14 @@ export const WagerOptions = ({
   wagerType,
   currentPrice,
   ticker,
-  register,
-  watch,
-  setValue,
+  form,
 }: {
   wagerType: string;
   currentPrice: string;
   ticker?: TICKERS;
-  register: any;
-  watch: any;
-  setValue: any;
+  form: UseFormReturn<WAGER_FORM_TYPE>;
 }) => {
+  const { watch, setValue, register, formState } = form;
   return (
     <div className="flex flex-row">
       <fieldset className="border-[1px] border-black p-3 rounded-md text-left mb-2 w-full">
@@ -91,15 +89,26 @@ export const WagerOptions = ({
             </div>
           </>
         ) : (
-          <>
+          <div className="flex-col">
             <Label className="mt-2">wager target: </Label>
             <Input
-              className="mt-2 mb-2"
+              className={`mt-2 mb-2 ${
+                formState.errors && formState.errors.wagerAmount
+                  ? "border-red-500 focus:border-red-500 focus:border-[1px] focus:ring-0 focus:outline-none"
+                  : ""
+              }`}
               register={register}
               placeholder={currentPrice}
               name={"wager"}
             ></Input>
-          </>
+            {formState.errors && formState.errors.wager && (
+              <>
+                <Label className="mt-1 text-red-500 text-xs">
+                  {formState.errors.wager.message || ""}
+                </Label>
+              </>
+            )}
+          </div>
         )}
       </fieldset>
     </div>

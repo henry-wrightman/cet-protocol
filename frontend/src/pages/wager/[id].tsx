@@ -9,6 +9,7 @@ import { useEffect, useState, useCallback } from "react";
 import {
   getWagerState,
   WagerConfirmationButton,
+  WAGER_FORM_TYPE,
 } from "../../components/wagers";
 import { Loading, Button, Countdown } from "../../components/common";
 import {
@@ -53,15 +54,6 @@ const WAGER_QUERY = gql`
   }
 `;
 
-type EnterWagerForm = {
-  wager: string;
-  wagerAmount: string;
-  creator: string;
-  wagerType: string;
-  wagerExpirationBlock: number;
-  wagerTicker: string;
-};
-
 const decodeWagerData = (_type: string, data: string) => {
   switch (_type) {
     case "wm.highlow":
@@ -100,26 +92,17 @@ const W: NextPage = () => {
         )[0] as TICKERS)
       : TICKERS.BTCETH;
 
-  const {
-    setValue,
-    register,
-    watch,
-    getValues,
-    handleSubmit,
-    formState: { errors, touchedFields },
-  } = useForm<EnterWagerForm>({
+  const form = useForm<WAGER_FORM_TYPE>({
     defaultValues: {
       wager: "",
-      creator: "",
-      wagerAmount: "",
       wagerTicker: "",
       wagerType: "",
       wagerExpirationBlock: 0,
     },
   });
-  const onSubmit: SubmitHandler<EnterWagerForm> = async (
-    data: EnterWagerForm
-  ) => {
+  const { setValue, register, watch, handleSubmit, getValues, formState } =
+    form;
+  const onSubmit: SubmitHandler<WAGER_FORM_TYPE> = async (data: any) => {
     console.log(data);
   };
 
@@ -171,7 +154,7 @@ const W: NextPage = () => {
       getBlockNumber();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [chain?.id]);
 
   const getBlockETA = (futureBlocks: number) => {
     if (blocknumber === 0) return Loading(20, 20);
@@ -222,11 +205,11 @@ const W: NextPage = () => {
       )
     : null;
 
-  // setValue("wagerTicker", ticker);
-  // setValue("creator", data?.wager.partyOne.slice(0, 6));
-  // setValue("wagerAmount", data?.wager.partyWager);
-  // setValue("wagerExpirationBlock", data?.wager.expirationBlock);
-  // setValue("wagerType", wagerType);
+  setValue("wagerTicker", ticker);
+  setValue("partyOne", data?.wager.partyOne.slice(0, 6));
+  setValue("wagerAmount", ethers.utils.formatEther(data?.wager.partyWager));
+  setValue("wagerExpirationBlock", data?.wager.expirationBlock);
+  setValue("wagerType", wagerType);
 
   const potentialEnter =
     data?.wager.state! == "1" &&
@@ -236,10 +219,9 @@ const W: NextPage = () => {
   const potentialSettle =
     blocknumber >= data?.wager.expirationBlock && data?.wager?.state == "0";
   const potentialVoid =
-    data?.wager.expirationBlock >= blocknumber &&
-    isPartyOne &&
-    (data?.wager?.state == "0" || data?.wager?.state == "1");
-
+    isPartyOne && (data?.wager?.state == "0" || data?.wager?.state == "1");
+  const enterReady = watch("wager") && data?.wager?.state == "1";
+  console.log(data?.wager.expirationBlock);
   return (
     <div className="min-h-screen bg-green-200 font-normal justify-center items-center border-white border-[1px]">
       <div className="flex flex-col md:flex-row lg:flex-row">
@@ -256,14 +238,13 @@ const W: NextPage = () => {
                 wagerType={wagerType}
                 currentPrice={currentPrice}
                 ticker={ticker}
-                watch={watch}
-                setValue={setValue}
-                register={register}
+                form={form}
               />
-              {watch("wager") && data?.wager?.state == "1" && (
+              {enterReady && (
                 <>
                   <WagerConfirmationButton
                     wager={getValues()}
+                    ready={enterReady}
                     trigger={<Button className="w-full">Enter Wager</Button>}
                   >
                     <EnterWager

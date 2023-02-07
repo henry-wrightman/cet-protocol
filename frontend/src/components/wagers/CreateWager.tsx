@@ -9,6 +9,7 @@ import { Transaction } from "../Transaction";
 import { ethers, utils, Transaction as T } from "ethers";
 import REG_ABI from "../../../../subgraph/contractDeployments/0/WagerRegistry.json";
 import useDebounce from "../../hooks/useDebounce";
+//import { TransactionReceipt } from "@ethersproject/providers";
 
 export const CreateWager = ({
   signerAddress,

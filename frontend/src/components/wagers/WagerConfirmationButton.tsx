@@ -7,17 +7,21 @@ type WagerConfirmationButtonProps = {
   wager: any;
   children: React.ReactElement<any>;
   trigger: React.ReactElement<any>;
+  ready: boolean;
 };
 
 export const WagerConfirmationButton: FunctionComponent<
   WagerConfirmationButtonProps
-> = ({ title, subheader, wager, children, trigger }) => {
+> = ({ title, subheader, wager, children, trigger, ready }) => {
   const [helpShown, showHelpModal] = useState(false);
 
   // override onClick with modal triggering
   trigger = {
     ...trigger,
-    props: { ...trigger.props, onClick: () => showHelpModal(!helpShown) },
+    props: {
+      ...trigger.props,
+      onClick: () => (ready ? showHelpModal(!helpShown) : {}),
+    },
   };
 
   return (

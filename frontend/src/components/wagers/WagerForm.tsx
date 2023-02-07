@@ -22,8 +22,10 @@ import * as zod from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 export const WAGER_FORM_SCHEMA = zod.object({
-  creator: zod.string(),
-  wager: zod.string(),
+  partyOne: zod.string(),
+  partyTwo: zod.string(),
+  wager: zod.string().min(1, "plz valid wager"),
+  wagerTwo: zod.string().min(1, "plz valid wager"),
   wagerAmount: zod.string().regex(/^(0|[1-9]\d*)(\.\d+)?$/, "plz valid amount"),
   wagerType: zod.string(),
   wagerExpirationBlock: zod.number(),
@@ -74,16 +76,17 @@ export const constructWagerData = (
 export const WagerForm = ({ signerAddress }: { signerAddress: string }) => {
   const [expirationDate, setExpirationDate] = useState(Date.now());
   const { chain } = useNetwork();
+  const form = useForm<WAGER_FORM_TYPE>({
+    defaultValues: {
+      wagerType: "wm.highlow",
+      wagerTicker: "BTCUSD",
+      wager: "1",
+      partyOne: signerAddress,
+    },
+    resolver: zodResolver(WAGER_FORM_SCHEMA),
+  });
   const { setValue, register, watch, handleSubmit, getValues, formState } =
-    useForm<WAGER_FORM_TYPE>({
-      defaultValues: {
-        wagerType: "wm.highlow",
-        wagerTicker: "BTCUSD",
-        wager: "",
-        creator: signerAddress,
-      },
-      resolver: zodResolver(WAGER_FORM_SCHEMA),
-    });
+    form;
   const isFormTouched = Object.keys(formState.touchedFields).length >= 1;
   const network =
     chain && chain?.network ? (chain?.network as NETWORK) : "goerli";
@@ -139,6 +142,15 @@ export const WagerForm = ({ signerAddress }: { signerAddress: string }) => {
 
   let [currentPrice, decimals]: [string, number] = useOracleRead();
 
+  const canCreateWager =
+    isFormTouched &&
+    watch("wager") != null &&
+    watch("wagerType") != null &&
+    watch("wagerExpirationBlock") != null &&
+    watch("wager") != null;
+
+  console.log(formState.errors);
+
   return (
     <>
       <div className="flex-col">
@@ -146,17 +158,25 @@ export const WagerForm = ({ signerAddress }: { signerAddress: string }) => {
           <fieldset className="border-[1px] w-full border-black p-2 rounded-md text-left mb-2">
             <legend className="text-xs text-black p-1">wager</legend>
             <div className="flex flex-row">
-              {formState.errors && formState.errors.wagerAmount && (
-                <>
-                  <span className="color-red">plz normal numbers</span>
-                </>
-              )}
-              <Input
-                className="m-2 basis-1/2"
-                register={register}
-                name={"wagerAmount"}
-                placeholder={"ETH (e.g 0.05)"}
-              ></Input>
+              <div className="flex-col m-2">
+                <Input
+                  className={`basis-1/2 ${
+                    formState.errors && formState.errors.wagerAmount
+                      ? "border-red-500 focus:border-red-500 focus:border-[1px] focus:ring-0 focus:outline-none"
+                      : ""
+                  }`}
+                  register={register}
+                  name={"wagerAmount"}
+                  placeholder={"ETH (e.g 0.05)"}
+                ></Input>
+                {formState.errors && formState.errors.wagerAmount && (
+                  <>
+                    <Label className="mt-1 text-red-500 text-xs">
+                      {formState.errors.wagerAmount.message || ""}
+                    </Label>
+                  </>
+                )}
+              </div>
               <Select
                 register={register}
                 name="wagerType"
@@ -173,9 +193,7 @@ export const WagerForm = ({ signerAddress }: { signerAddress: string }) => {
           <WagerOptions
             wagerType={watch("wagerType")}
             currentPrice={currentPrice}
-            watch={watch}
-            setValue={setValue}
-            register={register}
+            form={form}
           />
           <div className="mb-2 mt-4">
             <LocalizationProvider dateAdapter={AdapterMoment}>
@@ -184,7 +202,7 @@ export const WagerForm = ({ signerAddress }: { signerAddress: string }) => {
                 label="expiration"
                 className="w-full"
                 value={expirationDate}
-                minDateTime={moment(moment.now()).add(30, "minutes")}
+                //minDateTime={moment(moment.now()).add(30, "minutes")}
                 disablePast={true}
                 onChange={(newValue) => {
                   if (newValue) {
@@ -213,15 +231,17 @@ export const WagerForm = ({ signerAddress }: { signerAddress: string }) => {
             </LocalizationProvider>
           </div>
           <div className="sm:basis-full md:basis-1/3 lg:basis-1/3 justify-center">
-            {isFormTouched &&
-              watch("wager") &&
-              watch("wagerType") &&
-              watch("wagerExpirationBlock") &&
-              watch("wager") && (
-                <WagerConfirmationButton
-                  wager={getValues()}
-                  trigger={<Button className="w-full">Create Wager</Button>}
-                >
+            {
+              <WagerConfirmationButton
+                wager={getValues()}
+                trigger={
+                  <Button type="submit" className="w-full">
+                    Create Wager
+                  </Button>
+                }
+                ready={canCreateWager}
+              >
+                {canCreateWager ? (
                   <CreateWager
                     signerAddress={signerAddress}
                     wagerData={
@@ -250,8 +270,11 @@ export const WagerForm = ({ signerAddress }: { signerAddress: string }) => {
                       ORACLES[ORACLE_TYPES.CHAINLINK][network][ticker]
                     }
                   />
-                </WagerConfirmationButton>
-              )}
+                ) : (
+                  <Label> </Label> //can't render children components w a bool, so have this weird else lol
+                )}
+              </WagerConfirmationButton>
+            }
           </div>
           {/* <Label
             className="mt-5 text-center border-[1px] p-1 m-5 w-25 bg-white rounded-2xl border-black"

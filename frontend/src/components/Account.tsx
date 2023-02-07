@@ -12,7 +12,8 @@ export const Account = () => {
     <div>
       <Label className="mt-1">
         {ensNameData ?? shortenHex(address ?? "")}{" "}
-        {ensNameData ? `(${address})` : ""} {`(${chain?.network})`}
+        {ensNameData ? `(${shortenHex(address ?? "")})` : ""}{" "}
+        {`(${chain?.network})`}
       </Label>
     </div>
   );

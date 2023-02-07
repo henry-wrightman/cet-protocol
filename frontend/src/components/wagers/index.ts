@@ -4,6 +4,7 @@ export {
   type OracleRoundResponse,
   constructWagerData,
   type SelectOption,
+  type WAGER_FORM_TYPE,
 } from "./WagerForm";
 export { WagersList, getWagerState } from "./WagersList";
 export { WagerOptions } from "./WagerOptions";
