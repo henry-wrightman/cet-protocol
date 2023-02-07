@@ -7,7 +7,7 @@ import { NETWORK, MODULES, ORACLES, TICKERS } from "../../utils/constants";
 import { getSubgraphClient } from "../../graphql/client";
 import { formatDistanceToNow } from "date-fns";
 import Link from "next/link";
-import { Loading, Countdown, Button } from "../common";
+import { Loading, Countdown, Button, Label } from "../common";
 import { useAccount } from "wagmi";
 
 const WAGERS_QUERY = gql`
@@ -237,160 +237,163 @@ export const WagersList = () => {
 
   return (
     <>
-      <table className="w-full border-black-100 border-separate border-spacing-x-0 border-spacing-y-2 bg-white rounded-md">
-        <thead>
-          <tr className="">
-            <th className="p-1 text-black">
-              <Button
-                className={"font-normal bg-purple-800 w-full h-[30px]"}
-                onClick={() => dispatch({ type: "all" })}
-              >
-                All
-                {/* ({data && data.wagers.length > 0 ? data.wagers.length : ""}) */}
-              </Button>
-            </th>
-            <th className="p-1 text-black">
-              <Button
-                className={"font-normal bg-purple-800 w-full h-[30px]"}
-                onClick={() => dispatch({ type: "open" })}
-              >
-                Open
-              </Button>
-            </th>
-            {address && (
+      <div className="flex flex-col">
+        <table className="w-full border-black-100 border-separate border-spacing-x-0 border-spacing-y-2 bg-white rounded-md">
+          <thead>
+            <tr className="">
               <th className="p-1 text-black">
                 <Button
                   className={"font-normal bg-purple-800 w-full h-[30px]"}
-                  onClick={() =>
-                    dispatch({ type: "yours", user: address?.toLowerCase() })
-                  }
+                  onClick={() => dispatch({ type: "all" })}
                 >
-                  Yours
+                  All
+                  {/* ({data && data.wagers.length > 0 ? data.wagers.length : ""}) */}
                 </Button>
               </th>
-            )}
-            <th className="p-1 text-black">
-              <Button
-                className={"font-normal bg-purple-800 w-full h-[30px]"}
-                onClick={() => dispatch({ type: "closest_expiration" })}
-              >
-                Expiration
-              </Button>
-            </th>
-            <th className="p-1 text-black">
-              <Button
-                className={"font-normal bg-purple-800 w-full h-[30px]"}
-                onClick={() => dispatch({ type: "hottest" })}
-              >
-                Hottest
-              </Button>
-            </th>
-            <th className="p-1 text-black">
-              <Button
-                className={"font-normal bg-purple-800 w-full h-[30px]"}
-                onClick={() => dispatch({ type: "latest" })}
-              >
-                Latest
-              </Button>
-            </th>
-          </tr>
-          <tr></tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-      <table className="w-full border-separate border-spacing-x-0 border-spacing-y-2">
-        <thead className="border-[2px] border-black">
-          <tr>
-            <th className="p-1 font-light text-black">#</th>
-            <th className="p-1 font-light text-black">Participants</th>
-            <th className="p-1 font-light text-black">Wager</th>
-            <th className="p-1 font-light text-black">Type</th>
-            <th className="p-1 font-light text-black">State</th>
-            <th className="p-1 font-light text-black">Expiration</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data &&
-            data.wagers.length > 0 &&
-            data.wagers.map((wager: Wager) => {
-              if (!wager.partyOne.length || wager.partyOne.length <= 0) return;
-              const wagerModule = MODULES[network].filter(
-                (x) =>
-                  x.address.toLowerCase() == wager.wagerModule.toLowerCase()
-              )[0];
-              const type = wagerModule.type;
-              const ta =
-                data && wager
-                  ? (Object.keys(TICKERS).filter(
-                      (x) =>
-                        ORACLES["CHAINLINK"][network][
-                          x as TICKERS
-                        ].toLowerCase() === wager.oracleImpl.toLowerCase()
-                    )[0] as TICKERS)
-                  : TICKERS.BTCETH;
-
-              return (
-                <Link href={"/wager/" + wager.id} key={wager.id}>
-                  <tr
-                    className="text-center cursor-pointer hover:text-white hover:bg-purple-500 h-[40px]"
-                    key={wager.id}
+              <th className="p-1 text-black">
+                <Button
+                  className={"font-normal bg-purple-800 w-full h-[30px]"}
+                  onClick={() => dispatch({ type: "open" })}
+                >
+                  Open
+                </Button>
+              </th>
+              {address && (
+                <th className="p-1 text-black">
+                  <Button
+                    className={"font-normal bg-purple-800 w-full h-[30px]"}
+                    onClick={() =>
+                      dispatch({ type: "yours", user: address?.toLowerCase() })
+                    }
                   >
-                    <td className="p-1 rounded-l-lg">{wager.id}</td>
-                    <td className="p-1">
-                      {
-                        <span
-                          className={`m-1 p-1 bg-${
-                            wager.winner
-                              ? wager.partyOne === wager.winner
-                                ? "green"
-                                : "red"
-                              : "gray"
-                          }-400 border-gray-400 rounded-md`}
-                        >
-                          {wager.partyOne.slice(0, 6)}
-                        </span>
-                      }{" "}
-                      {wager.partyTwo ? (
-                        <span
-                          className={`p-1 bg-${
-                            wager.winner
-                              ? wager.partyTwo === wager.winner
-                                ? "green"
-                                : "red"
-                              : "gray"
-                          }-400 border-gray-400 rounded-md`}
-                        >
-                          {wager.partyTwo.slice(0, 6)}
-                        </span>
-                      ) : (
-                        ""
-                      )}
-                    </td>
-                    <td className="p-1">
-                      {ethers.utils.formatEther(wager.partyWager).toString()}E
-                    </td>
-                    <td className="p-1">
-                      {type.replace("wm.", "")} | {ta}
-                    </td>
-                    <td className="p-1">{getWagerState(wager.state)}</td>
-                    <td className="p-1 rounded-r-lg">
-                      {blocknumber == 0 ? (
-                        Loading(20, 20)
-                      ) : (
-                        <Countdown
-                          targetDate={
-                            Date.now() +
-                            (wager?.expirationBlock - blocknumber) * 12 * 1000
-                          }
-                        ></Countdown>
-                      )}
-                    </td>
-                  </tr>
-                </Link>
-              );
-            })}
-        </tbody>
-      </table>
+                    Yours
+                  </Button>
+                </th>
+              )}
+              <th className="p-1 text-black">
+                <Button
+                  className={"font-normal bg-purple-800 w-full h-[30px]"}
+                  onClick={() => dispatch({ type: "closest_expiration" })}
+                >
+                  Expiration
+                </Button>
+              </th>
+              <th className="p-1 text-black">
+                <Button
+                  className={"font-normal bg-purple-800 w-full h-[30px]"}
+                  onClick={() => dispatch({ type: "hottest" })}
+                >
+                  Hottest
+                </Button>
+              </th>
+              <th className="p-1 text-black">
+                <Button
+                  className={"font-normal bg-purple-800 w-full h-[30px]"}
+                  onClick={() => dispatch({ type: "latest" })}
+                >
+                  Latest
+                </Button>
+              </th>
+            </tr>
+            <tr></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+        <table className="w-full border-separate border-spacing-x-0 border-spacing-y-2">
+          <thead className="border-[2px] border-black">
+            <tr>
+              <th className="p-1 font-light text-black">#</th>
+              <th className="p-1 font-light text-black">Participants</th>
+              <th className="p-1 font-light text-black">Wager</th>
+              <th className="p-1 font-light text-black">Type</th>
+              <th className="p-1 font-light text-black">State</th>
+              <th className="p-1 font-light text-black">Expiration</th>
+            </tr>
+          </thead>
+          <tbody>
+            {data &&
+              data.wagers.length > 0 &&
+              data.wagers.map((wager: Wager) => {
+                if (!wager.partyOne.length || wager.partyOne.length <= 0)
+                  return;
+                const wagerModule = MODULES[network].filter(
+                  (x) =>
+                    x.address.toLowerCase() == wager.wagerModule.toLowerCase()
+                )[0];
+                const type = wagerModule.type;
+                const ta =
+                  data && wager
+                    ? (Object.keys(TICKERS).filter(
+                        (x) =>
+                          ORACLES["CHAINLINK"][network][
+                            x as TICKERS
+                          ].toLowerCase() === wager.oracleImpl.toLowerCase()
+                      )[0] as TICKERS)
+                    : TICKERS.BTCETH;
+
+                return (
+                  <Link href={"/wager/" + wager.id} key={wager.id}>
+                    <tr
+                      className="text-center cursor-pointer hover:text-white hover:bg-purple-500 h-[40px]"
+                      key={wager.id}
+                    >
+                      <td className="p-1 rounded-l-lg">{wager.id}</td>
+                      <td className="p-1">
+                        {
+                          <span
+                            className={`m-1 p-1 bg-${
+                              wager.winner
+                                ? wager.partyOne === wager.winner
+                                  ? "green"
+                                  : "red"
+                                : "gray"
+                            }-400 border-gray-400 rounded-md`}
+                          >
+                            {wager.partyOne.slice(0, 6)}
+                          </span>
+                        }{" "}
+                        {wager.partyTwo ? (
+                          <span
+                            className={`p-1 bg-${
+                              wager.winner
+                                ? wager.partyTwo === wager.winner
+                                  ? "green"
+                                  : "red"
+                                : "gray"
+                            }-400 border-gray-400 rounded-md`}
+                          >
+                            {wager.partyTwo.slice(0, 6)}
+                          </span>
+                        ) : (
+                          ""
+                        )}
+                      </td>
+                      <td className="p-1">
+                        {ethers.utils.formatEther(wager.partyWager).toString()}E
+                      </td>
+                      <td className="p-1">
+                        {type.replace("wm.", "")} | {ta}
+                      </td>
+                      <td className="p-1">{getWagerState(wager.state)}</td>
+                      <td className="p-1 rounded-r-lg">
+                        {blocknumber == 0 ? (
+                          Loading(20, 20)
+                        ) : (
+                          <Countdown
+                            targetDate={
+                              Date.now() +
+                              (wager?.expirationBlock - blocknumber) * 12 * 1000
+                            }
+                          ></Countdown>
+                        )}
+                      </td>
+                    </tr>
+                  </Link>
+                );
+              })}
+          </tbody>
+        </table>
+      </div>
     </>
   );
 };

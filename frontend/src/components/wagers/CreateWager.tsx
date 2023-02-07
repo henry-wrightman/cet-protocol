@@ -6,10 +6,10 @@ import {
 } from "wagmi";
 import { REGISTRY_ADDRESSES, NETWORK } from "../../utils/constants";
 import { Transaction } from "../Transaction";
-import { ethers, utils, Transaction as T } from "ethers";
+import { ethers, utils } from "ethers";
 import REG_ABI from "../../../../subgraph/contractDeployments/0/WagerRegistry.json";
 import useDebounce from "../../hooks/useDebounce";
-//import { TransactionReceipt } from "@ethersproject/providers";
+import { TransactionReceipt } from "@ethersproject/providers";
 
 export const CreateWager = ({
   signerAddress,
@@ -28,7 +28,7 @@ export const CreateWager = ({
   wagerModule: string;
   oracleModule: string;
   oracleSource: string;
-  successCallback?: (data: string) => void;
+  successCallback?: (tx?: TransactionReceipt) => void;
 }) => {
   const { chain } = useNetwork();
   const network =
@@ -87,7 +87,7 @@ export const CreateWager = ({
       tx={write}
       buttonClassAdditions={"bg-gray-100 text-black font-bold"}
       error={error}
-      data={tx?.hash!}
+      data={data}
       successCallback={successCallback}
       isLoading={isLoading}
       isSuccess={isSuccess}

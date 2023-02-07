@@ -24,7 +24,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 export const WAGER_FORM_SCHEMA = zod.object({
   partyOne: zod.string(),
   partyTwo: zod.string(),
-  wager: zod.string().min(1, "plz valid wager"),
+  wager: zod.string().regex(/^(0|[1-9]\d*)(\.\d+)?$/, "plz valid wager"),
   wagerTwo: zod.string().min(1, "plz valid wager"),
   wagerAmount: zod.string().regex(/^(0|[1-9]\d*)(\.\d+)?$/, "plz valid amount"),
   wagerType: zod.string(),
@@ -155,7 +155,7 @@ export const WagerForm = ({ signerAddress }: { signerAddress: string }) => {
     <>
       <div className="flex-col">
         <form onSubmit={handleSubmit(onSubmit)} className="">
-          <fieldset className="border-[1px] w-full border-black p-2 rounded-md text-left mb-2">
+          <fieldset className="border-[1px] w-full border-black p-1 rounded-md text-left mb-2">
             <legend className="text-xs text-black p-1">wager</legend>
             <div className="flex flex-row">
               <div className="flex-col m-2">

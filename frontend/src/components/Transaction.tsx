@@ -3,7 +3,7 @@ import { Error } from "./common/Error";
 import REGISTRY_ERROR_CODES from "../../../contracts/ErrorCodes.json";
 import classNames from "classnames";
 import Link from "next/link";
-import { ethers, utils, Transaction as T } from "ethers";
+import { TransactionReceipt } from "@ethersproject/providers";
 
 export const getErrorCode = (err: string) => {
   if (!err) return "";
@@ -23,24 +23,24 @@ export const Transaction = ({
   data,
   isLoading,
   isSuccess,
-  successCallback = (txId: string) => {},
+  successCallback = (tx?: TransactionReceipt) => {},
 }: {
   text: string;
   tx: ((overrideConfig?: any) => void) | undefined;
   error: Error | null;
   buttonClassAdditions?: string;
-  data: string;
+  data: TransactionReceipt | undefined;
   isLoading: boolean;
   isSuccess: boolean;
-  successCallback?: (txId: string) => void;
+  successCallback?: (tx?: TransactionReceipt) => void;
 }) => {
-  const buttonClass = classNames(buttonClassAdditions, "w-full");
+  const buttonClass = classNames(buttonClassAdditions, "w-3/4");
   if (isSuccess && !isLoading) {
     console.log(data);
     successCallback(data);
   }
   return (
-    <div className="w-full">
+    <div className="flex flex-col items-center">
       {isSuccess && (
         <Link href="/wagers/">
           <span className="w-full text-center"></span>
@@ -57,7 +57,13 @@ export const Transaction = ({
           {text}
         </Button>
       )}
-      {error ? getErrorCode(error?.message!) : ""}
+      {error ? (
+        <span className="text-center font-bold text-red-500">
+          {getErrorCode(error?.message!).toUpperCase()}
+        </span>
+      ) : (
+        ""
+      )}
     </div>
   );
 };

@@ -8,8 +8,15 @@ import { REGISTRY_ADDRESSES, NETWORK } from "../../utils/constants";
 import { Transaction } from "../Transaction";
 import { ethers } from "ethers";
 import REG_ABI from "../../../../subgraph/contractDeployments/0/WagerRegistry.json";
+import { TransactionReceipt } from "@ethersproject/providers";
 
-export const VoidWager = ({ wagerId }: { wagerId: string }) => {
+export const VoidWager = ({
+  wagerId,
+  successCallback,
+}: {
+  wagerId: string;
+  successCallback?: (tx?: TransactionReceipt) => void;
+}) => {
   const { chain } = useNetwork();
   const network =
     chain && chain?.network ? (chain?.network as NETWORK) : "goerli";
@@ -26,9 +33,9 @@ export const VoidWager = ({ wagerId }: { wagerId: string }) => {
       console.log("suc" + res);
     },
   });
-  const { data, write } = useContractWrite(config);
-  const { isLoading, isSuccess } = useWaitForTransaction({
-    hash: data?.hash,
+  const { data: tx, write } = useContractWrite(config);
+  const { isLoading, isSuccess, data } = useWaitForTransaction({
+    hash: tx?.hash,
   });
 
   return (
@@ -36,7 +43,8 @@ export const VoidWager = ({ wagerId }: { wagerId: string }) => {
       text="Void Wager"
       tx={write}
       error={error}
-      data={data?.hash!}
+      data={data}
+      successCallback={successCallback}
       isLoading={isLoading}
       isSuccess={isSuccess}
     />

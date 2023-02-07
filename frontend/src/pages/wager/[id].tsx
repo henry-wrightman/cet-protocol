@@ -197,6 +197,7 @@ const W: NextPage = () => {
         ")"
       : "";
 
+  console.log(watch("wager"));
   const enterPartyData = watch("wager")
     ? constructWagerData(
         wagerType,

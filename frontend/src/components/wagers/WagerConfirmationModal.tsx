@@ -3,11 +3,11 @@ import { Button, Label, Input } from "../common";
 import { WAGER_FORM_TYPE } from "./WagerForm";
 import { Modal } from "../common";
 import { Dialog } from "@headlessui/react";
-import { utils, Transaction as T } from "ethers";
-import { formatDistanceToNow } from "date-fns";
 import Image from "next/image";
+import copyLinkIcon from "../../public/copyLink.svg";
 import externalLinkIcon from "../../public/externalLink.svg";
 import { images } from "../../public/success";
+import { TransactionReceipt } from "@ethersproject/providers";
 
 const DEFAULT_CONTACT_US_TITLE = "Wager submission";
 const DEFAULT_CONTACT_US_SUBHEADER =
@@ -31,7 +31,7 @@ export const WagerConfirmationModal = ({
   wager,
 }: WagerConfirmProps) => {
   const [open, setIsOpen] = useState(isOpen);
-  const [data, setData] = useState("");
+  const [data, setData] = useState<TransactionReceipt | undefined>(undefined);
 
   const handleClose = () => {
     setIsOpen(false);
@@ -42,7 +42,7 @@ export const WagerConfirmationModal = ({
     ...children,
     props: {
       ...children.props,
-      successCallback: (data: string) => {
+      successCallback: (data: TransactionReceipt) => {
         setData(data);
       },
     },
@@ -50,14 +50,12 @@ export const WagerConfirmationModal = ({
 
   return (
     <Modal isOpen={open} backdrop={true} handleClose={handleClose}>
-      <div className="w-200 p-5 flex flex-col text-white bg-purple-800">
-        <Dialog.Title className="text-2xl text-center font-bold">
-          {title}
-        </Dialog.Title>
-        <p className="text-sm text-center mb-2 mt-2">{subheader}</p>
+      <div className="w-200 p-5 flex flex-col text-white bg-purple-800 text-center">
+        <Dialog.Title className="text-2xl font-bold">{title}</Dialog.Title>
+        {!data && <p className="text-sm mb-2 mt-2">{subheader}</p>}
         <div className="m-4 sm:basis-full md:basis-1/2 lg:basis-1/2 p-2 rounded-lg bg-purple-800">
-          {data.length > 0 && (
-            <div className="items-center text-center">
+          {data && (
+            <div className="items-center">
               <h2 className="font-bold p-2">
                 Success!{" "}
                 <a
@@ -150,10 +148,20 @@ export const WagerConfirmationModal = ({
           )}
         </div>
         {children}
-        <span className="text-bold text-center text-xs m-5 pl-2 pr-2">
-          By clicking confirm, you acknowledge that the integrity of the data
-          used for settlement is reliant on the wager&apos;s oracle.
-        </span>
+        {data && (
+          <div className="content-center">
+            <div className="mt-2 flex p-4 rounded-3xl cursor-pointer w-[250px] rounded-md font-bold text-black p-3 bg-gray-200">
+              <div className="p-2 flex-1">Share</div>
+              <Image src={copyLinkIcon} alt=" right" width={25} height={25} />
+            </div>
+          </div> //TODO: add in once deploy new Registry  // data.logs[0].topics[1];
+        )}
+        {!data && (
+          <span className="text-bold text-xs m-5 pl-2 pr-2">
+            By clicking confirm, you acknowledge that the integrity of the data
+            used for settlement is reliant on the wager&apos;s oracle.
+          </span>
+        )}
       </div>
     </Modal>
   );
