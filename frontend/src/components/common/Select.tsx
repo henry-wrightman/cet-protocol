@@ -31,7 +31,6 @@ const defaultSelectStyles = {
   }),
   control: (provided: any, state: any) => ({
     ...provided,
-    zIndex: -1,
     color: "black",
     fontColor: "black",
     fontOpacity: 1,
@@ -103,7 +102,7 @@ export const Select = ({
   isClearable = false,
   defaultValue,
 }: SelectProps) => {
-  const containerClasses = classNames(className, "z-50 rounded-md");
+  const containerClasses = classNames(className, "rounded-md");
 
   const reg = register ? { ...register(name) } : "";
   return (
