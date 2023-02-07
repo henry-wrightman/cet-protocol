@@ -8,6 +8,7 @@ import copyLinkIcon from "../../public/copyLink.svg";
 import externalLinkIcon from "../../public/externalLink.svg";
 import { images } from "../../public/success";
 import { TransactionReceipt } from "@ethersproject/providers";
+import { ethers } from "ethers";
 
 const DEFAULT_CONTACT_US_TITLE = "Wager submission";
 const DEFAULT_CONTACT_US_SUBHEADER =
@@ -152,11 +153,21 @@ export const WagerConfirmationModal = ({
         {children}
         {data && (
           <div className="content-center">
-            <div className="mt-2 flex p-4 rounded-3xl cursor-pointer w-[250px] rounded-md font-bold text-black p-3 bg-gray-200">
+            <div
+              className="mt-2 flex p-4 rounded-3xl cursor-pointer w-[250px] rounded-md font-bold text-black p-3 bg-gray-200"
+              onClick={() =>
+                navigator.clipboard.writeText(
+                  "https://1v1-bet.vercel.app/wager/" +
+                    ethers.utils.defaultAbiCoder
+                      .decode(["uint256"], data.logs[0].topics[2])[0]
+                      .toString()
+                )
+              }
+            >
               <div className="p-2 flex-1">Share</div>
               <Image src={copyLinkIcon} alt=" right" width={25} height={25} />
             </div>
-          </div> //TODO: add in once deploy new Registry  // data.logs[0].topics[1];
+          </div>
         )}
         {!data && (
           <span className="text-bold text-xs m-5 pl-2 pr-2">
