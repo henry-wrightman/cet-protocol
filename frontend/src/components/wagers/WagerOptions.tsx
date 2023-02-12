@@ -37,79 +37,87 @@ export const WagerOptions = ({
     <div className="flex flex-row">
       <fieldset className="border-[1px] border-black p-3 rounded-md text-left mb-2 w-full">
         <legend className="text-xs text-black p-1">
-          options ({wagerType})
+          options ({wagerType.replace("wm.", "")})
         </legend>
-        <Label className="mt-2 mb-1">ticker: </Label>
-        <Select
-          register={register}
-          name="wagerTicker"
-          disabled={ticker ? true : false}
-          options={TICKER_OPTIONS}
-          className="mb-2"
-          placeholder={
-            ticker
-              ? TICKER_OPTIONS.filter((x) => x.label == ticker)[0].value
-              : ""
-          }
-          defaultValue={
-            ticker
-              ? TICKER_OPTIONS.filter((x) => x.label == ticker)[0].value
-              : watch("wagerTicker")
-          }
-          onSelect={(option: SelectOption) => {
-            setValue("wagerTicker", option?.value as string);
-            //setWagerType(option?.value as string);
-          }}
-        />
-        {wagerType && wagerType == "wm.highlow" ? (
-          <>
-            <div className="basis-1/2">
-              <Label className="mt-2 mb-1">current price: </Label>
-              <Input
-                className="mt-2 mb-1"
-                disabled={true}
-                register={register}
-                placeholder={currentPrice || "21000"}
-                name={"currentPrice"}
-              ></Input>
-            </div>
-            <div className="basis-1/2">
-              <Label className="mt-2 mb-1">wager: </Label>
+        <div className="flex-col">
+          <div className="flex flew-col">
+            <div className="flex-row basis-1/2 m-1">
+              <Label className="mb-1 ml-1">ticker: </Label>
               <Select
                 register={register}
-                name="wager"
-                options={HIGHLOW_OPTIONS}
-                className="mb-2"
-                defaultValue={"1"}
+                name="wagerTicker"
+                disabled={ticker ? true : false}
+                options={TICKER_OPTIONS}
+                className="flex mb-2"
+                placeholder={
+                  ticker
+                    ? TICKER_OPTIONS.filter((x) => x.label == ticker)[0].value
+                    : ""
+                }
+                defaultValue={
+                  ticker
+                    ? TICKER_OPTIONS.filter((x) => x.label == ticker)[0].value
+                    : watch("wagerTicker")
+                }
                 onSelect={(option: SelectOption) => {
-                  setValue("wager", option?.value as string);
+                  setValue("wagerTicker", option?.value as string);
                   //setWagerType(option?.value as string);
                 }}
               />
             </div>
-          </>
-        ) : (
-          <div className="flex-col">
-            <Label className="mt-2">wager target: </Label>
-            <Input
-              className={`mt-2 mb-2 ${
-                formState.errors && formState.errors.wagerAmount
-                  ? "border-red-500 focus:border-red-500 focus:border-[1px] focus:ring-0 focus:outline-none"
-                  : ""
-              }`}
-              register={register}
-              placeholder={currentPrice}
-              name={"wager"}
-            ></Input>
-            {formState.errors && formState.errors.wager && (
-              <>
-                <Label className="mt-1 text-red-500 text-xs">
-                  {formState.errors.wager.message || ""}
-                </Label>
-              </>
-            )}
+            <div className="flex basis-1/2 m-1">
+              <div className="flex-row">
+                <Label className="mb-1 ml-1">current price: </Label>
+                <Input
+                  className="mb-2"
+                  disabled={true}
+                  register={register}
+                  placeholder={currentPrice || "21000"}
+                  name={"currentPrice"}
+                ></Input>
+              </div>
+            </div>
           </div>
-        )}
+          {wagerType && wagerType == "wm.highlow" ? (
+            <>
+              <div className="basis-1/2 m-1">
+                <Label className="mb-1 ml-1">wager: </Label>
+                <Select
+                  register={register}
+                  name="wager"
+                  options={HIGHLOW_OPTIONS}
+                  className="mb-2"
+                  defaultValue={"1"}
+                  onSelect={(option: SelectOption) => {
+                    setValue("wager", option?.value as string);
+                    //setWagerType(option?.value as string);
+                  }}
+                />
+              </div>
+            </>
+          ) : (
+            <div className="basis-1/2 m-1">
+              <Label className="mb-1">wager target: </Label>
+              <Input
+                className={`mb-2 ${
+                  formState.errors && formState.errors.wagerAmount
+                    ? "border-red-500 focus:border-red-500 focus:border-[1px] focus:ring-0 focus:outline-none"
+                    : ""
+                }`}
+                register={register}
+                placeholder={currentPrice}
+                name={"wager"}
+              ></Input>
+              {formState.errors && formState.errors.wager && (
+                <>
+                  <Label className="mt-1 text-red-500 text-xs">
+                    {formState.errors.wager.message || ""}
+                  </Label>
+                </>
+              )}
+            </div>
+          )}
+        </div>
       </fieldset>
     </div>
   );

@@ -19,6 +19,7 @@ import {
   WM_NEAREST,
   WM_HIGHLOW,
   TICKERS,
+  TICKER_DECIMALS,
 } from "../../utils/constants";
 import {
   WagerOptions,
@@ -53,6 +54,35 @@ const WAGER_QUERY = gql`
     }
   }
 `;
+
+const PRICE_FEED_QUERY = gql`
+  query prices($first: Int!, $tickers: [String]!) {
+    prices(
+      where: { assetPair_in: $tickers }
+      orderBy: timestamp
+      first: $first
+      orderDirection: desc
+    ) {
+      price
+      assetPair {
+        id
+      }
+    }
+  }
+`;
+
+type PriceResults = {
+  prices: Price[];
+};
+
+type Price = {
+  price: string;
+  assetPair: AssetPair;
+};
+
+type AssetPair = {
+  id: string;
+};
 
 const decodeWagerData = (_type: string, data: string) => {
   switch (_type) {
@@ -91,7 +121,23 @@ const W: NextPage = () => {
             data?.wager.oracleImpl.toLowerCase()
         )[0] as TICKERS)
       : TICKERS["BTC/ETH"];
-
+  const {
+    data: priceData,
+    loading: priceLoading,
+    error: errorLoading,
+  } = useQuery<PriceResults>(PRICE_FEED_QUERY, {
+    client: getSubgraphClient(chain?.id!),
+    variables: { first: 1000, tickers: Object.keys(TICKERS).map((x) => x) }, // , timestamp: Date.now()
+  });
+  let currentPrice =
+    priceData && priceData.prices.length > 0
+      ? (
+          parseInt(
+            priceData.prices.filter((x) => x.assetPair.id == ticker)[0].price
+          ) /
+          10 ** TICKER_DECIMALS[ticker as TICKERS]
+        ).toLocaleString()
+      : "0";
   const form = useForm<WAGER_FORM_TYPE>({
     defaultValues: {
       wager: "",
@@ -105,39 +151,6 @@ const W: NextPage = () => {
   const onSubmit: SubmitHandler<WAGER_FORM_TYPE> = async (data: any) => {
     console.log(data);
   };
-
-  const useOracleRead = (): [string, number] => {
-    const networkD = useDebounce(network, 60000);
-    const tickerD = useDebounce(ticker, 1000);
-
-    const decimalRead = useContractRead({
-      address: ORACLES["CHAINLINK"][networkD][tickerD], // chainlink oracle
-      abi: EAC_ABI,
-      functionName: "decimals",
-    });
-    const decimalReadResult: number =
-      decimalRead && decimalRead.data ? (decimalRead.data as number) : 1;
-
-    const contractRead = useContractRead({
-      address: ORACLES["CHAINLINK"][networkD][tickerD], // chainlink oracle
-      abi: EAC_ABI,
-      functionName: "latestRoundData",
-    });
-    const readResult =
-      contractRead && contractRead.data
-        ? (contractRead.data as OracleRoundResponse)
-        : null;
-    let currentPrice = readResult
-      ? (parseInt(readResult.answer.toString()) / 10 ** decimalReadResult)
-          .toFixed(3)
-          .toString()
-      : "";
-
-    console.log(currentPrice);
-    return [currentPrice, decimalReadResult];
-  };
-
-  let [currentPrice, decimals]: [string, number] = useOracleRead();
 
   const getBlockNumber = useCallback(() => {
     ethers
@@ -193,7 +206,8 @@ const W: NextPage = () => {
   const wagerMetadata =
     wagerType == WM_HIGHLOW
       ? "(start: " +
-        parseInt(partyOneWager![1].toString()) / 10 ** decimals +
+        parseInt(partyOneWager![1].toString()) /
+          10 ** TICKER_DECIMALS[ticker as TICKERS] +
         ")"
       : "";
 
@@ -202,7 +216,7 @@ const W: NextPage = () => {
     ? constructWagerData(
         wagerType,
         [watch("wager"), parseInt(currentPrice).toFixed(0).toString()],
-        decimals
+        TICKER_DECIMALS[ticker as TICKERS]
       )
     : null;
 
@@ -297,8 +311,10 @@ const W: NextPage = () => {
                     Party One&apos;s Bet
                   </td>
                   <td className="p-1 text-right border rounded-r-md">
-                    {partyOneWager![0].toString().length > decimals
-                      ? parseInt(partyOneWager![0].toString()) / 10 ** decimals
+                    {partyOneWager![0].toString().length >
+                    TICKER_DECIMALS[ticker as TICKERS]
+                      ? parseInt(partyOneWager![0].toString()) /
+                        10 ** TICKER_DECIMALS[ticker as TICKERS]
                       : partyOneWager![0].toString()}
                   </td>
                 </tr>
@@ -322,9 +338,10 @@ const W: NextPage = () => {
                   </td>
                   <td className="p-1 text-right border rounded-r-md">
                     {partyTwoWager
-                      ? partyTwoWager![0].toString().length > decimals
+                      ? partyTwoWager![0].toString().length >
+                        TICKER_DECIMALS[ticker as TICKERS]
                         ? parseInt(partyTwoWager![0].toString()) /
-                          10 ** decimals
+                          10 ** TICKER_DECIMALS[ticker as TICKERS]
                         : partyTwoWager![0].toString()
                       : "TBA"}
                   </td>
@@ -368,8 +385,10 @@ const W: NextPage = () => {
                   <td className="p-1 font-bold border rounded-l-md">Outcome</td>
                   <td className="p-1 text-right border rounded-r-md">
                     {wagerResult
-                      ? wagerResult![0].toString().length > decimals
-                        ? parseInt(wagerResult![0].toString()) / 10 ** decimals
+                      ? wagerResult![0].toString().length >
+                        TICKER_DECIMALS[ticker as TICKERS]
+                        ? parseInt(wagerResult![0].toString()) /
+                          10 ** TICKER_DECIMALS[ticker as TICKERS]
                         : wagerResult![0].toString()
                       : "TBA"}
                   </td>

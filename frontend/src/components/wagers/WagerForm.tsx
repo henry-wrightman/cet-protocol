@@ -1,4 +1,5 @@
 import { useState, useCallback, useEffect } from "react";
+import { useQuery, gql } from "@apollo/client";
 import { useContractRead, useNetwork } from "wagmi";
 import {
   ORACLES,
@@ -6,6 +7,7 @@ import {
   MODULES,
   NETWORK,
   TICKERS,
+  TICKER_DECIMALS,
 } from "../../utils/constants";
 import { ethers, utils } from "ethers";
 import EAC_ABI from "../../../../subgraph/contractDeployments/0/EACAggregatorProxy.json";
@@ -20,6 +22,7 @@ import useDebounce from "../../hooks/useDebounce";
 import moment from "moment";
 import * as zod from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { getSubgraphClient } from "../../graphql/client_2";
 
 export const WAGER_FORM_SCHEMA = zod.object({
   partyOne: zod.string(),
@@ -37,6 +40,35 @@ export type WAGER_FORM_TYPE = zod.infer<typeof WAGER_FORM_SCHEMA>;
 export type SelectOption = {
   label: string;
   value: string | number;
+};
+
+const PRICE_FEED_QUERY = gql`
+  query prices($first: Int!, $tickers: [String]!) {
+    prices(
+      where: { assetPair_in: $tickers }
+      orderBy: timestamp
+      first: $first
+      orderDirection: desc
+    ) {
+      price
+      assetPair {
+        id
+      }
+    }
+  }
+`;
+
+type PriceResults = {
+  prices: Price[];
+};
+
+type Price = {
+  price: string;
+  assetPair: AssetPair;
+};
+
+type AssetPair = {
+  id: string;
 };
 
 export type OracleRoundResponse = {
@@ -91,42 +123,24 @@ export const WagerForm = ({ signerAddress }: { signerAddress: string }) => {
   const network =
     chain && chain?.network ? (chain?.network as NETWORK) : "goerli";
   const ticker = watch("wagerTicker") as TICKERS;
+  const { data, loading, error } = useQuery<PriceResults>(PRICE_FEED_QUERY, {
+    client: getSubgraphClient(chain?.id!),
+    variables: { first: 1000, tickers: Object.keys(TICKERS).map((x) => x) }, // , timestamp: Date.now()
+  });
+  let currentPrice =
+    data && data.prices.length > 0
+      ? (
+          parseInt(
+            data.prices.filter((x) => x.assetPair.id == ticker)[0].price
+          ) /
+          10 ** TICKER_DECIMALS[ticker as TICKERS]
+        ).toLocaleString()
+      : "0";
 
   const onSubmit: SubmitHandler<WAGER_FORM_TYPE> = async (
     data: WAGER_FORM_TYPE
   ) => {
     console.log(data);
-  };
-
-  const useOracleRead = (): [string, number] => {
-    const networkD = useDebounce(network, 60000);
-    const tickerD = useDebounce(ticker, 1000);
-
-    const decimalRead = useContractRead({
-      address: ORACLES["CHAINLINK"][networkD][tickerD], // chainlink oracle
-      abi: EAC_ABI,
-      functionName: "decimals",
-    });
-    const decimalReadResult: number =
-      decimalRead && decimalRead.data ? (decimalRead.data as number) : 1;
-
-    const contractRead = useContractRead({
-      address: ORACLES["CHAINLINK"][networkD][tickerD], // chainlink oracle
-      abi: EAC_ABI,
-      functionName: "latestRoundData",
-    });
-    const readResult =
-      contractRead && contractRead.data
-        ? (contractRead.data as OracleRoundResponse)
-        : null;
-    let currentPrice = readResult
-      ? (parseInt(readResult.answer.toString()) / 10 ** decimalReadResult)
-          .toFixed(3)
-          .toString()
-      : "";
-
-    console.log(currentPrice);
-    return [currentPrice, decimalReadResult];
   };
 
   const WAGER_OPTIONS = [
@@ -140,16 +154,12 @@ export const WagerForm = ({ signerAddress }: { signerAddress: string }) => {
     },
   ];
 
-  let [currentPrice, decimals]: [string, number] = useOracleRead();
-
   const canCreateWager =
     isFormTouched &&
     watch("wager") != null &&
     watch("wagerType") != null &&
     watch("wagerExpirationBlock") != null &&
     watch("wager") != null;
-
-  console.log(formState.errors);
 
   return (
     <>
@@ -160,7 +170,7 @@ export const WagerForm = ({ signerAddress }: { signerAddress: string }) => {
             <div className="flex flex-row">
               <div className="flex-col m-2">
                 <Input
-                  className={`basis-1/2 ${
+                  className={`basis-1/3 ${
                     formState.errors && formState.errors.wagerAmount
                       ? "border-red-500 focus:border-red-500 focus:border-[1px] focus:ring-0 focus:outline-none"
                       : ""
@@ -181,7 +191,7 @@ export const WagerForm = ({ signerAddress }: { signerAddress: string }) => {
                 register={register}
                 name="wagerType"
                 options={WAGER_OPTIONS}
-                className="m-2 basis-1/2"
+                className="m-2 basis-2/3"
                 defaultValue={"wm.highlow"}
                 onSelect={(option: SelectOption) => {
                   setValue("wagerType", option?.value as string);
@@ -251,7 +261,7 @@ export const WagerForm = ({ signerAddress }: { signerAddress: string }) => {
                           watch("wager"),
                           parseInt(currentPrice).toFixed(0).toString(),
                         ],
-                        decimals
+                        TICKER_DECIMALS[ticker as TICKERS]
                       ) || []
                     }
                     wagerAmount={watch("wagerAmount")}
