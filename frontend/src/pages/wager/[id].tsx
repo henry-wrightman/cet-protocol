@@ -90,7 +90,7 @@ const W: NextPage = () => {
             ORACLES["CHAINLINK"][network][x as TICKERS].toLowerCase() ===
             data?.wager.oracleImpl.toLowerCase()
         )[0] as TICKERS)
-      : TICKERS.BTCETH;
+      : TICKERS["BTC/ETH"];
 
   const form = useForm<WAGER_FORM_TYPE>({
     defaultValues: {
