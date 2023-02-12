@@ -11,6 +11,16 @@ import "./interfaces/IWagerRegistry.sol";
  @notice registry contract for wager management
  */
 
+interface TransferableToken {
+    function transfer(address _to, uint256 _value) external returns (bool);
+
+    function safeTransferFrom(
+        address _from,
+        address _to,
+        uint256 _tokenId
+    ) external returns (bool);
+}
+
 contract WagerRegistry is IWagerRegistry {
     uint256 private _id;
 
@@ -26,23 +36,28 @@ contract WagerRegistry is IWagerRegistry {
     function createWager(
         Wager memory wager
     ) external payable override returns (uint256) {
-        uint256 id = _id;
-        (address partyOne, ) = decodeParties(wager.parties);
         (, uint80 expirationBlock, uint80 enterBlockLimit) = decodeBlocks(
             wager.blockData
         );
-        require(expirationBlock >= block.number + 15, "W12");
+        (, , uint256 amount) = decodeWagerEquity(wager.wagerEquityData);
+        require(expirationBlock >= block.number + 30, "W12");
+        require(enterBlockLimit < expirationBlock, "W19");
+
+        (address partyOne, ) = decodeParties(wager.parties);
         require(partyOne != address(0), "W13");
         require(wager.partyOneWagerData.length > 0, "W14");
-        require(msg.value >= wager.wagerAmount, "W9");
+        require(msg.value >= amount, "W9");
 
         wager.blockData = abi.encode(
             block.number,
             expirationBlock,
             enterBlockLimit
         );
+        wager.state = WagerState.created;
+        uint256 id = _id;
         wagers[id] = wager;
         _id++;
+
         emit WagerCreated(
             msg.sender,
             msg.value,
@@ -68,18 +83,25 @@ contract WagerRegistry is IWagerRegistry {
         require(wagerId <= _id, "W1");
 
         Wager memory wager = wagers[wagerId];
-        (address partyOne, address partyTwo) = decodeParties(wager.parties);
+        require(wager.state == WagerState.created, "W2");
+
         (, uint80 expirationBlock, uint80 enterLimitBlock) = decodeBlocks(
             wager.blockData
         );
-        require(wager.state == WagerState.created, "W2");
-
         if (enterLimitBlock != 0) {
             require(block.number <= enterLimitBlock, "W15");
         }
         require(expirationBlock >= block.number + 15, "W7");
+
+        (address partyOne, address partyTwo) = decodeParties(wager.parties);
         require(msg.sender != partyOne, "W8");
-        require(msg.value >= wager.wagerAmount, "W9");
+
+        (int style, , uint256 amount) = decodeWagerEquity(
+            wager.wagerEquityData
+        );
+        if (style == 0) {
+            require(msg.value >= amount, "W9");
+        }
         require(
             (wager.partyTwoWagerData.length == 0 &&
                 partyTwoWagerData.length > 0) ||
@@ -90,9 +112,7 @@ contract WagerRegistry is IWagerRegistry {
             "W10"
         );
         require(
-            bytes32(wager.partyOneWagerData) != bytes32(partyTwoWagerData) &&
-                bytes32(wager.partyOneWagerData) !=
-                bytes32(wager.partyTwoWagerData),
+            bytes32(wager.partyOneWagerData) != bytes32(partyTwoWagerData),
             "W18"
         );
 
@@ -111,11 +131,11 @@ contract WagerRegistry is IWagerRegistry {
     function settleWager(uint256 wagerId) external override {
         require(wagerId <= _id, "W1");
         Wager memory wager = wagers[wagerId];
+        require(wager.state == WagerState.active, "W2");
+
         (, uint80 expirationBlock, uint80 enterLimitBlock) = decodeBlocks(
             wager.blockData
         );
-
-        require(wager.state == WagerState.active, "W2");
         require(block.number >= expirationBlock, "W3");
 
         (Wager memory settledWager, address winner) = IWagerModule(
@@ -124,17 +144,21 @@ contract WagerRegistry is IWagerRegistry {
         settledWager.state = WagerState.completed;
         wagers[wagerId] = settledWager;
 
-        (bool sent, ) = winner.call{value: (wager.wagerAmount * 2), gas: 3600}(
-            ""
+        (int style, address ercInterface, uint256 amount) = decodeWagerEquity(
+            wager.wagerEquityData
         );
-        require(sent, "W11");
-
-        emit WagerSettled(
-            winner,
-            settledWager.wagerAmount * 2,
-            settledWager.result,
-            wagerId
-        );
+        uint256 winnings = style == 0 ? (amount * 2) : amount;
+        if (ercInterface == address(0)) {
+            (bool sent, ) = winner.call{value: winnings}("");
+            require(sent, "W11");
+        } else {
+            bool sent = TransferableToken(ercInterface).transfer(
+                winner,
+                winnings
+            );
+            require(sent, "W11");
+        }
+        emit WagerSettled(winner, amount * 2, settledWager.result, wagerId);
     }
 
     function executeBlockRange(
@@ -144,9 +168,7 @@ contract WagerRegistry is IWagerRegistry {
         for (uint256 block_ = startBlock; block_ <= endBlock; block_++) {
             uint256[] memory ids = executionSchedule[block_];
             for (uint256 j = 0; j < ids.length; j++) {
-                if (wagers[ids[j]].state == WagerState.active) {
-                    this.settleWager(ids[j]);
-                }
+                this.settleWager(ids[j]);
             }
         }
     }
@@ -164,6 +186,7 @@ contract WagerRegistry is IWagerRegistry {
             uint80 expirationBlock,
             uint80 enterLimitBlock
         ) = decodeBlocks(wager.blockData);
+
         if (enterLimitBlock != 0 && partyTwo != address(0)) {
             require(block.number <= enterLimitBlock, "W16");
         } else if (enterLimitBlock == 0 && partyTwo != address(0)) {
@@ -184,14 +207,40 @@ contract WagerRegistry is IWagerRegistry {
         wagers[wagerId] = wager;
         require(msg.sender == partyOne, "W4");
 
-        (bool sent, ) = partyOne.call{value: wager.wagerAmount}("");
+        (int style, address ercContract, uint256 amount) = decodeWagerEquity(
+            wager.wagerEquityData
+        );
+        (bool sent, ) = partyOne.call{value: amount}("");
         require(sent, "W6");
-        if (partyTwo != address(0)) {
-            (bool sentTwo, ) = partyTwo.call{value: wager.wagerAmount}("");
+        if (partyTwo != address(0) && style == 0) {
+            (bool sentTwo, ) = partyTwo.call{value: amount}("");
             require(sentTwo, "W6");
         }
 
         emit WagerVoided(wagerId);
+    }
+
+    /// @notice decodeWagerEquity
+    /// @dev Wager's equitiy data consists of <style> (int) <ercInterface> (address) <amount> (uint256) [** potentially <ids> (uint256) **]
+    /// @param data wager equity data be decoded
+    /// @return style int
+    /// @return ercInterface address
+    /// @return amount uint256
+    function decodeWagerEquity(
+        bytes memory data
+    )
+        public
+        pure
+        returns (
+            int style,
+            address ercInterface,
+            uint256 amount /* uint256 ids */
+        )
+    {
+        (style, ercInterface, amount) = abi.decode(
+            data,
+            (int, address, uint256)
+        );
     }
 
     /// @notice decodeParties

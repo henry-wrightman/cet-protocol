@@ -13,3 +13,4 @@ export { SettleWager } from "./SettleWager";
 export { VoidWager } from "./VoidWager";
 export { WagerConfirmationModal } from "./WagerConfirmationModal";
 export { WagerConfirmationButton } from "./WagerConfirmationButton";
+export { PriceFeed } from "./PriceFeed";

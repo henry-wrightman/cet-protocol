@@ -59,6 +59,10 @@ describe("WagerRegistry", function () {
       ["uint80", "uint80", "uint80"],
       [0, 1500, 0]
     );
+    const equityData = utils.defaultAbiCoder.encode(
+      ["address", "uint256"],
+      [ethers.constants.AddressZero, ethers.utils.parseEther("1.0")] // 1 ETH
+    );
 
     describe("wager creation", function () {
       it("partyOne should create wager successfully", async function () {
@@ -76,7 +80,7 @@ describe("WagerRegistry", function () {
             parties: partiesData,
             partyOneWagerData: partyOneWagerData,
             partyTwoWagerData: partyTwoWagerData,
-            wagerAmount: ethers.utils.parseEther("1.0"), // 1 ETH
+            wagerEquityData: equityData,
             blockData: blockData,
             wagerOracleData: [],
             supplumentalWagerOracleData: [],
@@ -93,7 +97,7 @@ describe("WagerRegistry", function () {
         expect(wager.parties).to.be.equal(partiesData);
         expect(wager.partyOneWagerData).to.be.equal(partyOneWagerData);
         expect(wager.partyTwoWagerData).to.be.equal(partyTwoWagerData);
-        expect(wager.wagerAmount).to.be.equal(ethers.utils.parseEther("1.0"));
+        expect(wager.wagerEquityData).to.be.equal(equityData);
         expect(wager.blockData).to.be.equal(blockData);
         expect(wager.wagerModule).to.be.equal(highLowWagerModule.address);
         expect(wager.oracleModule).to.be.equal(testChainLinkOracle.address);
@@ -127,7 +131,7 @@ describe("WagerRegistry", function () {
             parties: partiesData,
             partyOneWagerData: partyOneWagerData,
             partyTwoWagerData: partyTwoWagerData,
-            wagerAmount: ethers.utils.parseEther("1.0"), // 1 ETH
+            wagerEquityData: equityData,
             blockData: blockData,
             wagerOracleData: [],
             supplumentalWagerOracleData: [],
@@ -165,7 +169,7 @@ describe("WagerRegistry", function () {
             parties: partiesData,
             partyOneWagerData: partyOneWagerData,
             partyTwoWagerData: partyTwoWagerData,
-            wagerAmount: ethers.utils.parseEther("1.0"), // 1 ETH
+            wagerEquityData: equityData,
             blockData: blockData,
             wagerOracleData: [],
             supplumentalWagerOracleData: [],
@@ -215,12 +219,16 @@ describe("WagerRegistry", function () {
           ["address", "address"],
           [creator.address, ethers.constants.AddressZero]
         );
+        const equityData = utils.defaultAbiCoder.encode(
+          ["address", "uint256"],
+          [ethers.constants.AddressZero, ethers.utils.parseEther("1.0")] // 1 ETH
+        );
         await wagerRegistry.createWager(
           {
             parties: partiesData,
             partyOneWagerData: partyOneWagerData,
             partyTwoWagerData: partyTwoWagerData,
-            wagerAmount: ethers.utils.parseEther("1.0"), // 1 ETH
+            wagerEquityData: equityData,
             blockData: blockData,
             wagerOracleData: [],
             supplumentalWagerOracleData: [],
@@ -294,6 +302,20 @@ describe("WagerRegistry", function () {
 
         await expect(badWagerTx).to.be.revertedWith("W2");
       });
+      it("partyTwo cannot enter wager; matches wagerOne's wager data", async function () {
+        const partyTwoWagerData = partyOneWagerData;
+
+        await wagerRegistry.connect(address2).enterWager(0, partyTwoWagerData, {
+          value: ethers.utils.parseEther("1.0"),
+        });
+        const badWagerTx = wagerRegistry
+          .connect(address2)
+          .enterWager(0, partyTwoWagerData, {
+            value: ethers.utils.parseEther("1.0"),
+          });
+
+        await expect(badWagerTx).to.be.revertedWith("W18");
+      });
       it("partyTwo cannot enter wager; wager already expired", async function () {
         const partyTwoWagerData = utils.defaultAbiCoder.encode(
           ["uint", "uint"],
@@ -342,12 +364,16 @@ describe("WagerRegistry", function () {
           ["address", "address"],
           [address1.address, ethers.constants.AddressZero]
         );
+        const equityData = utils.defaultAbiCoder.encode(
+          ["address", "uint256"],
+          [ethers.constants.AddressZero, ethers.utils.parseEther("1.0")] // 1 ETH
+        );
         await wagerRegistry.createWager(
           {
             parties: partiesData,
             partyOneWagerData: partyOneWagerData,
             partyTwoWagerData: partyTwoWagerData,
-            wagerAmount: ethers.utils.parseEther("1.0"), // 1 ETH
+            wagerEquityData: equityData,
             blockData: blockData,
             wagerOracleData: [],
             supplumentalWagerOracleData: [],

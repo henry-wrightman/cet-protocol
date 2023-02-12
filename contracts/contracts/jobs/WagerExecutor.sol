@@ -13,10 +13,10 @@ import "../interfaces/IWagerRegistry.sol";
  */
 
 contract WagerExecutor is AutomationCompatibleInterface {
-    uint public executions;
     address public registry;
 
     uint256 public lastBlock;
+    uint public executions;
 
     constructor(address registryAddress) {
         lastBlock = block.number;

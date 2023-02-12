@@ -28,11 +28,11 @@ const alchemyId = process.env.NEXT_PUBLIC_ALCHEMY_ID;
 const { chains, provider } = configureChains(
   [
     goerli,
-    mainnet,
+    //mainnet,
     // optimism,
     // optimismGoerli,
-    polygonMumbai,
-    polygon,
+    //polygonMumbai,
+    //polygon,
     hardhat,
   ],
   [

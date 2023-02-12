@@ -11,6 +11,8 @@ import {
   WagerRegistry__factory,
   WagerFactory,
   WagerFactory__factory,
+  TestERC20,
+  TestERC20__factory,
 } from "../../../typechain-types";
 import { expect } from "chai";
 import { ethers } from "hardhat";
@@ -32,6 +34,8 @@ describe("WagerFactory", function () {
   let wagerFactory: WagerFactory;
   let WagerRegistry: WagerRegistry__factory;
   let wagerRegistry: WagerRegistry;
+  let TestERC20: TestERC20__factory;
+  let testERC20: TestERC20;
 
   beforeEach(async function () {
     [creator, address1, address2] = await ethers.getSigners();
@@ -77,6 +81,10 @@ describe("WagerFactory", function () {
         ["uint80", "uint80", "uint80"],
         [0, latestBlock + 100, 0]
       );
+      const equityData = utils.defaultAbiCoder.encode(
+        ["address", "uint256"],
+        [ethers.constants.AddressZero, ethers.utils.parseEther("1.0")]
+      );
       const createdWagerId = await wagerFactory.callStatic.createWager(
         {
           parties: partiesData,
@@ -85,6 +93,7 @@ describe("WagerFactory", function () {
             ["1", 20000]
           ),
           blockData: blockData,
+          wagerEquityData: equityData,
           wagerOracleData: [],
           supplumentalWagerOracleData: [],
           wagerModuleName: "wm.highlow",

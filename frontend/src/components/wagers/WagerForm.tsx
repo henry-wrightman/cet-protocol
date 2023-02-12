@@ -79,7 +79,7 @@ export const WagerForm = ({ signerAddress }: { signerAddress: string }) => {
   const form = useForm<WAGER_FORM_TYPE>({
     defaultValues: {
       wagerType: "wm.highlow",
-      wagerTicker: "BTCUSD",
+      wagerTicker: "BTC/USD",
       wager: "1",
       partyOne: signerAddress,
     },

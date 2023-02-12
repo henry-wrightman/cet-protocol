@@ -47,10 +47,7 @@ describe("WagerExecutor", function () {
     await wagerRegistry.deployed();
 
     TestWagerExecutor = await ethers.getContractFactory("TestWagerExecutor");
-    testWagerExecutor = await TestWagerExecutor.deploy(
-      10,
-      wagerRegistry.address
-    );
+    testWagerExecutor = await TestWagerExecutor.deploy(wagerRegistry.address);
     await testWagerExecutor.deployed();
   });
 
@@ -69,24 +66,22 @@ describe("WagerExecutor", function () {
           ["address", "address"],
           [address1.address, address2.address]
         );
+        const equityData = utils.defaultAbiCoder.encode(
+          ["address", "uint256"],
+          [ethers.constants.AddressZero, ethers.utils.parseEther("1.0")] // 1 ETH
+        );
         for (let i = 0; i < 10; i++) {
-          const wagerCreationBlock = await time.latestBlock();
-          const wagerExpirationBlock = wagerCreationBlock + 50;
+          const startBlock = 1000 + 50 * i;
           const blockData = utils.defaultAbiCoder.encode(
             ["uint80", "uint80", "uint80"],
-            [
-              0,
-              wagerExpirationBlock + Math.floor(Math.random() * (10 - 0) + 0),
-              0,
-            ]
+            [0, startBlock, 0]
           );
-
           await wagerRegistry.connect(address1).createWager(
             {
               parties: partiesData,
               partyOneWagerData: partyOneWagerData,
               partyTwoWagerData: [],
-              wagerAmount: ethers.utils.parseEther("1.0"), // 1 ETH
+              wagerEquityData: equityData,
               blockData: blockData,
               wagerOracleData: [],
               supplumentalWagerOracleData: [],
@@ -103,6 +98,8 @@ describe("WagerExecutor", function () {
             .enterWager(i, partyTwoWagerData, {
               value: ethers.utils.parseEther("1.0"),
             });
+          const wager = await wagerRegistry.wagers(i);
+          expect(wager.state).to.be.equal(0); // active
         }
       });
 
@@ -114,7 +111,7 @@ describe("WagerExecutor", function () {
 
         for (let i = 0; i < 20; i++) {
           //await testWagerExecutor.performUpkeep([]);
-          await mine(i + 50);
+          await mine(100 * i);
           await testChainLinkOracle.setPrice(
             20000 + Math.floor(Math.random() * (1000 - -1000) + -1000)
           );

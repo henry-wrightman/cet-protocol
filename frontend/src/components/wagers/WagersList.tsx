@@ -329,7 +329,7 @@ export const WagersList = () => {
                             x as TICKERS
                           ].toLowerCase() === wager.oracleImpl.toLowerCase()
                       )[0] as TICKERS)
-                    : TICKERS.BTCETH;
+                    : TICKERS["BTC/ETH"];
 
                 return (
                   <Link href={"/wager/" + wager.id} key={wager.id}>

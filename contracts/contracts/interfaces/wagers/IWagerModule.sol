@@ -6,9 +6,10 @@ import "../oracles/IWagerOracle.sol";
 // -- structs --
 struct Wager {
     bytes parties; // party data; |partyOne|partyTwo|
-    bytes partyOneWagerData; // wager data; e.g |wagerStart|wagerValue|
+    bytes partyOneWagerData; // wager data; |wagerStart|wagerValue|
     bytes partyTwoWagerData;
-    uint256 wagerAmount;
+    bytes wagerEquityData; // wager equity data; |style|ercAddress|amount|tokenId(s)?
+    // style (0 == double-sided, standard | 1 == one-sided)
     bytes blockData; // blocktime data; |created|expiration|enterLimit|
     bytes wagerOracleData; // ancillary wager data
     bytes supplumentalWagerOracleData; // supplumental wager data

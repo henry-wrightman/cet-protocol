@@ -78,17 +78,26 @@ export const SUBGRAPHS: NetworkEntries = {
   mainnet: "",
 };
 
+export const LINK_SUBGRAPH: NetworkEntries = {
+  hardhat:
+    "https://api.thegraph.com/subgraphs/name/openpredict/chainlink-prices-subgraph",
+  goerli:
+    "https://api.thegraph.com/subgraphs/name/openpredict/chainlink-prices-subgraph",
+  mainnet:
+    "https://api.thegraph.com/subgraphs/name/openpredict/chainlink-prices-subgraph",
+};
+
 export const enum ORACLE_TYPES {
   CHAINLINK = "CHAINLINK",
   UMA = "UMA",
 }
 export enum TICKERS {
-  BTCUSD = "BTCUSD",
-  BTCETH = "BTCETH",
-  EURUSD = "EURUSD",
-  JPYUSD = "JPYUSD",
-  LINKETH = "LINKETH",
-  XAUUSD = "XAUUSD",
+  "BTC/USD" = "BTC/USD",
+  "BTC/ETH" = "BTC/ETH",
+  "EUR/USD" = "EUR/USD",
+  "JPY/USD" = "JPY/USD",
+  "LINK/ETH" = "LINK/ETH",
+  "XAU/USD" = "XAU/USD",
 }
 type OracleSource = {
   [key in TICKERS]: string;
@@ -96,58 +105,69 @@ type OracleSource = {
 type OracleEntries = {
   [key in ORACLE_TYPES]: { [key in NETWORK]: OracleSource };
 };
+type TICKERS_DECIMALS_TYPE = {
+  [key in TICKERS]: number;
+};
+export const TICKER_DECIMALS: TICKERS_DECIMALS_TYPE = {
+  "BTC/USD": 8,
+  "BTC/ETH": 18,
+  "EUR/USD": 8,
+  "JPY/USD": 8,
+  "LINK/ETH": 18,
+  "XAU/USD": 8,
+};
 
 export const ORACLES: OracleEntries = {
   CHAINLINK: {
     goerli: {
-      BTCUSD: "0xA39434A63A52E749F02807ae27335515BA4b07F7",
-      BTCETH: "0x779877A7B0D9E8603169DdbD7836e478b4624789",
-      EURUSD: "0x44390589104C9164407A0E0562a9DBe6C24A0E05",
-      JPYUSD: "0x982B232303af1EFfB49939b81AD6866B2E4eeD0B",
-      LINKETH: "0xb4c4a493AB6356497713A78FFA6c60FB53517c63",
-      XAUUSD: "0x7b219F57a8e9C7303204Af681e9fA69d17ef626f",
+      "BTC/USD": "0xA39434A63A52E749F02807ae27335515BA4b07F7",
+      "BTC/ETH": "0x779877A7B0D9E8603169DdbD7836e478b4624789",
+      "EUR/USD": "0x44390589104C9164407A0E0562a9DBe6C24A0E05",
+      "JPY/USD": "0x982B232303af1EFfB49939b81AD6866B2E4eeD0B",
+      "LINK/ETH": "0xb4c4a493AB6356497713A78FFA6c60FB53517c63",
+      "XAU/USD": "0x7b219F57a8e9C7303204Af681e9fA69d17ef626f",
     },
     mainnet: {
-      BTCUSD: "",
-      BTCETH: "",
-      EURUSD: "",
-      JPYUSD: "",
-      LINKETH: "",
-      XAUUSD: "",
+      "BTC/USD": "",
+      "BTC/ETH": "",
+      "EUR/USD": "",
+      "JPY/USD": "",
+      "LINK/ETH": "",
+      "XAU/USD": "",
     },
     hardhat: {
-      BTCUSD: "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9",
-      BTCETH: "",
-      EURUSD: "",
-      JPYUSD: "",
-      LINKETH: "",
-      XAUUSD: "",
+      "BTC/USD": "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9",
+      "BTC/ETH": "",
+      "EUR/USD": "",
+      "JPY/USD": "",
+      "LINK/ETH": "",
+      "XAU/USD": "",
     },
   },
   UMA: {
     goerli: {
-      BTCUSD: "",
-      BTCETH: "",
-      EURUSD: "",
-      JPYUSD: "",
-      LINKETH: "",
-      XAUUSD: "",
+      "BTC/USD": "",
+      "BTC/ETH": "",
+      "EUR/USD": "",
+      "JPY/USD": "",
+      "LINK/ETH": "",
+      "XAU/USD": "",
     },
     mainnet: {
-      BTCUSD: "",
-      BTCETH: "",
-      EURUSD: "",
-      JPYUSD: "",
-      LINKETH: "",
-      XAUUSD: "",
+      "BTC/USD": "",
+      "BTC/ETH": "",
+      "EUR/USD": "",
+      "JPY/USD": "",
+      "LINK/ETH": "",
+      "XAU/USD": "",
     },
     hardhat: {
-      BTCUSD: "",
-      BTCETH: "",
-      EURUSD: "",
-      JPYUSD: "",
-      LINKETH: "",
-      XAUUSD: "",
+      "BTC/USD": "",
+      "BTC/ETH": "",
+      "EUR/USD": "",
+      "JPY/USD": "",
+      "LINK/ETH": "",
+      "XAU/USD": "",
     },
   },
 } as const;

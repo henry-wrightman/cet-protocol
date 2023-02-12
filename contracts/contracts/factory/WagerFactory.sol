@@ -16,6 +16,7 @@ contract WagerFactory {
         bytes parties;
         bytes partyOneWagerData;
         bytes blockData;
+        bytes wagerEquityData;
         bytes wagerOracleData;
         bytes supplumentalWagerOracleData;
         string wagerModuleName;
@@ -46,7 +47,7 @@ contract WagerFactory {
                     params.parties,
                     params.partyOneWagerData,
                     "0x",
-                    msg.value,
+                    params.wagerEquityData,
                     params.blockData,
                     params.wagerOracleData,
                     params.supplumentalWagerOracleData,
