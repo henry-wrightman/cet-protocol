@@ -18,7 +18,9 @@ const Page: NextPage = () => {
           <div className="flex flex-col md:p-5 md:flex-row lg:flex-row">
             <div className="flex-row">
               <div className="sm:basis-full md:basis-1/3 lg:basis-1/3 justify-center m-2 p-3 shadow-md rounded-lg bg-white min-w-[250px] min-h-[50px] border-black border-[1px]">
-                <span className="text-center">Currently only available on Goerli. Please switch networks!</span>
+                <span className="text-center">
+                  Currently only available on Goerli. Please switch networks!
+                </span>
               </div>
             </div>
           </div>
@@ -46,11 +48,11 @@ const Page: NextPage = () => {
                 )}
               </div>
               <div className="flex-row sm:w-full md:w-9/12 lg:w-9/12 sm:basis-full md:basis-9/12 lg:basis-9/12">
-                <div className="md:h-[500px] lg:h-[500px] h-[500px] overflow-scroll rounded-xl p-1 lg:p-3 m-2 shadow-md bg-white border-black border-[1px]">
-                  <WagersList />
-                </div>
-                <div className="h-[50px] rounded-xl p-1 lg:p-3 m-2 shadow-md bg-white border-black border-[1px]">
+                <div className="h-[50px] rounded-lg p-1 m-2 shadow-md bg-white border-black border-[1px]">
                   <PriceFeed />
+                </div>
+                <div className="md:h-[500px] lg:h-[500px] h-[500px] overflow-scroll rounded-lg p-1 lg:p-3 m-2 shadow-md bg-white border-black border-[1px]">
+                  <WagersList />
                 </div>
               </div>
             </div>

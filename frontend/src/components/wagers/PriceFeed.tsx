@@ -79,7 +79,7 @@ export const PriceFeed = () => {
             console.log(ticker);
             return (
               <>
-                <span className="font-medium p-1 ml-1 mr-1 bg-purple-200 border-green rounded-md">
+                <span className="font-medium p-2 ml-1 mr-1 bg-purple-200 border-green rounded-md">
                   {ticker}:{" "}
                   {(
                     parseInt(
