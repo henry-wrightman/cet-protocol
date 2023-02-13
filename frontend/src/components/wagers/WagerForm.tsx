@@ -88,20 +88,29 @@ export const constructWagerData = (
   _wager: any[],
   decimals: number
 ) => {
-  switch (_type) {
-    case "wm.highlow":
-      return utils.defaultAbiCoder.encode(
-        ["uint", "uint"],
-        [_wager[0], BigInt(_wager[1] * 10 ** decimals)]
-      );
-    case "wm.nearest":
-      return utils.defaultAbiCoder.encode(
-        ["uint256"],
-        [BigInt(_wager[0] * 10 ** decimals)]
-      );
+  if (!_wager[0]) return;
+  try {
+    switch (_type) {
+      case "wm.highlow":
+        return utils.defaultAbiCoder.encode(
+          ["uint", "uint"],
+          [
+            _wager[0],
+            ethers.BigNumber.from((_wager[1] * 10 ** decimals).toFixed(0)),
+          ]
+        );
+      case "wm.nearest":
+        return utils.defaultAbiCoder.encode(
+          ["uint256"],
+          [ethers.BigNumber.from((_wager[0] * 10 ** decimals).toFixed(0))]
+        );
 
-    default:
-      return null;
+      default:
+        return null;
+    }
+  } catch (ex) {
+    console.log(ex);
+    return;
   }
 };
 
@@ -112,14 +121,19 @@ export const WagerForm = ({ signerAddress }: { signerAddress: string }) => {
     defaultValues: {
       wagerType: "wm.highlow",
       wagerTicker: "BTC/USD",
-      wager: "1",
       partyOne: signerAddress,
     },
     resolver: zodResolver(WAGER_FORM_SCHEMA),
   });
-  const { setValue, register, watch, handleSubmit, getValues, formState } =
-    form;
-  const isFormTouched = Object.keys(formState.touchedFields).length >= 1;
+  const {
+    setValue,
+    register,
+    watch,
+    handleSubmit,
+    getValues,
+    formState: { errors, touchedFields },
+  } = form;
+  const isFormTouched = Object.keys(touchedFields).length >= 1;
   const network =
     chain && chain?.network ? (chain?.network as NETWORK) : "goerli";
   const ticker = watch("wagerTicker") as TICKERS;
@@ -156,6 +170,10 @@ export const WagerForm = ({ signerAddress }: { signerAddress: string }) => {
 
   const canCreateWager =
     isFormTouched &&
+    !errors.partyOne &&
+    !errors.wager &&
+    !errors.wagerAmount &&
+    !errors.wagerExpirationBlock &&
     watch("wager") != null &&
     watch("wagerType") != null &&
     watch("wagerExpirationBlock") != null &&
@@ -172,7 +190,7 @@ export const WagerForm = ({ signerAddress }: { signerAddress: string }) => {
                 <Label className="mb-1 ml-1">amount: </Label>
                 <Input
                   className={` ${
-                    formState.errors && formState.errors.wagerAmount
+                    errors && errors.wagerAmount
                       ? "border-red-500 focus:border-red-500 focus:border-[1px] focus:ring-0 focus:outline-none"
                       : ""
                   }`}
@@ -180,10 +198,10 @@ export const WagerForm = ({ signerAddress }: { signerAddress: string }) => {
                   name={"wagerAmount"}
                   placeholder={"ETH (e.g 0.05)"}
                 ></Input>
-                {formState.errors && formState.errors.wagerAmount && (
+                {errors && errors.wagerAmount && (
                   <>
                     <Label className="mt-1 text-red-500 text-xs">
-                      {formState.errors.wagerAmount.message || ""}
+                      {errors.wagerAmount.message || ""}
                     </Label>
                   </>
                 )}
