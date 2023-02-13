@@ -58,7 +58,6 @@ type MarqueeEntry = {
 };
 
 export const PriceFeed = () => {
-  console.log(Object.keys(TICKERS));
   const { chain } = useNetwork();
   const network =
     chain && chain?.network ? (chain?.network as NETWORK) : "goerli";
@@ -66,7 +65,6 @@ export const PriceFeed = () => {
     client: getSubgraphClient(chain?.id!),
     variables: { first: 1000, tickers: Object.keys(TICKERS).map((x) => x) }, // , timestamp: Date.now()
   });
-  console.log(data);
 
   if (loading) return <span>{Loading(30, 30)}</span>;
   if (error) return <pre>{error.message}</pre>;
@@ -76,7 +74,6 @@ export const PriceFeed = () => {
       {data && data.prices.length > 0 && (
         <Marquee speed={40}>
           {Object.keys(TICKERS).map((ticker) => {
-            console.log(ticker);
             return (
               <>
                 <span className="font-medium p-2 ml-1 mr-1 bg-purple-200 border-green rounded-md">

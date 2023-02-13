@@ -24,11 +24,8 @@ export const Input = ({
 }: InputProps) => {
   const classes = classNames(
     className,
-    "block w-full px-2 py-2 border-[1px] border-gray-400 border-input-border-purple-800 sm:text-sm text-black rounded-xl focus:ring-blue-200 focus:outline-none",
+    "block w-full px-2 py-2 border-[1px] disabled:border-gray-100 border-gray-400 border-input-border-purple-800 sm:text-sm text-black rounded-xl focus:ring-blue-200 focus:outline-none"
     //"focus:outline-none"
-    {
-      "text-red-100 text-opacity-100 opacity-100": disabled,
-    }
   );
   return (
     <input

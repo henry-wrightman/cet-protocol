@@ -102,7 +102,10 @@ export const Select = ({
   isClearable = false,
   defaultValue,
 }: SelectProps) => {
-  const containerClasses = classNames(className, "rounded-md");
+  const containerClasses = classNames(
+    className,
+    "rounded-md disabled:border-gray-100 border-gray-900"
+  );
 
   const reg = register ? { ...register(name) } : "";
   return (

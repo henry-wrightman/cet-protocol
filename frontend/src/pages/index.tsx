@@ -4,6 +4,7 @@ import { WagersList, PriceFeed } from "../components/wagers";
 import { Label } from "../components/common";
 import { useIsMounted } from "../hooks";
 import type { NextPage } from "next";
+import Link from "next/link";
 
 const Page: NextPage = () => {
   const isMounted = useIsMounted();
@@ -27,6 +28,16 @@ const Page: NextPage = () => {
         )}
         {!chain?.unsupported && (
           <>
+            <div className="hidden md:flex lg:flex">
+              <div className="h-[30px] m-2 p-4 w-full text-left cursor-pointer">
+                <Link href="">
+                  <span className="m-2">github</span>
+                </Link>
+                <Link href="">
+                  <span className="m-2">audit</span>
+                </Link>
+              </div>
+            </div>
             <div className="flex flex-col md:p-5 md:flex-row lg:flex-row">
               <div className="flex-row">
                 <div className="sm:basis-full md:basis-1/3 lg:basis-1/3 justify-center m-2 p-3 shadow-md rounded-lg bg-white min-w-[250px] min-h-[50px] border-black border-[1px]">
@@ -53,6 +64,16 @@ const Page: NextPage = () => {
                 </div>
                 <div className="md:h-[500px] lg:h-[500px] h-[500px] overflow-scroll rounded-lg p-1 lg:p-3 m-2 shadow-md bg-white border-black border-[1px]">
                   <WagersList />
+                </div>
+                <div className="hidden md:flex lg:flex flex-col">
+                  <div className="flex flex-row-reverse h-[10px] pr-10 w-full">
+                    <Label className="m-5" ping={true}>
+                      chainlink
+                    </Label>
+                    <Label className="m-5" ping={true}>
+                      the graph
+                    </Label>
+                  </div>
                 </div>
               </div>
             </div>

@@ -33,6 +33,7 @@ export const WagerOptions = ({
   form: UseFormReturn<WAGER_FORM_TYPE>;
 }) => {
   const { watch, setValue, register, formState } = form;
+  console.log(formState.errors);
   return (
     <div className="flex flex-row">
       <fieldset className="border-[1px] border-black p-3 rounded-md text-left mb-2 w-full">

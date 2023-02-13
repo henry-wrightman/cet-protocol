@@ -11,7 +11,7 @@ import {
   WagerConfirmationButton,
   WAGER_FORM_TYPE,
 } from "../../components/wagers";
-import { Loading, Button, Countdown } from "../../components/common";
+import { Loading, Button, Countdown, Label } from "../../components/common";
 import {
   MODULES,
   ORACLES,
@@ -188,7 +188,7 @@ const W: NextPage = () => {
         {error ? error.message : errorLoading ? errorLoading.message : null}
       </pre>
     );
-  if (!data?.wager) return <pre>{"no wagers"}</pre>;
+  if (!data?.wager) return <pre>{"no wager"}</pre>;
 
   const wagerType = MODULES[network].filter(
     (x) => x.address.toLowerCase() == data?.wager.wagerModule.toLowerCase()
@@ -220,7 +220,6 @@ const W: NextPage = () => {
         ")"
       : "";
 
-  console.log(watch("wager"));
   const enterPartyData = watch("wager")
     ? constructWagerData(
         wagerType,
@@ -252,35 +251,37 @@ const W: NextPage = () => {
     authorized &&
     isPartyOne &&
     (data?.wager?.state == "0" || data?.wager?.state == "1");
-  const enterReady = watch("wager") && data?.wager?.state == "1";
+  const enterReady = watch("wager") != null && data?.wager?.state == "1";
 
   return (
     <div className="min-h-screen bg-green-200 font-normal justify-center items-center border-white border-[1px]">
       <div className="flex flex-col md:flex-row lg:flex-row">
-        <div
-          className={`${
-            potentialSettle || potentialVoid || potentialEnter
-              ? "sm:basis-full md:basis-1/3 lg:basis-1/3 items-center m-4 p-3 shadow-md rounded-lg bg-white border-black border-[1px]"
-              : ""
-          } ${potentialEnter ? "h-[350px]" : "h-fit"}`}
-        >
-          {potentialEnter && (
-            <>
-              <WagerOptions
-                wagerType={wagerType}
-                currentPrice={currentPrice}
-                ticker={ticker}
-                form={form}
-              />
-              {enterReady && (
-                <>
-                  <WagerConfirmationButton
-                    wager={getValues()}
-                    ready={enterReady}
-                    trigger={
-                      <Button className="w-full mt-4">Enter Wager</Button>
-                    }
-                  >
+        <form onSubmit={handleSubmit(onSubmit)} className="">
+          <div
+            className={`${
+              potentialSettle || potentialVoid || potentialEnter
+                ? "sm:basis-full md:basis-1/3 lg:basis-1/3 items-center m-4 p-3 shadow-md rounded-lg bg-white border-black border-[1px]"
+                : ""
+            } ${potentialEnter ? "h-fit" : "h-fit"}`}
+          >
+            {potentialEnter && (
+              <>
+                <WagerOptions
+                  wagerType={wagerType}
+                  currentPrice={currentPrice}
+                  ticker={ticker}
+                  form={form}
+                />
+                <WagerConfirmationButton
+                  wager={getValues()}
+                  ready={enterReady}
+                  trigger={
+                    <Button type="submit" className="w-full mt-4">
+                      Enter Wager
+                    </Button>
+                  }
+                >
+                  {enterReady ? (
                     <EnterWager
                       wagerId={data?.wager.id!}
                       wagerAmount={ethers.utils
@@ -288,19 +289,21 @@ const W: NextPage = () => {
                         .toString()}
                       wagerData={enterPartyData || "0x"}
                     />
-                  </WagerConfirmationButton>
-                </>
-              )}
-            </>
-          )}
-          {!isConnected && !address && (
-            <div className="sm:basis-full md:basis-1/3 lg:basis-1/3 justify-center m-2 p-3 shadow-md rounded-lg bg-white min-w-[250px] min-h-[50px] border-black border-[1px]">
-              <Connect />
-            </div>
-          )}
-          {potentialSettle && <SettleWager wagerId={data?.wager.id!} />}
-          {potentialVoid && <VoidWager wagerId={data?.wager.id!} />}
-        </div>
+                  ) : (
+                    <Label>{}</Label>
+                  )}
+                </WagerConfirmationButton>
+              </>
+            )}
+            {!isConnected && !address && (
+              <div className="sm:basis-full md:basis-1/3 lg:basis-1/3 justify-center m-2 p-3 shadow-md rounded-lg bg-white min-w-[250px] min-h-[50px] border-black border-[1px]">
+                <Connect />
+              </div>
+            )}
+            {potentialSettle && <SettleWager wagerId={data?.wager.id!} />}
+            {potentialVoid && <VoidWager wagerId={data?.wager.id!} />}
+          </div>
+        </form>
         <div className="m-4 sm:basis-full md:basis-1/2 lg:basis-1/2 pt-4 p-2 rounded-lg bg-white border-black border-[1px]">
           <table className="w-full border-separate border-spacing-x-0 border-spacing-y-2">
             {data && data.wager && (

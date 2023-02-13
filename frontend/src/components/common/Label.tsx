@@ -23,7 +23,7 @@ export const Label = ({
     <label htmlFor={htmlFor} className={classes}>
       {children}
       {ping && (
-        <span className="animate-pulse t-1 center absolute h-1.5 w-1.5 rounded bg-sky-600 opacity-100"></span>
+        <span className="animate-ping mt-1 ml-1 center absolute h-1.5 w-1.5 rounded bg-sky-400 opacity-100"></span>
       )}
     </label>
   );
