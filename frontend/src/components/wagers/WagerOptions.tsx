@@ -100,7 +100,7 @@ export const WagerOptions = ({
               <Label className="mb-1 mt-1 ml-1">wager target: </Label>
               <Input
                 className={`mb-2 ${
-                  formState.errors && formState.errors.wagerAmount
+                  formState.errors && formState.errors.wager
                     ? "border-red-500 focus:border-red-500 focus:border-[1px] focus:ring-0 focus:outline-none"
                     : ""
                 }`}
