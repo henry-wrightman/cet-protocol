@@ -94,15 +94,12 @@ export const constructWagerData = (
       case "wm.highlow":
         return utils.defaultAbiCoder.encode(
           ["uint", "uint"],
-          [
-            _wager[0],
-            ethers.BigNumber.from((_wager[1] * 10 ** decimals).toFixed(0)),
-          ]
+          [_wager[0], BigInt(_wager[1] * 10 ** decimals)]
         );
       case "wm.nearest":
         return utils.defaultAbiCoder.encode(
           ["uint256"],
-          [ethers.BigNumber.from((_wager[0] * 10 ** decimals).toFixed(0))]
+          [BigInt(_wager[0] * 10 ** decimals)]
         );
 
       default:

@@ -313,11 +313,8 @@ const W: NextPage = () => {
                     Party One&apos;s Bet
                   </td>
                   <td className="p-1 text-right border rounded-r-md">
-                    {partyOneWager![0].toString().length >
-                    TICKER_DECIMALS[ticker as TICKERS]
-                      ? parseInt(partyOneWager![0].toString()) /
-                        10 ** TICKER_DECIMALS[ticker as TICKERS]
-                      : partyOneWager![0].toString()}
+                    {parseInt(partyOneWager![0].toString()) /
+                      10 ** TICKER_DECIMALS[ticker as TICKERS]}
                   </td>
                 </tr>
                 <tr className="bg-gray-200 text-left h-[40px]">
@@ -340,11 +337,8 @@ const W: NextPage = () => {
                   </td>
                   <td className="p-1 text-right border rounded-r-md">
                     {partyTwoWager
-                      ? partyTwoWager![0].toString().length >
-                        TICKER_DECIMALS[ticker as TICKERS]
-                        ? parseInt(partyTwoWager![0].toString()) /
-                          10 ** TICKER_DECIMALS[ticker as TICKERS]
-                        : partyTwoWager![0].toString()
+                      ? parseInt(partyTwoWager![0].toString()) /
+                        10 ** TICKER_DECIMALS[ticker as TICKERS]
                       : "TBA"}
                   </td>
                 </tr>
