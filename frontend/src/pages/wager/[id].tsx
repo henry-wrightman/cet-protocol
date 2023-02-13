@@ -268,7 +268,9 @@ const W: NextPage = () => {
                   <WagerConfirmationButton
                     wager={getValues()}
                     ready={enterReady}
-                    trigger={<Button className="w-full">Enter Wager</Button>}
+                    trigger={
+                      <Button className="w-full mt-4">Enter Wager</Button>
+                    }
                   >
                     <EnterWager
                       wagerId={data?.wager.id!}

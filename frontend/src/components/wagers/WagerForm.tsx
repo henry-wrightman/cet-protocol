@@ -168,9 +168,10 @@ export const WagerForm = ({ signerAddress }: { signerAddress: string }) => {
           <fieldset className="border-[1px] w-full border-black p-1 rounded-md text-left mb-2">
             <legend className="text-xs text-black p-1">wager</legend>
             <div className="flex flex-row">
-              <div className="flex-col m-2">
+              <div className="flex-col m-2 basis-1/2">
+                <Label className="mb-1 ml-1">amount: </Label>
                 <Input
-                  className={`basis-1/3 ${
+                  className={` ${
                     formState.errors && formState.errors.wagerAmount
                       ? "border-red-500 focus:border-red-500 focus:border-[1px] focus:ring-0 focus:outline-none"
                       : ""
@@ -187,16 +188,19 @@ export const WagerForm = ({ signerAddress }: { signerAddress: string }) => {
                   </>
                 )}
               </div>
-              <Select
-                register={register}
-                name="wagerType"
-                options={WAGER_OPTIONS}
-                className="m-2 basis-2/3"
-                defaultValue={"wm.highlow"}
-                onSelect={(option: SelectOption) => {
-                  setValue("wagerType", option?.value as string);
-                }}
-              />
+              <div className="flex-col m-2 basis-1/2">
+                <Label className="mb-1 ml-1">style: </Label>
+                <Select
+                  register={register}
+                  name="wagerType"
+                  options={WAGER_OPTIONS}
+                  className="m-1"
+                  defaultValue={"wm.highlow"}
+                  onSelect={(option: SelectOption) => {
+                    setValue("wagerType", option?.value as string);
+                  }}
+                />
+              </div>
             </div>
           </fieldset>
 
@@ -245,7 +249,7 @@ export const WagerForm = ({ signerAddress }: { signerAddress: string }) => {
               <WagerConfirmationButton
                 wager={getValues()}
                 trigger={
-                  <Button type="submit" className="w-full">
+                  <Button type="submit" className="w-full mt-4">
                     Create Wager
                   </Button>
                 }

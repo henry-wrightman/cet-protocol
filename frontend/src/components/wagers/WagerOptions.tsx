@@ -41,7 +41,7 @@ export const WagerOptions = ({
         </legend>
         <div className="flex-col">
           <div className="flex flew-col">
-            <div className="flex-row basis-1/2 m-1">
+            <div className="flex-row basis-1/2">
               <Label className="mb-1 ml-1">ticker: </Label>
               <Select
                 register={register}
@@ -65,7 +65,7 @@ export const WagerOptions = ({
                 }}
               />
             </div>
-            <div className="flex basis-1/2 m-1">
+            <div className="flex basis-1/2">
               <div className="flex-row">
                 <Label className="mb-1 ml-1">current price: </Label>
                 <Input
@@ -80,8 +80,8 @@ export const WagerOptions = ({
           </div>
           {wagerType && wagerType == "wm.highlow" ? (
             <>
-              <div className="basis-1/2 m-1">
-                <Label className="mb-1 ml-1">wager: </Label>
+              <div className="basis-1/2">
+                <Label className="mb-1 mt-1 ml-1">wager: </Label>
                 <Select
                   register={register}
                   name="wager"
@@ -96,8 +96,8 @@ export const WagerOptions = ({
               </div>
             </>
           ) : (
-            <div className="basis-1/2 m-1">
-              <Label className="mb-1">wager target: </Label>
+            <div className="basis-1/2">
+              <Label className="mb-1 mt-1 ml-1">wager target: </Label>
               <Input
                 className={`mb-2 ${
                   formState.errors && formState.errors.wagerAmount

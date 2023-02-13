@@ -198,7 +198,7 @@ contract WagerRegistry is IWagerRegistry {
             );
         }
         require(
-            wager.state == WagerState.active ||
+            wager.state == WagerState.active || // TODO; double check this
                 wager.state == WagerState.created,
             "W2"
         );
