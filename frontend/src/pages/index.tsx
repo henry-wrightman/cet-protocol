@@ -29,13 +29,8 @@ const Page: NextPage = () => {
         {!chain?.unsupported && (
           <>
             <div className="hidden md:flex lg:flex">
-              <div className="h-[30px] m-2 p-4 w-full text-left cursor-pointer">
-                <Link href="">
-                  <span className="m-2">github</span>
-                </Link>
-                <Link href="">
-                  <span className="m-2">audit</span>
-                </Link>
+              <div className="h-[10px] m-1 p-2 w-full text-left cursor-pointer">
+                {/* TODO MENU */}
               </div>
             </div>
             <div className="flex flex-col md:p-5 md:flex-row lg:flex-row">
@@ -66,11 +61,11 @@ const Page: NextPage = () => {
                   <WagersList />
                 </div>
                 <div className="hidden md:flex lg:flex flex-col">
-                  <div className="flex flex-row-reverse h-[10px] pr-10 w-full">
-                    <Label className="m-5" ping={true}>
+                  <div className="flex flex-row-reverse h-[30px] pr-8 p-2 w-full">
+                    <Label className="m-4" ping={true}>
                       chainlink
                     </Label>
-                    <Label className="m-5" ping={true}>
+                    <Label className="m-4" ping={true}>
                       the graph
                     </Label>
                   </div>
