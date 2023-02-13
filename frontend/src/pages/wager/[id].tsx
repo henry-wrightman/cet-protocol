@@ -256,11 +256,11 @@ const W: NextPage = () => {
   return (
     <div className="min-h-screen bg-green-200 font-normal justify-center items-center border-white border-[1px]">
       <div className="flex flex-col md:flex-row lg:flex-row">
-        <form onSubmit={handleSubmit(onSubmit)} className="">
+        <form onSubmit={handleSubmit(onSubmit)} className="basis-1/4">
           <div
             className={`${
               potentialSettle || potentialVoid || potentialEnter
-                ? "sm:basis-full md:basis-1/3 lg:basis-1/3 items-center m-4 p-3 shadow-md rounded-lg bg-white border-black border-[1px]"
+                ? "sm:basis-full md:basis-1/4 lg:basis-1/4 items-center m-4 p-3 shadow-md rounded-lg bg-white border-black border-[1px]"
                 : ""
             } ${potentialEnter ? "h-fit" : "h-fit"}`}
           >
