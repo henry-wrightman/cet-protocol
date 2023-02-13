@@ -88,18 +88,18 @@ export const constructWagerData = (
   _wager: any[],
   decimals: number
 ) => {
-  if (!_wager[0]) return;
+  if (!_wager[0] || !_wager[1]) return;
   try {
     switch (_type) {
       case "wm.highlow":
         return utils.defaultAbiCoder.encode(
           ["uint", "uint"],
-          [_wager[0], BigInt(_wager[1] * 10 ** decimals)]
+          [_wager[0], BigInt((_wager[1] * 10 ** decimals).toFixed(0))]
         );
       case "wm.nearest":
         return utils.defaultAbiCoder.encode(
           ["uint256"],
-          [BigInt(_wager[0] * 10 ** decimals)]
+          [BigInt((_wager[0] * 10 ** decimals).toFixed(0))]
         );
 
       default:
@@ -166,7 +166,6 @@ export const WagerForm = ({ signerAddress }: { signerAddress: string }) => {
   ];
 
   const canCreateWager =
-    isFormTouched &&
     !errors.partyOne &&
     !errors.wager &&
     !errors.wagerAmount &&

@@ -31,6 +31,7 @@ import {
 } from "../../components/wagers";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { getSubgraphClient } from "../../graphql/client";
+import { getSubgraphClient as getPriceSubgraphClient } from "../../graphql/client_2";
 import { Connect } from "../../components/Connect";
 import { formatDistanceToNow } from "date-fns";
 import useDebounce from "../../hooks/useDebounce";
@@ -107,10 +108,20 @@ const W: NextPage = () => {
   const { chain } = useNetwork();
   const { address, isConnected } = useAccount();
   const [blocknumber, setBlocknumber] = useState(0);
+
   const { data, loading, error } = useQuery<WagerResult>(WAGER_QUERY, {
     variables: { id },
     client: getSubgraphClient(chain?.id!),
   });
+  const {
+    data: priceData,
+    loading: priceLoading,
+    error: errorLoading,
+  } = useQuery<PriceResults>(PRICE_FEED_QUERY, {
+    client: getPriceSubgraphClient(chain?.id!),
+    variables: { first: 1000, tickers: Object.keys(TICKERS).map((x) => x) }, // , timestamp: Date.now()
+  });
+
   const network =
     chain && chain?.network ? (chain?.network as NETWORK) : "goerli";
   const ticker =
@@ -121,14 +132,6 @@ const W: NextPage = () => {
             data?.wager.oracleImpl.toLowerCase()
         )[0] as TICKERS)
       : TICKERS["BTC/ETH"];
-  const {
-    data: priceData,
-    loading: priceLoading,
-    error: errorLoading,
-  } = useQuery<PriceResults>(PRICE_FEED_QUERY, {
-    client: getSubgraphClient(chain?.id!),
-    variables: { first: 1000, tickers: Object.keys(TICKERS).map((x) => x) }, // , timestamp: Date.now()
-  });
   let currentPrice =
     priceData && priceData.prices.length > 0
       ? (
@@ -138,6 +141,7 @@ const W: NextPage = () => {
           10 ** TICKER_DECIMALS[ticker as TICKERS]
         ).toLocaleString()
       : "0";
+
   const form = useForm<WAGER_FORM_TYPE>({
     defaultValues: {
       wager: "",
@@ -177,8 +181,13 @@ const W: NextPage = () => {
     );
   };
 
-  if (loading) return Loading();
-  if (error) return <pre>{error.message}</pre>;
+  if (loading || priceLoading) return Loading();
+  if (error || errorLoading)
+    return (
+      <pre>
+        {error ? error.message : errorLoading ? errorLoading.message : null}
+      </pre>
+    );
   if (!data?.wager) return <pre>{"no wagers"}</pre>;
 
   const wagerType = MODULES[network].filter(
