@@ -10,7 +10,6 @@ interface IWagerRegistry {
         address indexed partyAddr,
         uint256 partyWagerAmount,
         bytes partyWager,
-        uint256 createdBlock,
         uint256 enterLimitBlock,
         uint256 expirationBlock,
         address wagerModule,
@@ -37,10 +36,11 @@ interface IWagerRegistry {
 
     function enterWager(
         uint256 wagerId,
+        bytes memory partyTwoEquityData,
         bytes memory partyTwoWager
     ) external payable;
 
-    function createWager(Wager memory wager) external payable returns (uint256);
+    function createWager(Wager memory wager) external payable;
 
     function voidWager(uint256 wagerId) external;
 }

@@ -40,8 +40,13 @@ describe("HighLowWagerModule", function () {
       [0, 1500, 0]
     );
     const equityData = utils.defaultAbiCoder.encode(
-      ["address", "uint256"],
-      [ethers.constants.AddressZero, ethers.utils.parseEther("1.0")] // 1 ETH
+      ["int", "address[2]", "uint256", "uint256[2]"],
+      [
+        "1",
+        [ethers.constants.AddressZero, ethers.constants.AddressZero],
+        ethers.utils.parseEther("1.0"),
+        ["0", "0"],
+      ] // 1 ETH
     );
     const decimals = 8;
 
@@ -61,7 +66,7 @@ describe("HighLowWagerModule", function () {
           ["uint", "uint"],
           ["0", 20000 * 10 ** decimals]
         ),
-        wagerEquityData: equityData,
+        equityData: equityData,
         blockData: blockData,
         wagerOracleData: [],
         supplumentalWagerOracleData: [],
@@ -90,7 +95,7 @@ describe("HighLowWagerModule", function () {
           ["uint", "uint"],
           ["1", 20000 * 10 ** decimals]
         ),
-        wagerEquityData: equityData,
+        equityData: equityData,
         blockData: blockData,
         wagerOracleData: [],
         supplumentalWagerOracleData: [],
@@ -109,8 +114,13 @@ describe("HighLowWagerModule", function () {
       [0, 1500, 0]
     );
     const equityData = utils.defaultAbiCoder.encode(
-      ["address", "uint256"],
-      [ethers.constants.AddressZero, ethers.utils.parseEther("1.0")] // 1 ETH
+      ["int", "address[2]", "uint256", "uint256[2]"],
+      [
+        "1",
+        [ethers.constants.AddressZero, ethers.constants.AddressZero],
+        ethers.utils.parseEther("1.0"),
+        ["0", "0"],
+      ] // 1 ETH
     );
     const decimals = 18;
 
@@ -130,7 +140,7 @@ describe("HighLowWagerModule", function () {
           ["uint", "uint"],
           ["0", BigInt(1800 * 10 ** decimals)]
         ),
-        wagerEquityData: equityData,
+        equityData: equityData,
         blockData: blockData,
         wagerOracleData: [],
         supplumentalWagerOracleData: [],
@@ -159,7 +169,7 @@ describe("HighLowWagerModule", function () {
           ["uint", "uint"],
           ["1", BigInt(1800 * 10 ** decimals)]
         ),
-        wagerEquityData: equityData,
+        equityData: equityData,
         blockData: blockData,
         wagerOracleData: [],
         supplumentalWagerOracleData: [],
@@ -178,8 +188,13 @@ describe("HighLowWagerModule", function () {
       [0, 1500, 0]
     );
     const equityData = utils.defaultAbiCoder.encode(
-      ["address", "uint256"],
-      [ethers.constants.AddressZero, ethers.utils.parseEther("1.0")] // 1 ETH
+      ["int", "address[2]", "uint256", "uint256[2]"],
+      [
+        "1",
+        [ethers.constants.AddressZero, ethers.constants.AddressZero],
+        ethers.utils.parseEther("1.0"),
+        ["0", "0"],
+      ] // 1 ETH
     );
     const decimals = 18;
 
@@ -199,7 +214,7 @@ describe("HighLowWagerModule", function () {
           ["uint", "uint"],
           ["0", BigInt(0.000432 * 10 ** decimals)]
         ),
-        wagerEquityData: equityData,
+        equityData: equityData,
         blockData: blockData,
         wagerOracleData: [],
         supplumentalWagerOracleData: [],
@@ -228,7 +243,7 @@ describe("HighLowWagerModule", function () {
           ["uint", "uint"],
           ["1", BigInt(0.000432 * 10 ** decimals)]
         ),
-        wagerEquityData: equityData,
+        equityData: equityData,
         blockData: blockData,
         wagerOracleData: [],
         supplumentalWagerOracleData: [],
@@ -247,8 +262,13 @@ describe("HighLowWagerModule", function () {
       [0, 1500, 0]
     );
     const equityData = utils.defaultAbiCoder.encode(
-      ["address", "uint256"],
-      [ethers.constants.AddressZero, ethers.utils.parseEther("1.0")] // 1 ETH
+      ["int", "address[2]", "uint256", "uint256[2]"],
+      [
+        "1",
+        [ethers.constants.AddressZero, ethers.constants.AddressZero],
+        ethers.utils.parseEther("1.0"),
+        ["0", "0"],
+      ] // 1 ETH
     );
     const decimals = 8;
 
@@ -268,7 +288,7 @@ describe("HighLowWagerModule", function () {
           ["uint", "uint"],
           ["0", BigInt(1.0745 * 10 ** decimals)]
         ),
-        wagerEquityData: equityData,
+        equityData: equityData,
         blockData: blockData,
         wagerOracleData: [],
         supplumentalWagerOracleData: [],
@@ -297,7 +317,7 @@ describe("HighLowWagerModule", function () {
           ["uint", "uint"],
           ["1", BigInt(1.072 * 10 ** decimals)]
         ),
-        wagerEquityData: equityData,
+        equityData: equityData,
         blockData: blockData,
         wagerOracleData: [],
         supplumentalWagerOracleData: [],

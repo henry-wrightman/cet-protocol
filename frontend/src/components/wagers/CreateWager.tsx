@@ -42,6 +42,10 @@ export const CreateWager = ({
     ["address", "address"],
     [signerAddress, ethers.constants.AddressZero]
   );
+  // const equityData = utils.defaultAbiCoder.encode(
+  //   ["int", "address[2]", "uint256", "uint256[2]"],
+  //   ["1", [ethers.constants.AddressZero, ethers.constants.AddressZero], ethers.utils.parseEther("1.0"), ["", ""]] // 1 ETH
+  // );
   const wagerAmtD = useDebounce(wagerAmount, 2000);
   const wagerDataD = useDebounce(wagerData, 2000);
   const blockDataD = useDebounce(blockData, 2000);
@@ -55,7 +59,7 @@ export const CreateWager = ({
         parties: partiesDataD,
         partyOneWagerData: wagerDataD,
         partyTwoWagerData: [],
-        wagerAmount: ethers.utils.parseEther(wagerAmtD),
+        wagerAmount: ethers.utils.parseEther(wagerAmtD), // equityData: equityData
         blockData: blockDataD,
         wagerOracleData: [],
         supplumentalWagerOracleData: [],

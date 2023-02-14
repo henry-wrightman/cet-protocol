@@ -28,12 +28,6 @@
       {
         "indexed": false,
         "internalType": "uint256",
-        "name": "createdBlock",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
         "name": "enterLimitBlock",
         "type": "uint256"
       },
@@ -154,9 +148,9 @@
             "type": "bytes"
           },
           {
-            "internalType": "uint256",
-            "name": "wagerAmount",
-            "type": "uint256"
+            "internalType": "bytes",
+            "name": "equityData",
+            "type": "bytes"
           },
           {
             "internalType": "bytes",
@@ -205,13 +199,7 @@
       }
     ],
     "name": "createWager",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
+    "outputs": [],
     "stateMutability": "payable",
     "type": "function"
   },
@@ -263,6 +251,40 @@
         "internalType": "address",
         "name": "partyTwo",
         "type": "address"
+      }
+    ],
+    "stateMutability": "pure",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes",
+        "name": "data",
+        "type": "bytes"
+      }
+    ],
+    "name": "decodeWagerEquity",
+    "outputs": [
+      {
+        "internalType": "enum WagerType",
+        "name": "style",
+        "type": "uint8"
+      },
+      {
+        "internalType": "address",
+        "name": "ercInterface",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "id",
+        "type": "uint256"
       }
     ],
     "stateMutability": "pure",
@@ -380,9 +402,9 @@
         "type": "bytes"
       },
       {
-        "internalType": "uint256",
-        "name": "wagerAmount",
-        "type": "uint256"
+        "internalType": "bytes",
+        "name": "equityData",
+        "type": "bytes"
       },
       {
         "internalType": "bytes",

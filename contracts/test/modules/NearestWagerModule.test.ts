@@ -40,8 +40,13 @@ describe("NearestWagerModule", function () {
       [0, 1500, 0]
     );
     const equityData = utils.defaultAbiCoder.encode(
-      ["address", "uint256"],
-      [ethers.constants.AddressZero, ethers.utils.parseEther("1.0")] // 1 ETH
+      ["int", "address[2]", "uint256", "uint256[2]"],
+      [
+        "1",
+        [ethers.constants.AddressZero, ethers.constants.AddressZero],
+        ethers.utils.parseEther("1.0"),
+        ["0", "0"],
+      ] // 1 ETH
     );
     const decimals = 8;
 
@@ -61,7 +66,7 @@ describe("NearestWagerModule", function () {
           ["uint256"],
           [19005 * 10 ** decimals]
         ),
-        wagerEquityData: equityData,
+        equityData: equityData,
         blockData: blockData,
         wagerOracleData: [],
         supplumentalWagerOracleData: [],
@@ -90,7 +95,7 @@ describe("NearestWagerModule", function () {
           ["uint256"],
           [21000 * 10 ** decimals]
         ),
-        wagerEquityData: equityData,
+        equityData: equityData,
         blockData: blockData,
         wagerOracleData: [],
         supplumentalWagerOracleData: [],
@@ -109,8 +114,13 @@ describe("NearestWagerModule", function () {
       [0, 1500, 0]
     );
     const equityData = utils.defaultAbiCoder.encode(
-      ["address", "uint256"],
-      [ethers.constants.AddressZero, ethers.utils.parseEther("1.0")] // 1 ETH
+      ["int", "address[2]", "uint256", "uint256[2]"],
+      [
+        "1",
+        [ethers.constants.AddressZero, ethers.constants.AddressZero],
+        ethers.utils.parseEther("1.0"),
+        ["0", "0"],
+      ] // 1 ETH
     );
     const decimals = 18;
 
@@ -131,7 +141,7 @@ describe("NearestWagerModule", function () {
           ["uint256"],
           [BigInt(1890 * 10 ** decimals)]
         ),
-        wagerEquityData: equityData,
+        equityData: equityData,
         blockData: blockData,
         wagerOracleData: [],
         supplumentalWagerOracleData: [],
@@ -160,7 +170,7 @@ describe("NearestWagerModule", function () {
           ["uint256"],
           [BigInt(1840 * 10 ** decimals)]
         ),
-        wagerEquityData: equityData,
+        equityData: equityData,
         blockData: blockData,
         wagerOracleData: [],
         supplumentalWagerOracleData: [],
@@ -179,8 +189,13 @@ describe("NearestWagerModule", function () {
       [0, 1500, 0]
     );
     const equityData = utils.defaultAbiCoder.encode(
-      ["address", "uint256"],
-      [ethers.constants.AddressZero, ethers.utils.parseEther("1.0")] // 1 ETH
+      ["int", "address[2]", "uint256", "uint256[2]"],
+      [
+        "1",
+        [ethers.constants.AddressZero, ethers.constants.AddressZero],
+        ethers.utils.parseEther("1.0"),
+        ["0", "0"],
+      ] // 1 ETH
     );
     const decimals = 18;
 
@@ -201,7 +216,7 @@ describe("NearestWagerModule", function () {
           ["uint256"],
           [BigInt(0.000432 * 10 ** decimals)]
         ),
-        wagerEquityData: equityData,
+        equityData: equityData,
         blockData: blockData,
         wagerOracleData: [],
         supplumentalWagerOracleData: [],
@@ -230,7 +245,7 @@ describe("NearestWagerModule", function () {
           ["uint256"],
           [BigInt(0.000436 * 10 ** decimals)]
         ),
-        wagerEquityData: equityData,
+        equityData: equityData,
         blockData: blockData,
         wagerOracleData: [],
         supplumentalWagerOracleData: [],

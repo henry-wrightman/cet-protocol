@@ -8,8 +8,7 @@ struct Wager {
     bytes parties; // party data; |partyOne|partyTwo|
     bytes partyOneWagerData; // wager data; |wagerStart|wagerValue|
     bytes partyTwoWagerData;
-    bytes wagerEquityData; // wager equity data; |style|ercAddress|amount|tokenId(s)?
-    // style (0 == double-sided, standard | 1 == one-sided)
+    bytes equityData; // wager equity data; |WagerType|ercContractAddr(s)|amount(s)|tokenId(s)|
     bytes blockData; // blocktime data; |created|expiration|enterLimit|
     bytes wagerOracleData; // ancillary wager data
     bytes supplumentalWagerOracleData; // supplumental wager data
@@ -18,6 +17,12 @@ struct Wager {
     IWagerModule wagerModule; // wager semantics
     IWagerOracle oracleModule; // oracle module semantics
     address oracleSource; // oracle source
+}
+
+// -- wager type
+enum WagerType {
+    oneSided,
+    twoSided
 }
 
 // -- wager states
