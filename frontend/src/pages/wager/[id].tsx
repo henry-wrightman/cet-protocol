@@ -263,7 +263,7 @@ const W: NextPage = () => {
           <div
             className={`${
               potentialSettle || potentialVoid || potentialEnter
-              ? "sm:basis-full md:basis-1/3 lg:basis-1/3 items-center m-4 p-3 shadow-md rounded-lg bg-white border-black border-[1px]"
+              ? "sm:basis-full md:basis-1/4 lg:basis-1/4 items-center m-4 p-3 shadow-md rounded-lg bg-white border-black border-[1px]"
                 : ""
             } ${potentialEnter ? "h-fit" : "h-fit"}`}
           >
