@@ -46,7 +46,7 @@ export function handleWagerCreated(event: WagerCreated): void {
   wager.partyWager = event.params.partyWagerAmount;
   wager.partyOneWager = event.params.partyWager;
   wager.state = BigInt.fromI32(1); // created
-  wager.createdBlock = event.params.createdBlock;
+  wager.createdBlock = event.block.number;
   wager.enterLimitBlock = event.params.enterLimitBlock;
   wager.expirationBlock = event.params.expirationBlock;
   wager.wagerModule = event.params.wagerModule;

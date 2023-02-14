@@ -62,10 +62,10 @@ const Page: NextPage = () => {
                 </div>
                 <div className="hidden md:flex lg:flex flex-col">
                   <div className="flex flex-row-reverse h-[30px] pr-8 p-2 w-full">
-                    <Label className="m-4" ping={true}>
+                    <Label className="m-3" ping={true}>
                       chainlink
                     </Label>
-                    <Label className="m-4" ping={true}>
+                    <Label className="m-3" ping={true}>
                       the graph
                     </Label>
                   </div>

@@ -152,9 +152,9 @@ export const WagerConfirmationModal = ({
         </div>
         {children}
         {data && (
-          <div className="content-center">
+          <div className="grid justify-items-center">
             <div
-              className="mt-2 flex p-4 rounded-3xl cursor-pointer w-[250px] rounded-md font-bold text-black p-3 bg-gray-200"
+              className="flex flex-auto mt-2 p-4 rounded-3xl cursor-pointer w-[250px] rounded-md font-bold text-black p-3 bg-gray-200"
               onClick={() =>
                 navigator.clipboard.writeText(
                   "https://1v1-bet.vercel.app/wager/" +

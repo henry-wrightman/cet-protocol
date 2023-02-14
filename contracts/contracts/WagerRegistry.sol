@@ -3,6 +3,8 @@ pragma solidity ^0.8.7;
 
 import "./interfaces/wagers/IWagerModule.sol";
 import "./interfaces/IWagerRegistry.sol";
+import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
 /**
  @title WagerRegistry
@@ -10,16 +12,6 @@ import "./interfaces/IWagerRegistry.sol";
 
  @notice registry contract for wager management
  */
-
-interface TransferableToken {
-    function transfer(address _to, uint256 _value) external returns (bool);
-
-    function safeTransferFrom(
-        address _from,
-        address _to,
-        uint256 _tokenId
-    ) external returns (bool);
-}
 
 contract WagerRegistry is IWagerRegistry {
     uint256 private _id;
@@ -32,21 +24,34 @@ contract WagerRegistry is IWagerRegistry {
     /// @notice createWager
     /// @dev
     /// @param wager wager to be created
-    /// @return uint256 wager id
-    function createWager(
-        Wager memory wager
-    ) external payable override returns (uint256) {
+    function createWager(Wager memory wager) external payable override {
+        require(wager.partyOneWagerData.length > 0, "W14");
         (, uint80 expirationBlock, uint80 enterBlockLimit) = decodeBlocks(
             wager.blockData
         );
-        (, , uint256 amount) = decodeWagerEquity(wager.wagerEquityData);
         require(expirationBlock >= block.number + 30, "W12");
         require(enterBlockLimit < expirationBlock, "W19");
 
+        (
+            WagerType style,
+            address[2] memory ercInterfaces,
+            uint256 amount,
+            uint256[2] memory ids
+        ) = decodeWagerEquity(wager.equityData);
+        require(msg.value == amount, "W9");
+        if (ercInterfaces[0] != address(0)) {
+            require(
+                IERC721(ercInterfaces[0]).getApproved(ids[0]) == address(this),
+                "Registry requires NFT approval"
+            );
+            require(
+                IERC721(ercInterfaces[0]).supportsInterface(0x80ac58cd),
+                "invalid NFT"
+            );
+        }
+
         (address partyOne, ) = decodeParties(wager.parties);
-        require(partyOne != address(0), "W13");
-        require(wager.partyOneWagerData.length > 0, "W14");
-        require(msg.value >= amount, "W9");
+        require(partyOne != address(0) && partyOne == msg.sender, "W13");
 
         wager.blockData = abi.encode(
             block.number,
@@ -54,33 +59,36 @@ contract WagerRegistry is IWagerRegistry {
             enterBlockLimit
         );
         wager.state = WagerState.created;
-        uint256 id = _id;
-        wagers[id] = wager;
-        _id++;
+        wagers[_id] = wager;
 
         emit WagerCreated(
             msg.sender,
             msg.value,
             wager.partyOneWagerData,
-            block.number,
             enterBlockLimit,
             expirationBlock,
             address(wager.wagerModule),
             address(wager.oracleSource),
-            id
+            _id
         );
-        return id;
+        _id++;
     }
 
     /// @notice enterWager
     /// @dev
     /// @param wagerId id of wager to be entered by second party
+    /// @param partyTwoEquityData bytes encoded of address and id (if NFT)
     /// @param partyTwoWagerData second party's supplemental data for their specific wager
     function enterWager(
         uint256 wagerId,
+        bytes memory partyTwoEquityData,
         bytes memory partyTwoWagerData
     ) external payable override {
         require(wagerId <= _id, "W1");
+        (address ercInterface, uint256 id) = abi.decode(
+            partyTwoEquityData,
+            (address, uint256)
+        );
 
         Wager memory wager = wagers[wagerId];
         require(wager.state == WagerState.created, "W2");
@@ -93,14 +101,28 @@ contract WagerRegistry is IWagerRegistry {
         }
         require(expirationBlock >= block.number + 15, "W7");
 
-        (address partyOne, address partyTwo) = decodeParties(wager.parties);
+        (address partyOne, ) = decodeParties(wager.parties);
         require(msg.sender != partyOne, "W8");
 
-        (int style, , uint256 amount) = decodeWagerEquity(
-            wager.wagerEquityData
-        );
-        if (style == 0) {
-            require(msg.value >= amount, "W9");
+        (
+            WagerType style,
+            address[2] memory ercInterfaces,
+            uint256 amount,
+            uint256[2] memory ids
+        ) = decodeWagerEquity(wager.equityData);
+        if (ercInterfaces[0] == address(0)) {
+            require(msg.value == amount, "W9");
+            require(ercInterface == address(0), "invalid wager collateral");
+        }
+        if (ercInterfaces[1] != address(0)) {
+            require(
+                IERC721(ercInterfaces[1]).getApproved(id) == address(this),
+                "Registry requires NFT approval"
+            );
+            require(
+                IERC721(ercInterfaces[1]).supportsInterface(0x80ac58cd),
+                "invalid NFT"
+            );
         }
         require(
             (wager.partyTwoWagerData.length == 0 &&
@@ -118,6 +140,12 @@ contract WagerRegistry is IWagerRegistry {
 
         wager.parties = abi.encode(partyOne, msg.sender);
         wager.partyTwoWagerData = partyTwoWagerData;
+        wager.equityData = abi.encode(
+            style,
+            [ercInterfaces[0], ercInterface],
+            amount,
+            [ids[0], id]
+        );
         wager.state = WagerState.active;
         executionSchedule[expirationBlock].push(wagerId);
         wagers[wagerId] = wager;
@@ -133,7 +161,7 @@ contract WagerRegistry is IWagerRegistry {
         Wager memory wager = wagers[wagerId];
         require(wager.state == WagerState.active, "W2");
 
-        (, uint80 expirationBlock, uint80 enterLimitBlock) = decodeBlocks(
+        (, uint80 expirationBlock,) = decodeBlocks(
             wager.blockData
         );
         require(block.number >= expirationBlock, "W3");
@@ -144,21 +172,25 @@ contract WagerRegistry is IWagerRegistry {
         settledWager.state = WagerState.completed;
         wagers[wagerId] = settledWager;
 
-        (int style, address ercInterface, uint256 amount) = decodeWagerEquity(
-            wager.wagerEquityData
-        );
-        uint256 winnings = style == 0 ? (amount * 2) : amount;
-        if (ercInterface == address(0)) {
+        (
+            WagerType style,
+            address[2] memory ercInterfaces,
+            uint256 amount,
+            uint256[2] memory ids
+        ) = decodeWagerEquity(wager.equityData);
+        uint256 winnings = style == WagerType.twoSided ? (amount * 2) : amount;
+        if (ercInterfaces[0] == address(0)) {
             (bool sent, ) = winner.call{value: winnings}("");
             require(sent, "W11");
         } else {
-            bool sent = TransferableToken(ercInterface).transfer(
+            (address partyOne, address partyTwo) = decodeParties(wager.parties);
+            IERC721(ercInterfaces[partyOne == winner ? 0 : 1]).safeTransferFrom(
+                partyOne == winner ? partyTwo : partyOne,
                 winner,
-                winnings
+                partyOne == winner ? ids[1] : ids[0]
             );
-            require(sent, "W11");
         }
-        emit WagerSettled(winner, amount * 2, settledWager.result, wagerId);
+        emit WagerSettled(winner, winnings, settledWager.result, wagerId);
     }
 
     function executeBlockRange(
@@ -207,39 +239,47 @@ contract WagerRegistry is IWagerRegistry {
         wagers[wagerId] = wager;
         require(msg.sender == partyOne, "W4");
 
-        (int style, address ercContract, uint256 amount) = decodeWagerEquity(
-            wager.wagerEquityData
-        );
-        (bool sent, ) = partyOne.call{value: amount}("");
-        require(sent, "W6");
-        if (partyTwo != address(0) && style == 0) {
-            (bool sentTwo, ) = partyTwo.call{value: amount}("");
-            require(sentTwo, "W6");
+        (
+            WagerType style,
+            address[2] memory ercInterfaces,
+            uint256 amount,
+
+        ) = decodeWagerEquity(wager.equityData);
+
+        if (ercInterfaces[0] == address(0)) {
+            (bool sent, ) = partyOne.call{value: amount}("");
+            require(sent, "W6");
+            if (partyTwo != address(0) && style == WagerType.twoSided) {
+                (bool sentTwo, ) = partyTwo.call{value: amount}("");
+                require(sentTwo, "W6");
+            }
         }
 
         emit WagerVoided(wagerId);
     }
 
     /// @notice decodeWagerEquity
-    /// @dev Wager's equitiy data consists of <style> (int) <ercInterface> (address) <amount> (uint256) [** potentially <ids> (uint256) **]
+    /// @dev Wager's equitiy data consists of <style> (WagerStyle) <ercInterface> (address) <amount> (uint256) [** potentially <ids> (uint256) **]
     /// @param data wager equity data be decoded
-    /// @return style int
-    /// @return ercInterface address
-    /// @return amount uint256
+    /// @return style WagerType (int) oneSided vs twoSided
+    /// @return ercContracts address[1] ; 2 address slots for NFTs
+    /// @return amount uint256 amount
+    /// @return ids uint256[1] ; 2 id slots for NFTs
     function decodeWagerEquity(
         bytes memory data
     )
         public
         pure
         returns (
-            int style,
-            address ercInterface,
-            uint256 amount /* uint256 ids */
+            WagerType style,
+            address[2] memory ercContracts,
+            uint256 amount,
+            uint256[2] memory ids
         )
     {
-        (style, ercInterface, amount) = abi.decode(
+        (style, ercContracts, amount, ids) = abi.decode(
             data,
-            (int, address, uint256)
+            (WagerType, address[2], uint256, uint256[2])
         );
     }
 

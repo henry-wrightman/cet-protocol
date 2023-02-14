@@ -10,7 +10,16 @@ contract TestERC721 is ERC721 {
 
     constructor() ERC721("MyTestToken", "MTT") {}
 
-    function safeTransferFrom(from, to, tokenId) public returns (bool) {
-        _safeTransferFrom(from, to, tokenId);
+    function safeTransferFrom(
+        address from,
+        address to,
+        uint256 tokenId
+    ) public virtual override {
+        safeTransferFrom(from, to, tokenId, "");
+    }
+
+    function mint(address to) public {
+        _safeMint(to, _tokenIdCounter.current());
+        _tokenIdCounter.increment();
     }
 }

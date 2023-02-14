@@ -67,8 +67,17 @@ describe("WagerExecutor", function () {
           [address1.address, address2.address]
         );
         const equityData = utils.defaultAbiCoder.encode(
+          ["int", "address[2]", "uint256", "uint256[2]"],
+          [
+            "1",
+            [ethers.constants.AddressZero, ethers.constants.AddressZero],
+            ethers.utils.parseEther("1.0"),
+            ["0", "0"],
+          ] // 1 ETH
+        );
+        const partyTwoEquityData = utils.defaultAbiCoder.encode(
           ["address", "uint256"],
-          [ethers.constants.AddressZero, ethers.utils.parseEther("1.0")] // 1 ETH
+          [ethers.constants.AddressZero, "0"]
         );
         for (let i = 0; i < 10; i++) {
           const startBlock = 1000 + 50 * i;
@@ -81,7 +90,7 @@ describe("WagerExecutor", function () {
               parties: partiesData,
               partyOneWagerData: partyOneWagerData,
               partyTwoWagerData: [],
-              wagerEquityData: equityData,
+              equityData: equityData,
               blockData: blockData,
               wagerOracleData: [],
               supplumentalWagerOracleData: [],
@@ -95,7 +104,7 @@ describe("WagerExecutor", function () {
           );
           await wagerRegistry
             .connect(address2)
-            .enterWager(i, partyTwoWagerData, {
+            .enterWager(i, partyTwoEquityData, partyTwoWagerData, {
               value: ethers.utils.parseEther("1.0"),
             });
           const wager = await wagerRegistry.wagers(i);
