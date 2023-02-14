@@ -50,6 +50,7 @@ export const CreateWager = ({
   const wagerDataD = useDebounce(wagerData, 2000);
   const blockDataD = useDebounce(blockData, 2000);
   const partiesDataD = useDebounce(partiesData, 2000);
+  console.log(wagerDataD);
   const { config, error } = usePrepareContractWrite({
     address: REGISTRY_ADDRESSES[network],
     abi: REG_ABI,

@@ -276,8 +276,8 @@ export const WagerForm = ({ signerAddress }: { signerAddress: string }) => {
                       constructWagerData(
                         watch("wagerType"),
                         [
-                          watch("wager"),
-                          parseInt(currentPrice).toFixed(0).toString(),
+                          watch("wager"), // todo probably ensure formatting/parsability like below
+                          parseFloat(currentPrice.replace(",", "")).toString(),
                         ],
                         TICKER_DECIMALS[ticker as TICKERS]
                       ) || []

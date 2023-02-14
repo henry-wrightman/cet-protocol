@@ -256,11 +256,14 @@ const W: NextPage = () => {
   return (
     <div className="min-h-screen bg-green-200 font-normal justify-center items-center border-white border-[1px]">
       <div className="flex flex-col md:flex-row lg:flex-row">
-        <form onSubmit={handleSubmit(onSubmit)} className="basis-1/4">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="sm:basis-full md:basis-1/3 lg:basis-1/3 "
+        >
           <div
             className={`${
               potentialSettle || potentialVoid || potentialEnter
-                ? "sm:basis-full md:basis-1/4 lg:basis-1/4 items-center m-4 p-3 shadow-md rounded-lg bg-white border-black border-[1px]"
+                ? "items-center m-4 p-3 shadow-md rounded-lg bg-white border-black border-[1px]"
                 : ""
             } ${potentialEnter ? "h-fit" : "h-fit"}`}
           >
@@ -325,8 +328,10 @@ const W: NextPage = () => {
                     Party One&apos;s Bet
                   </td>
                   <td className="p-1 text-right border rounded-r-md">
-                    {parseInt(partyOneWager![0].toString()) /
-                      10 ** TICKER_DECIMALS[ticker as TICKERS]}
+                    {wagerType == "wm.highlow"
+                      ? partyOneWager![0].toString()
+                      : parseInt(partyOneWager![0].toString()) /
+                        10 ** TICKER_DECIMALS[ticker as TICKERS]}
                   </td>
                 </tr>
                 <tr className="bg-gray-200 text-left h-[40px]">
