@@ -161,7 +161,7 @@ contract WagerRegistry is IWagerRegistry {
         Wager memory wager = wagers[wagerId];
         require(wager.state == WagerState.active, "W2");
 
-        (, uint80 expirationBlock, uint80 enterLimitBlock) = decodeBlocks(
+        (, uint80 expirationBlock,) = decodeBlocks(
             wager.blockData
         );
         require(block.number >= expirationBlock, "W3");
