@@ -254,16 +254,16 @@ const W: NextPage = () => {
   const enterReady = watch("wager") != null && data?.wager?.state == "1";
 
   return (
-    <div className="min-h-screen bg-green-200 font-normal justify-center items-center border-white border-[1px]">
+    <div className="min-h-screen bg-green-200 font-normal border-white border-[1px]">
       <div className="flex flex-col md:flex-row lg:flex-row">
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="sm:basis-full md:basis-1/3 lg:basis-1/3 "
+          className="sm:basis-full md:basis-1/4 lg:basis-1/4"
         >
           <div
             className={`${
               potentialSettle || potentialVoid || potentialEnter
-              ? "sm:basis-full md:basis-1/4 lg:basis-1/4 items-center m-4 p-3 shadow-md rounded-lg bg-white border-black border-[1px]"
+                ? "sm:basis-full md:basis-1/4 lg:basis-1/4 m-4 p-3 shadow-md rounded-lg bg-white border-black border-[1px]"
                 : ""
             } ${potentialEnter ? "h-fit" : "h-fit"}`}
           >
@@ -299,7 +299,7 @@ const W: NextPage = () => {
               </>
             )}
             {!isConnected && !address && (
-              <div className="sm:basis-full md:basis-1/3 lg:basis-1/3 justify-center m-2 p-3 shadow-md rounded-lg bg-white min-w-[250px] min-h-[50px] border-black border-[1px]">
+              <div className="sm:basis-full md:basis-1/4 lg:basis-1/4 justify-center m-2 p-3 shadow-md rounded-lg bg-white min-w-[250px] min-h-[50px] border-black border-[1px]">
                 <Connect />
               </div>
             )}
@@ -307,7 +307,7 @@ const W: NextPage = () => {
             {potentialVoid && <VoidWager wagerId={data?.wager.id!} />}
           </div>
         </form>
-        <div className="m-4 sm:basis-full md:basis-1/2 lg:basis-1/2 pt-4 p-2 rounded-lg bg-white border-black border-[1px]">
+        <div className="m-4 sm:basis-full md:basis-1/3 lg:basis-1/3 pt-4 p-2 rounded-lg bg-white border-black border-[1px]">
           <table className="w-full border-separate border-spacing-x-0 border-spacing-y-2">
             {data && data.wager && (
               <>
