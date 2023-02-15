@@ -196,7 +196,7 @@ export const WagerForm = ({ signerAddress }: { signerAddress: string }) => {
                 ></Input>
                 {errors && errors.wagerAmount && (
                   <>
-                    <Label className="mt-1 text-red-500 text-xs">
+                    <Label className="mt-1 ml-1 text-red-500 text-xs">
                       {errors.wagerAmount.message || ""}
                     </Label>
                   </>

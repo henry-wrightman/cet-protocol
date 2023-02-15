@@ -111,7 +111,7 @@ export const WagerOptions = ({
               ></Input>
               {formState.errors && formState.errors.wager && (
                 <>
-                  <Label className="mt-1 text-red-500 text-xs">
+                  <Label className="mt-1 ml-1 text-red-500 text-xs">
                     {formState.errors.wager.message || ""}
                   </Label>
                 </>
