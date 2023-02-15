@@ -54,7 +54,7 @@ const Page: NextPage = () => {
                 )}
               </div>
               <div className="flex-row sm:w-full md:w-9/12 lg:w-9/12 sm:basis-full md:basis-9/12 lg:basis-9/12">
-                <div className="h-[50px] rounded-lg p-1 m-2 shadow-md bg-white border-black border-[1px]">
+                <div className="h-[40px] rounded-lg p-1 m-2 shadow-md bg-white border-black border-[1px]">
                   <PriceFeed />
                 </div>
                 <div className="md:h-[500px] lg:h-[500px] h-[500px] overflow-scroll rounded-lg p-1 lg:p-3 m-2 shadow-md bg-white border-black border-[1px]">
