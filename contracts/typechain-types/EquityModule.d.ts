@@ -172,7 +172,7 @@ export class EquityModule extends BaseContract {
 
   functions: {
     acceptCounterEquity(
-      partyTwoData: BytesLike,
+      partyTwoEquityData: BytesLike,
       wager: {
         parties: BytesLike;
         partyOneWagerData: BytesLike;
@@ -191,7 +191,7 @@ export class EquityModule extends BaseContract {
     ): Promise<ContractTransaction>;
 
     acceptEquity(
-      data: BytesLike,
+      equityData: BytesLike,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -251,7 +251,7 @@ export class EquityModule extends BaseContract {
   };
 
   acceptCounterEquity(
-    partyTwoData: BytesLike,
+    partyTwoEquityData: BytesLike,
     wager: {
       parties: BytesLike;
       partyOneWagerData: BytesLike;
@@ -270,7 +270,7 @@ export class EquityModule extends BaseContract {
   ): Promise<ContractTransaction>;
 
   acceptEquity(
-    data: BytesLike,
+    equityData: BytesLike,
     overrides?: PayableOverrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -330,7 +330,7 @@ export class EquityModule extends BaseContract {
 
   callStatic: {
     acceptCounterEquity(
-      partyTwoData: BytesLike,
+      partyTwoEquityData: BytesLike,
       wager: {
         parties: BytesLike;
         partyOneWagerData: BytesLike;
@@ -376,7 +376,10 @@ export class EquityModule extends BaseContract {
       }
     >;
 
-    acceptEquity(data: BytesLike, overrides?: CallOverrides): Promise<void>;
+    acceptEquity(
+      equityData: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<void>;
 
     decodeParties(
       data: BytesLike,
@@ -437,7 +440,7 @@ export class EquityModule extends BaseContract {
 
   estimateGas: {
     acceptCounterEquity(
-      partyTwoData: BytesLike,
+      partyTwoEquityData: BytesLike,
       wager: {
         parties: BytesLike;
         partyOneWagerData: BytesLike;
@@ -456,7 +459,7 @@ export class EquityModule extends BaseContract {
     ): Promise<BigNumber>;
 
     acceptEquity(
-      data: BytesLike,
+      equityData: BytesLike,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -510,7 +513,7 @@ export class EquityModule extends BaseContract {
 
   populateTransaction: {
     acceptCounterEquity(
-      partyTwoData: BytesLike,
+      partyTwoEquityData: BytesLike,
       wager: {
         parties: BytesLike;
         partyOneWagerData: BytesLike;
@@ -529,7 +532,7 @@ export class EquityModule extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     acceptEquity(
-      data: BytesLike,
+      equityData: BytesLike,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 

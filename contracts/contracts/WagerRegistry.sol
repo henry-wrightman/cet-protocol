@@ -179,7 +179,11 @@ contract WagerRegistry is IWagerRegistry {
                 );
             }
         }
-        require(wager.state == WagerState.created, "W2");
+        require(
+            wager.state == WagerState.created ||
+                wager.state == WagerState.active,
+            "W2"
+        );
 
         wager.state = WagerState.voided;
         wagers[wagerId] = wager;

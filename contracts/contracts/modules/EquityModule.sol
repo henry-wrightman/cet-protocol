@@ -1,5 +1,6 @@
-import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
-import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.7;
+
 import "../interfaces/IEquityModule.sol";
 import "../interfaces/wagers/IWagerModule.sol";
 import "hardhat/console.sol";
@@ -14,13 +15,16 @@ import "hardhat/console.sol";
  */
 
 contract EquityModule is IEquityModule {
-    function acceptEquity(bytes memory data) external payable override {
+    /// @notice acceptEquity
+    /// @dev handles the creator party's equity creating a wager
+    /// @param equityData wager's equity data
+    function acceptEquity(bytes memory equityData) external payable override {
         (
             ,
             address[2] memory ercInterfaces,
             uint256 amount,
             uint256[2] memory ids
-        ) = decodeWagerEquity(data);
+        ) = decodeWagerEquity(equityData);
         require(msg.value == amount, "W9");
         if (ercInterfaces[0] != address(0)) {
             (bool success, bytes memory addressData) = ercInterfaces[0].call(
@@ -38,12 +42,17 @@ contract EquityModule is IEquityModule {
         }
     }
 
+    /// @notice acceptCounterEquity
+    /// @dev handles the counter party's equity entering a wager
+    /// @param partyTwoEquityData party two's equity data
+    /// @param wager wager being entered
+    /// @return wager updated wager w accepted counter party & their equity
     function acceptCounterEquity(
-        bytes memory partyTwoData,
+        bytes memory partyTwoEquityData,
         Wager memory wager
     ) external payable override returns (Wager memory) {
         (address ercInterface, uint256 id) = abi.decode(
-            partyTwoData,
+            partyTwoEquityData,
             (address, uint256)
         );
         (
@@ -80,8 +89,10 @@ contract EquityModule is IEquityModule {
     }
 
     /// @notice settleEquity
-    /// @dev
-    /// @param data bytes equity data
+    /// @dev handles the equity settlment of a wager being settled
+    /// @param wager wager to be settled
+    /// @param recipient address of recipient recieving settled funds
+    /// @return settledAmount uint256 amount settled
     function settleEquity(
         Wager memory wager,
         address recipient
@@ -112,6 +123,9 @@ contract EquityModule is IEquityModule {
         return winnings;
     }
 
+    /// @notice voidEquity
+    /// @dev handles the equity distribution of a wager being voided
+    /// @param wager wager being voided
     function voidEquity(Wager memory wager) external override {
         (
             WagerType style,
@@ -156,6 +170,11 @@ contract EquityModule is IEquityModule {
         );
     }
 
+    /// @notice decodeParties
+    /// @dev Wager's party data consists of <partyOne> (address) and <partyTwo> address
+    /// @param data wager address data be decoded
+    /// @return partyOne address
+    /// @return partyTwo address
     function decodeParties(
         bytes memory data
     ) public pure returns (address partyOne, address partyTwo) {
