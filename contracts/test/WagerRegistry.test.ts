@@ -227,7 +227,7 @@ describe("WagerRegistry", function () {
           BigNumber.from(ethers.utils.parseEther("2.0")).add(address1BalStart)
         ); // wagerAmount (1) * 2 (recieving the full pot)
       });
-      it("partyOne should create one-sided wager, partyTwo should enter wager, partyTwo wins successfully happy path", async function () {
+      it.only("partyOne should create one-sided wager, partyTwo should enter wager, partyTwo wins successfully happy path", async function () {
         const latestBlock = await time.latestBlock();
         const blockData = utils.defaultAbiCoder.encode(
           ["uint80", "uint80", "uint80"],

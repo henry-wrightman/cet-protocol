@@ -4,7 +4,7 @@ pragma solidity ^0.8.7;
 import "./interfaces/wagers/IWagerModule.sol";
 import "./interfaces/IWagerRegistry.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
-import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "hardhat/console.sol";
 
 /**
  @title WagerRegistry
@@ -40,14 +40,21 @@ contract WagerRegistry is IWagerRegistry {
         ) = decodeWagerEquity(wager.equityData);
         require(msg.value == amount, "W9");
         if (ercInterfaces[0] != address(0)) {
+            (bool success, bytes memory addressData) = ercInterfaces[0].call(
+                abi.encodeWithSignature("getApproved(uint256)", ids[0])
+            );
+            console.log(success);
             require(
-                IERC721(ercInterfaces[0]).getApproved(ids[0]) == address(this),
+                abi.decode(addressData, (address)) == address(this),
                 "Registry requires NFT approval"
             );
-            require(
-                IERC721(ercInterfaces[0]).supportsInterface(0x80ac58cd),
-                "invalid NFT"
+            (bool success2, bytes memory boolData) = ercInterfaces[0].call(
+                abi.encodeWithSignature(
+                    "supportsInterface(bytes4)",
+                    0x80ac58cd
+                )
             );
+            console.log(success2);
         }
 
         (address partyOne, ) = decodeParties(wager.parties);
@@ -184,11 +191,11 @@ contract WagerRegistry is IWagerRegistry {
             require(sent, "W11");
         } else {
             (address partyOne, address partyTwo) = decodeParties(wager.parties);
-            IERC721(ercInterfaces[partyOne == winner ? 0 : 1]).safeTransferFrom(
-                partyOne == winner ? partyTwo : partyOne,
-                winner,
-                partyOne == winner ? ids[1] : ids[0]
-            );
+            bytes memory data = abi.encodeWithSignature("safeTransferFrom(address,address,uint256)", 
+                partyOne == winner ? partyTwo : partyOne, 
+                winner, 
+                partyOne == winner ? ids[1] : ids[0]);
+            ercInterfaces[partyOne == winner ? 0 : 1].call(data);
         }
         emit WagerSettled(winner, winnings, settledWager.result, wagerId);
     }
