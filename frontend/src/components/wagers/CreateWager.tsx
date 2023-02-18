@@ -42,11 +42,11 @@ export const CreateWager = ({
     ["address", "address"],
     [signerAddress, ethers.constants.AddressZero]
   );
-  // const equityData = utils.defaultAbiCoder.encode(
-  //   ["int", "address[2]", "uint256", "uint256[2]"],
-  //   ["1", [ethers.constants.AddressZero, ethers.constants.AddressZero], ethers.utils.parseEther("1.0"), ["", ""]] // 1 ETH
-  // );
-  const wagerAmtD = useDebounce(wagerAmount, 2000);
+  const equityData = utils.defaultAbiCoder.encode(
+    ["int", "address[2]", "uint256", "uint256[2]"],
+    ["1", [ethers.constants.AddressZero, ethers.constants.AddressZero], ethers.utils.parseEther(wagerAmount), ["0", "0"]]
+  ); // 2-sided
+  const equityDataD = useDebounce(equityData, 2000);
   const wagerDataD = useDebounce(wagerData, 2000);
   const blockDataD = useDebounce(blockData, 2000);
   const partiesDataD = useDebounce(partiesData, 2000);
@@ -60,10 +60,9 @@ export const CreateWager = ({
         parties: partiesDataD,
         partyOneWagerData: wagerDataD,
         partyTwoWagerData: [],
-        wagerAmount: ethers.utils.parseEther(wagerAmtD), // equityData: equityData
+        equityData: equityDataD,
         blockData: blockDataD,
-        wagerOracleData: [],
-        supplumentalWagerOracleData: [],
+        supplumentalOracleData: [],
         result: [],
         state: ethers.BigNumber.from("1"),
         wagerModule,
@@ -72,7 +71,7 @@ export const CreateWager = ({
       },
     ],
     overrides: {
-      value: ethers.utils.parseEther(wagerAmtD),
+      value: ethers.utils.parseEther(wagerAmount),
     },
     onError: (err) => {
       console.log("err: " + err);

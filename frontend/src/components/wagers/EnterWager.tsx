@@ -6,7 +6,7 @@ import {
 } from "wagmi";
 import { REGISTRY_ADDRESSES, NETWORK } from "../../utils/constants";
 import { Transaction } from "../Transaction";
-import { ethers } from "ethers";
+import { ethers, utils } from "ethers";
 import REG_ABI from "../../../../subgraph/contractDeployments/0/WagerRegistry.json";
 import { TransactionReceipt } from "@ethersproject/providers";
 
@@ -24,12 +24,16 @@ export const EnterWager = ({
   const { chain } = useNetwork();
   const network =
     chain && chain?.network ? (chain?.network as NETWORK) : "goerli";
-
+  
+  const partyTwoEquityData = utils.defaultAbiCoder.encode(
+    ["address", "uint256"],
+    [ethers.constants.AddressZero, "0"]
+  );
   const { config, error } = usePrepareContractWrite({
     address: REGISTRY_ADDRESSES[network],
     abi: REG_ABI,
     functionName: "enterWager",
-    args: [ethers.BigNumber.from(wagerId), wagerData],
+    args: [ethers.BigNumber.from(wagerId), partyTwoEquityData, wagerData],
     overrides: {
       value: ethers.utils.parseEther(wagerAmount),
     },

@@ -22,12 +22,14 @@ import type { TypedEventFilter, TypedEvent, TypedListener } from "./common";
 
 interface WagerRegistryInterface extends ethers.utils.Interface {
   functions: {
-    "createWager((bytes,bytes,bytes,uint256,bytes,bytes,bytes,bytes,uint8,address,address,address))": FunctionFragment;
+    "createWager((bytes,bytes,bytes,bytes,bytes,bytes,uint8,address,address,address,bytes))": FunctionFragment;
     "decodeBlocks(bytes)": FunctionFragment;
     "decodeParties(bytes)": FunctionFragment;
-    "enterWager(uint256,bytes)": FunctionFragment;
+    "enterWager(uint256,bytes,bytes)": FunctionFragment;
+    "equityModule()": FunctionFragment;
     "executeBlockRange(uint256,uint256)": FunctionFragment;
     "executionSchedule(uint256,uint256)": FunctionFragment;
+    "setEquityModule(address)": FunctionFragment;
     "settleWager(uint256)": FunctionFragment;
     "voidWager(uint256)": FunctionFragment;
     "wagers(uint256)": FunctionFragment;
@@ -40,15 +42,14 @@ interface WagerRegistryInterface extends ethers.utils.Interface {
         parties: BytesLike;
         partyOneWagerData: BytesLike;
         partyTwoWagerData: BytesLike;
-        wagerAmount: BigNumberish;
+        equityData: BytesLike;
         blockData: BytesLike;
-        wagerOracleData: BytesLike;
-        supplumentalWagerOracleData: BytesLike;
         result: BytesLike;
         state: BigNumberish;
         wagerModule: string;
         oracleModule: string;
         oracleSource: string;
+        supplumentalOracleData: BytesLike;
       }
     ]
   ): string;
@@ -62,7 +63,11 @@ interface WagerRegistryInterface extends ethers.utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "enterWager",
-    values: [BigNumberish, BytesLike]
+    values: [BigNumberish, BytesLike, BytesLike]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "equityModule",
+    values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "executeBlockRange",
@@ -71,6 +76,10 @@ interface WagerRegistryInterface extends ethers.utils.Interface {
   encodeFunctionData(
     functionFragment: "executionSchedule",
     values: [BigNumberish, BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setEquityModule",
+    values: [string]
   ): string;
   encodeFunctionData(
     functionFragment: "settleWager",
@@ -99,11 +108,19 @@ interface WagerRegistryInterface extends ethers.utils.Interface {
   ): Result;
   decodeFunctionResult(functionFragment: "enterWager", data: BytesLike): Result;
   decodeFunctionResult(
+    functionFragment: "equityModule",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "executeBlockRange",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
     functionFragment: "executionSchedule",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setEquityModule",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -114,7 +131,7 @@ interface WagerRegistryInterface extends ethers.utils.Interface {
   decodeFunctionResult(functionFragment: "wagers", data: BytesLike): Result;
 
   events: {
-    "WagerCreated(address,uint256,bytes,uint256,uint256,uint256,address,address,uint256)": EventFragment;
+    "WagerCreated(address,uint256,bytes,uint256,uint256,address,address,uint256)": EventFragment;
     "WagerEntered(address,bytes,uint256)": EventFragment;
     "WagerSettled(address,uint256,bytes,uint256)": EventFragment;
     "WagerVoided(uint256)": EventFragment;
@@ -133,7 +150,6 @@ export type WagerCreatedEvent = TypedEvent<
     string,
     BigNumber,
     BigNumber,
-    BigNumber,
     string,
     string,
     BigNumber
@@ -141,7 +157,6 @@ export type WagerCreatedEvent = TypedEvent<
     partyAddr: string;
     partyWagerAmount: BigNumber;
     partyWager: string;
-    createdBlock: BigNumber;
     enterLimitBlock: BigNumber;
     expirationBlock: BigNumber;
     wagerModule: string;
@@ -218,15 +233,14 @@ export class WagerRegistry extends BaseContract {
         parties: BytesLike;
         partyOneWagerData: BytesLike;
         partyTwoWagerData: BytesLike;
-        wagerAmount: BigNumberish;
+        equityData: BytesLike;
         blockData: BytesLike;
-        wagerOracleData: BytesLike;
-        supplumentalWagerOracleData: BytesLike;
         result: BytesLike;
         state: BigNumberish;
         wagerModule: string;
         oracleModule: string;
         oracleSource: string;
+        supplumentalOracleData: BytesLike;
       },
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
@@ -249,9 +263,12 @@ export class WagerRegistry extends BaseContract {
 
     enterWager(
       wagerId: BigNumberish,
+      partyTwoEquityData: BytesLike,
       partyTwoWagerData: BytesLike,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
+
+    equityModule(overrides?: CallOverrides): Promise<[string]>;
 
     executeBlockRange(
       startBlock: BigNumberish,
@@ -264,6 +281,11 @@ export class WagerRegistry extends BaseContract {
       arg1: BigNumberish,
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
+
+    setEquityModule(
+      moduleAddr: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
 
     settleWager(
       wagerId: BigNumberish,
@@ -283,12 +305,11 @@ export class WagerRegistry extends BaseContract {
         string,
         string,
         string,
-        BigNumber,
-        string,
         string,
         string,
         string,
         number,
+        string,
         string,
         string,
         string
@@ -296,15 +317,14 @@ export class WagerRegistry extends BaseContract {
         parties: string;
         partyOneWagerData: string;
         partyTwoWagerData: string;
-        wagerAmount: BigNumber;
+        equityData: string;
         blockData: string;
-        wagerOracleData: string;
-        supplumentalWagerOracleData: string;
         result: string;
         state: number;
         wagerModule: string;
         oracleModule: string;
         oracleSource: string;
+        supplumentalOracleData: string;
       }
     >;
   };
@@ -314,15 +334,14 @@ export class WagerRegistry extends BaseContract {
       parties: BytesLike;
       partyOneWagerData: BytesLike;
       partyTwoWagerData: BytesLike;
-      wagerAmount: BigNumberish;
+      equityData: BytesLike;
       blockData: BytesLike;
-      wagerOracleData: BytesLike;
-      supplumentalWagerOracleData: BytesLike;
       result: BytesLike;
       state: BigNumberish;
       wagerModule: string;
       oracleModule: string;
       oracleSource: string;
+      supplumentalOracleData: BytesLike;
     },
     overrides?: PayableOverrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
@@ -345,9 +364,12 @@ export class WagerRegistry extends BaseContract {
 
   enterWager(
     wagerId: BigNumberish,
+    partyTwoEquityData: BytesLike,
     partyTwoWagerData: BytesLike,
     overrides?: PayableOverrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
+
+  equityModule(overrides?: CallOverrides): Promise<string>;
 
   executeBlockRange(
     startBlock: BigNumberish,
@@ -360,6 +382,11 @@ export class WagerRegistry extends BaseContract {
     arg1: BigNumberish,
     overrides?: CallOverrides
   ): Promise<BigNumber>;
+
+  setEquityModule(
+    moduleAddr: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
 
   settleWager(
     wagerId: BigNumberish,
@@ -379,12 +406,11 @@ export class WagerRegistry extends BaseContract {
       string,
       string,
       string,
-      BigNumber,
-      string,
       string,
       string,
       string,
       number,
+      string,
       string,
       string,
       string
@@ -392,15 +418,14 @@ export class WagerRegistry extends BaseContract {
       parties: string;
       partyOneWagerData: string;
       partyTwoWagerData: string;
-      wagerAmount: BigNumber;
+      equityData: string;
       blockData: string;
-      wagerOracleData: string;
-      supplumentalWagerOracleData: string;
       result: string;
       state: number;
       wagerModule: string;
       oracleModule: string;
       oracleSource: string;
+      supplumentalOracleData: string;
     }
   >;
 
@@ -410,18 +435,17 @@ export class WagerRegistry extends BaseContract {
         parties: BytesLike;
         partyOneWagerData: BytesLike;
         partyTwoWagerData: BytesLike;
-        wagerAmount: BigNumberish;
+        equityData: BytesLike;
         blockData: BytesLike;
-        wagerOracleData: BytesLike;
-        supplumentalWagerOracleData: BytesLike;
         result: BytesLike;
         state: BigNumberish;
         wagerModule: string;
         oracleModule: string;
         oracleSource: string;
+        supplumentalOracleData: BytesLike;
       },
       overrides?: CallOverrides
-    ): Promise<BigNumber>;
+    ): Promise<void>;
 
     decodeBlocks(
       data: BytesLike,
@@ -441,9 +465,12 @@ export class WagerRegistry extends BaseContract {
 
     enterWager(
       wagerId: BigNumberish,
+      partyTwoEquityData: BytesLike,
       partyTwoWagerData: BytesLike,
       overrides?: CallOverrides
     ): Promise<void>;
+
+    equityModule(overrides?: CallOverrides): Promise<string>;
 
     executeBlockRange(
       startBlock: BigNumberish,
@@ -456,6 +483,11 @@ export class WagerRegistry extends BaseContract {
       arg1: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
+
+    setEquityModule(
+      moduleAddr: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
 
     settleWager(
       wagerId: BigNumberish,
@@ -472,12 +504,11 @@ export class WagerRegistry extends BaseContract {
         string,
         string,
         string,
-        BigNumber,
-        string,
         string,
         string,
         string,
         number,
+        string,
         string,
         string,
         string
@@ -485,25 +516,23 @@ export class WagerRegistry extends BaseContract {
         parties: string;
         partyOneWagerData: string;
         partyTwoWagerData: string;
-        wagerAmount: BigNumber;
+        equityData: string;
         blockData: string;
-        wagerOracleData: string;
-        supplumentalWagerOracleData: string;
         result: string;
         state: number;
         wagerModule: string;
         oracleModule: string;
         oracleSource: string;
+        supplumentalOracleData: string;
       }
     >;
   };
 
   filters: {
-    "WagerCreated(address,uint256,bytes,uint256,uint256,uint256,address,address,uint256)"(
+    "WagerCreated(address,uint256,bytes,uint256,uint256,address,address,uint256)"(
       partyAddr?: string | null,
       partyWagerAmount?: null,
       partyWager?: null,
-      createdBlock?: null,
       enterLimitBlock?: null,
       expirationBlock?: null,
       wagerModule?: null,
@@ -516,7 +545,6 @@ export class WagerRegistry extends BaseContract {
         string,
         BigNumber,
         BigNumber,
-        BigNumber,
         string,
         string,
         BigNumber
@@ -525,7 +553,6 @@ export class WagerRegistry extends BaseContract {
         partyAddr: string;
         partyWagerAmount: BigNumber;
         partyWager: string;
-        createdBlock: BigNumber;
         enterLimitBlock: BigNumber;
         expirationBlock: BigNumber;
         wagerModule: string;
@@ -538,7 +565,6 @@ export class WagerRegistry extends BaseContract {
       partyAddr?: string | null,
       partyWagerAmount?: null,
       partyWager?: null,
-      createdBlock?: null,
       enterLimitBlock?: null,
       expirationBlock?: null,
       wagerModule?: null,
@@ -551,7 +577,6 @@ export class WagerRegistry extends BaseContract {
         string,
         BigNumber,
         BigNumber,
-        BigNumber,
         string,
         string,
         BigNumber
@@ -560,7 +585,6 @@ export class WagerRegistry extends BaseContract {
         partyAddr: string;
         partyWagerAmount: BigNumber;
         partyWager: string;
-        createdBlock: BigNumber;
         enterLimitBlock: BigNumber;
         expirationBlock: BigNumber;
         wagerModule: string;
@@ -622,15 +646,14 @@ export class WagerRegistry extends BaseContract {
         parties: BytesLike;
         partyOneWagerData: BytesLike;
         partyTwoWagerData: BytesLike;
-        wagerAmount: BigNumberish;
+        equityData: BytesLike;
         blockData: BytesLike;
-        wagerOracleData: BytesLike;
-        supplumentalWagerOracleData: BytesLike;
         result: BytesLike;
         state: BigNumberish;
         wagerModule: string;
         oracleModule: string;
         oracleSource: string;
+        supplumentalOracleData: BytesLike;
       },
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
@@ -647,9 +670,12 @@ export class WagerRegistry extends BaseContract {
 
     enterWager(
       wagerId: BigNumberish,
+      partyTwoEquityData: BytesLike,
       partyTwoWagerData: BytesLike,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
+
+    equityModule(overrides?: CallOverrides): Promise<BigNumber>;
 
     executeBlockRange(
       startBlock: BigNumberish,
@@ -661,6 +687,11 @@ export class WagerRegistry extends BaseContract {
       arg0: BigNumberish,
       arg1: BigNumberish,
       overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    setEquityModule(
+      moduleAddr: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
     settleWager(
@@ -682,15 +713,14 @@ export class WagerRegistry extends BaseContract {
         parties: BytesLike;
         partyOneWagerData: BytesLike;
         partyTwoWagerData: BytesLike;
-        wagerAmount: BigNumberish;
+        equityData: BytesLike;
         blockData: BytesLike;
-        wagerOracleData: BytesLike;
-        supplumentalWagerOracleData: BytesLike;
         result: BytesLike;
         state: BigNumberish;
         wagerModule: string;
         oracleModule: string;
         oracleSource: string;
+        supplumentalOracleData: BytesLike;
       },
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
@@ -707,9 +737,12 @@ export class WagerRegistry extends BaseContract {
 
     enterWager(
       wagerId: BigNumberish,
+      partyTwoEquityData: BytesLike,
       partyTwoWagerData: BytesLike,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
+
+    equityModule(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     executeBlockRange(
       startBlock: BigNumberish,
@@ -721,6 +754,11 @@ export class WagerRegistry extends BaseContract {
       arg0: BigNumberish,
       arg1: BigNumberish,
       overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    setEquityModule(
+      moduleAddr: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     settleWager(

@@ -121,7 +121,9 @@ export class AggregatorV3Interface extends BaseContract {
       }
     >;
 
-    latestRoundData(overrides?: CallOverrides): Promise<
+    latestRoundData(
+      overrides?: CallOverrides
+    ): Promise<
       [BigNumber, BigNumber, BigNumber, BigNumber, BigNumber] & {
         roundId: BigNumber;
         answer: BigNumber;
@@ -151,7 +153,9 @@ export class AggregatorV3Interface extends BaseContract {
     }
   >;
 
-  latestRoundData(overrides?: CallOverrides): Promise<
+  latestRoundData(
+    overrides?: CallOverrides
+  ): Promise<
     [BigNumber, BigNumber, BigNumber, BigNumber, BigNumber] & {
       roundId: BigNumber;
       answer: BigNumber;
@@ -181,7 +185,9 @@ export class AggregatorV3Interface extends BaseContract {
       }
     >;
 
-    latestRoundData(overrides?: CallOverrides): Promise<
+    latestRoundData(
+      overrides?: CallOverrides
+    ): Promise<
       [BigNumber, BigNumber, BigNumber, BigNumber, BigNumber] & {
         roundId: BigNumber;
         answer: BigNumber;

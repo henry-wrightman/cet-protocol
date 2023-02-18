@@ -29,9 +29,41 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.AutomationCompatibleInterface__factory>;
     getContractFactory(
+      name: "ERC20",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ERC20__factory>;
+    getContractFactory(
+      name: "IERC20Metadata",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IERC20Metadata__factory>;
+    getContractFactory(
       name: "IERC20",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IERC20__factory>;
+    getContractFactory(
+      name: "ERC721",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ERC721__factory>;
+    getContractFactory(
+      name: "IERC721Metadata",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IERC721Metadata__factory>;
+    getContractFactory(
+      name: "IERC721",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IERC721__factory>;
+    getContractFactory(
+      name: "IERC721Receiver",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IERC721Receiver__factory>;
+    getContractFactory(
+      name: "ERC165",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ERC165__factory>;
+    getContractFactory(
+      name: "IERC165",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IERC165__factory>;
     getContractFactory(
       name: "FinderInterface",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -41,17 +73,17 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.OptimisticOracleV2Interface__factory>;
     getContractFactory(
-      name: "WagerFactory",
+      name: "IEquityModule",
       signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.WagerFactory__factory>;
+    ): Promise<Contracts.IEquityModule__factory>;
     getContractFactory(
       name: "IWagerRegistry",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IWagerRegistry__factory>;
     getContractFactory(
-      name: "IWagerOracle",
+      name: "IWagerOracleModule",
       signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.IWagerOracle__factory>;
+    ): Promise<Contracts.IWagerOracleModule__factory>;
     getContractFactory(
       name: "IWagerModule",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -60,6 +92,10 @@ declare module "hardhat/types/runtime" {
       name: "WagerExecutor",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.WagerExecutor__factory>;
+    getContractFactory(
+      name: "EquityModule",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.EquityModule__factory>;
     getContractFactory(
       name: "ChainLinkOracleModule",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -84,6 +120,14 @@ declare module "hardhat/types/runtime" {
       name: "TestChainLinkOracleSource",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.TestChainLinkOracleSource__factory>;
+    getContractFactory(
+      name: "TestERC20",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.TestERC20__factory>;
+    getContractFactory(
+      name: "TestERC721",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.TestERC721__factory>;
     getContractFactory(
       name: "TestWagerExecutor",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -114,10 +158,50 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.AutomationCompatibleInterface>;
     getContractAt(
+      name: "ERC20",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ERC20>;
+    getContractAt(
+      name: "IERC20Metadata",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IERC20Metadata>;
+    getContractAt(
       name: "IERC20",
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.IERC20>;
+    getContractAt(
+      name: "ERC721",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ERC721>;
+    getContractAt(
+      name: "IERC721Metadata",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IERC721Metadata>;
+    getContractAt(
+      name: "IERC721",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IERC721>;
+    getContractAt(
+      name: "IERC721Receiver",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IERC721Receiver>;
+    getContractAt(
+      name: "ERC165",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ERC165>;
+    getContractAt(
+      name: "IERC165",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IERC165>;
     getContractAt(
       name: "FinderInterface",
       address: string,
@@ -129,20 +213,20 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.OptimisticOracleV2Interface>;
     getContractAt(
-      name: "WagerFactory",
+      name: "IEquityModule",
       address: string,
       signer?: ethers.Signer
-    ): Promise<Contracts.WagerFactory>;
+    ): Promise<Contracts.IEquityModule>;
     getContractAt(
       name: "IWagerRegistry",
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.IWagerRegistry>;
     getContractAt(
-      name: "IWagerOracle",
+      name: "IWagerOracleModule",
       address: string,
       signer?: ethers.Signer
-    ): Promise<Contracts.IWagerOracle>;
+    ): Promise<Contracts.IWagerOracleModule>;
     getContractAt(
       name: "IWagerModule",
       address: string,
@@ -153,6 +237,11 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.WagerExecutor>;
+    getContractAt(
+      name: "EquityModule",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.EquityModule>;
     getContractAt(
       name: "ChainLinkOracleModule",
       address: string,
@@ -183,6 +272,16 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.TestChainLinkOracleSource>;
+    getContractAt(
+      name: "TestERC20",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.TestERC20>;
+    getContractAt(
+      name: "TestERC721",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.TestERC721>;
     getContractAt(
       name: "TestWagerExecutor",
       address: string,
