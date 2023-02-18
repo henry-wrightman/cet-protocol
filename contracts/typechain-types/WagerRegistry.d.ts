@@ -25,10 +25,11 @@ interface WagerRegistryInterface extends ethers.utils.Interface {
     "createWager((bytes,bytes,bytes,bytes,bytes,bytes,bytes,bytes,uint8,address,address,address))": FunctionFragment;
     "decodeBlocks(bytes)": FunctionFragment;
     "decodeParties(bytes)": FunctionFragment;
-    "decodeWagerEquity(bytes)": FunctionFragment;
     "enterWager(uint256,bytes,bytes)": FunctionFragment;
+    "equityModule()": FunctionFragment;
     "executeBlockRange(uint256,uint256)": FunctionFragment;
     "executionSchedule(uint256,uint256)": FunctionFragment;
+    "setEquityModule(address)": FunctionFragment;
     "settleWager(uint256)": FunctionFragment;
     "voidWager(uint256)": FunctionFragment;
     "wagers(uint256)": FunctionFragment;
@@ -62,12 +63,12 @@ interface WagerRegistryInterface extends ethers.utils.Interface {
     values: [BytesLike]
   ): string;
   encodeFunctionData(
-    functionFragment: "decodeWagerEquity",
-    values: [BytesLike]
-  ): string;
-  encodeFunctionData(
     functionFragment: "enterWager",
     values: [BigNumberish, BytesLike, BytesLike]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "equityModule",
+    values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "executeBlockRange",
@@ -76,6 +77,10 @@ interface WagerRegistryInterface extends ethers.utils.Interface {
   encodeFunctionData(
     functionFragment: "executionSchedule",
     values: [BigNumberish, BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setEquityModule",
+    values: [string]
   ): string;
   encodeFunctionData(
     functionFragment: "settleWager",
@@ -102,17 +107,21 @@ interface WagerRegistryInterface extends ethers.utils.Interface {
     functionFragment: "decodeParties",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "enterWager", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "decodeWagerEquity",
+    functionFragment: "equityModule",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "enterWager", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "executeBlockRange",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
     functionFragment: "executionSchedule",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setEquityModule",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -254,24 +263,14 @@ export class WagerRegistry extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[string, string] & { partyOne: string; partyTwo: string }>;
 
-    decodeWagerEquity(
-      data: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<
-      [number, [string, string], BigNumber, [BigNumber, BigNumber]] & {
-        style: number;
-        ercContracts: [string, string];
-        amount: BigNumber;
-        ids: [BigNumber, BigNumber];
-      }
-    >;
-
     enterWager(
       wagerId: BigNumberish,
       partyTwoEquityData: BytesLike,
       partyTwoWagerData: BytesLike,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
+
+    equityModule(overrides?: CallOverrides): Promise<[string]>;
 
     executeBlockRange(
       startBlock: BigNumberish,
@@ -284,6 +283,11 @@ export class WagerRegistry extends BaseContract {
       arg1: BigNumberish,
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
+
+    setEquityModule(
+      moduleAddr: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
 
     settleWager(
       wagerId: BigNumberish,
@@ -363,24 +367,14 @@ export class WagerRegistry extends BaseContract {
     overrides?: CallOverrides
   ): Promise<[string, string] & { partyOne: string; partyTwo: string }>;
 
-  decodeWagerEquity(
-    data: BytesLike,
-    overrides?: CallOverrides
-  ): Promise<
-    [number, [string, string], BigNumber, [BigNumber, BigNumber]] & {
-      style: number;
-      ercContracts: [string, string];
-      amount: BigNumber;
-      ids: [BigNumber, BigNumber];
-    }
-  >;
-
   enterWager(
     wagerId: BigNumberish,
     partyTwoEquityData: BytesLike,
     partyTwoWagerData: BytesLike,
     overrides?: PayableOverrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
+
+  equityModule(overrides?: CallOverrides): Promise<string>;
 
   executeBlockRange(
     startBlock: BigNumberish,
@@ -393,6 +387,11 @@ export class WagerRegistry extends BaseContract {
     arg1: BigNumberish,
     overrides?: CallOverrides
   ): Promise<BigNumber>;
+
+  setEquityModule(
+    moduleAddr: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
 
   settleWager(
     wagerId: BigNumberish,
@@ -472,24 +471,14 @@ export class WagerRegistry extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[string, string] & { partyOne: string; partyTwo: string }>;
 
-    decodeWagerEquity(
-      data: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<
-      [number, [string, string], BigNumber, [BigNumber, BigNumber]] & {
-        style: number;
-        ercContracts: [string, string];
-        amount: BigNumber;
-        ids: [BigNumber, BigNumber];
-      }
-    >;
-
     enterWager(
       wagerId: BigNumberish,
       partyTwoEquityData: BytesLike,
       partyTwoWagerData: BytesLike,
       overrides?: CallOverrides
     ): Promise<void>;
+
+    equityModule(overrides?: CallOverrides): Promise<string>;
 
     executeBlockRange(
       startBlock: BigNumberish,
@@ -502,6 +491,11 @@ export class WagerRegistry extends BaseContract {
       arg1: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
+
+    setEquityModule(
+      moduleAddr: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
 
     settleWager(
       wagerId: BigNumberish,
@@ -685,17 +679,14 @@ export class WagerRegistry extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    decodeWagerEquity(
-      data: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
     enterWager(
       wagerId: BigNumberish,
       partyTwoEquityData: BytesLike,
       partyTwoWagerData: BytesLike,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
+
+    equityModule(overrides?: CallOverrides): Promise<BigNumber>;
 
     executeBlockRange(
       startBlock: BigNumberish,
@@ -707,6 +698,11 @@ export class WagerRegistry extends BaseContract {
       arg0: BigNumberish,
       arg1: BigNumberish,
       overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    setEquityModule(
+      moduleAddr: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
     settleWager(
@@ -751,17 +747,14 @@ export class WagerRegistry extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    decodeWagerEquity(
-      data: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
     enterWager(
       wagerId: BigNumberish,
       partyTwoEquityData: BytesLike,
       partyTwoWagerData: BytesLike,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
+
+    equityModule(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     executeBlockRange(
       startBlock: BigNumberish,
@@ -773,6 +766,11 @@ export class WagerRegistry extends BaseContract {
       arg0: BigNumberish,
       arg1: BigNumberish,
       overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    setEquityModule(
+      moduleAddr: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     settleWager(

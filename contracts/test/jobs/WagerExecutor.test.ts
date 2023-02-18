@@ -9,6 +9,8 @@ import {
   WagerRegistry__factory,
   TestWagerExecutor,
   TestWagerExecutor__factory,
+  EquityModule,
+  EquityModule__factory,
 } from "../../typechain-types";
 import { expect } from "chai";
 import { ethers } from "hardhat";
@@ -28,6 +30,8 @@ describe("WagerExecutor", function () {
   let wagerRegistry: WagerRegistry;
   let TestWagerExecutor: TestWagerExecutor__factory;
   let testWagerExecutor: TestWagerExecutor;
+  let EquityModule: EquityModule__factory;
+  let equityModule: EquityModule;
 
   beforeEach(async function () {
     [creator, address1, address2] = await ethers.getSigners();
@@ -42,9 +46,15 @@ describe("WagerExecutor", function () {
     testChainLinkOracle = await TestChainLinkOracle.deploy();
     await testChainLinkOracle.deployed();
 
+    EquityModule = await ethers.getContractFactory("EquityModule");
+    equityModule = await EquityModule.deploy();
+    await equityModule.deployed();
+
     WagerRegistry = await ethers.getContractFactory("WagerRegistry");
     wagerRegistry = await WagerRegistry.deploy();
     await wagerRegistry.deployed();
+
+    await wagerRegistry.setEquityModule(equityModule.address);
 
     TestWagerExecutor = await ethers.getContractFactory("TestWagerExecutor");
     testWagerExecutor = await TestWagerExecutor.deploy(wagerRegistry.address);
