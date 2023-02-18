@@ -15,7 +15,7 @@ struct Wager {
     IWagerModule wagerModule; // wager semantics
     IWagerOracleModule oracleModule; // oracle module semantics
     address oracleSource; // oracle source
-    bytes supplumentalOracleData; // supplumental wager data
+    bytes supplumentalOracleData; // supplumental wager oracle data
 }
 
 // -- wager type
