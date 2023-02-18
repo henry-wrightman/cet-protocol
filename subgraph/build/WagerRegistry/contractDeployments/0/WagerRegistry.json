@@ -28,12 +28,6 @@
       {
         "indexed": false,
         "internalType": "uint256",
-        "name": "createdBlock",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
         "name": "enterLimitBlock",
         "type": "uint256"
       },
@@ -154,23 +148,13 @@
             "type": "bytes"
           },
           {
-            "internalType": "uint256",
-            "name": "wagerAmount",
-            "type": "uint256"
+            "internalType": "bytes",
+            "name": "equityData",
+            "type": "bytes"
           },
           {
             "internalType": "bytes",
             "name": "blockData",
-            "type": "bytes"
-          },
-          {
-            "internalType": "bytes",
-            "name": "wagerOracleData",
-            "type": "bytes"
-          },
-          {
-            "internalType": "bytes",
-            "name": "supplumentalWagerOracleData",
             "type": "bytes"
           },
           {
@@ -189,7 +173,7 @@
             "type": "address"
           },
           {
-            "internalType": "contract IWagerOracle",
+            "internalType": "contract IWagerOracleModule",
             "name": "oracleModule",
             "type": "address"
           },
@@ -197,6 +181,11 @@
             "internalType": "address",
             "name": "oracleSource",
             "type": "address"
+          },
+          {
+            "internalType": "bytes",
+            "name": "supplumentalOracleData",
+            "type": "bytes"
           }
         ],
         "internalType": "struct Wager",
@@ -205,13 +194,7 @@
       }
     ],
     "name": "createWager",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
+    "outputs": [],
     "stateMutability": "payable",
     "type": "function"
   },
@@ -277,6 +260,11 @@
       },
       {
         "internalType": "bytes",
+        "name": "partyTwoEquityData",
+        "type": "bytes"
+      },
+      {
+        "internalType": "bytes",
         "name": "partyTwoWagerData",
         "type": "bytes"
       }
@@ -284,6 +272,19 @@
     "name": "enterWager",
     "outputs": [],
     "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "equityModule",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -326,6 +327,19 @@
       }
     ],
     "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "moduleAddr",
+        "type": "address"
+      }
+    ],
+    "name": "setEquityModule",
+    "outputs": [],
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
@@ -380,23 +394,13 @@
         "type": "bytes"
       },
       {
-        "internalType": "uint256",
-        "name": "wagerAmount",
-        "type": "uint256"
+        "internalType": "bytes",
+        "name": "equityData",
+        "type": "bytes"
       },
       {
         "internalType": "bytes",
         "name": "blockData",
-        "type": "bytes"
-      },
-      {
-        "internalType": "bytes",
-        "name": "wagerOracleData",
-        "type": "bytes"
-      },
-      {
-        "internalType": "bytes",
-        "name": "supplumentalWagerOracleData",
         "type": "bytes"
       },
       {
@@ -415,7 +419,7 @@
         "type": "address"
       },
       {
-        "internalType": "contract IWagerOracle",
+        "internalType": "contract IWagerOracleModule",
         "name": "oracleModule",
         "type": "address"
       },
@@ -423,6 +427,11 @@
         "internalType": "address",
         "name": "oracleSource",
         "type": "address"
+      },
+      {
+        "internalType": "bytes",
+        "name": "supplumentalOracleData",
+        "type": "bytes"
       }
     ],
     "stateMutability": "view",

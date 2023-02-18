@@ -6,7 +6,7 @@ import "../oracles/IWagerOracleModule.sol";
 // -- structs --
 struct Wager {
     bytes parties; // party data; |partyOne|partyTwo|
-    bytes partyOneWagerData; // wager data; |wagerStart|wagerValue|
+    bytes partyOneWagerData; // wager data for wager module to discern; e.g |wagerStart|wagerValue|
     bytes partyTwoWagerData;
     bytes equityData; // wager equity data; |WagerType|ercContractAddr(s)|amount(s)|tokenId(s)|
     bytes blockData; // blocktime data; |created|expiration|enterLimit|
