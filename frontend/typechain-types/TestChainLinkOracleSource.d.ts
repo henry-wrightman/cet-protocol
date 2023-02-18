@@ -137,9 +137,7 @@ export class TestChainLinkOracleSource extends BaseContract {
       }
     >;
 
-    latestRoundData(
-      overrides?: CallOverrides
-    ): Promise<
+    latestRoundData(overrides?: CallOverrides): Promise<
       [BigNumber, BigNumber, BigNumber, BigNumber, BigNumber] & {
         roundID: BigNumber;
         answer: BigNumber;
@@ -181,9 +179,7 @@ export class TestChainLinkOracleSource extends BaseContract {
     }
   >;
 
-  latestRoundData(
-    overrides?: CallOverrides
-  ): Promise<
+  latestRoundData(overrides?: CallOverrides): Promise<
     [BigNumber, BigNumber, BigNumber, BigNumber, BigNumber] & {
       roundID: BigNumber;
       answer: BigNumber;
@@ -222,9 +218,7 @@ export class TestChainLinkOracleSource extends BaseContract {
       }
     >;
 
-    latestRoundData(
-      overrides?: CallOverrides
-    ): Promise<
+    latestRoundData(overrides?: CallOverrides): Promise<
       [BigNumber, BigNumber, BigNumber, BigNumber, BigNumber] & {
         roundID: BigNumber;
         answer: BigNumber;

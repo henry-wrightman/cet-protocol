@@ -24,7 +24,7 @@ export const EnterWager = ({
   const { chain } = useNetwork();
   const network =
     chain && chain?.network ? (chain?.network as NETWORK) : "goerli";
-  
+
   const partyTwoEquityData = utils.defaultAbiCoder.encode(
     ["address", "uint256"],
     [ethers.constants.AddressZero, "0"]

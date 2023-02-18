@@ -44,7 +44,12 @@ export const CreateWager = ({
   );
   const equityData = utils.defaultAbiCoder.encode(
     ["int", "address[2]", "uint256", "uint256[2]"],
-    ["1", [ethers.constants.AddressZero, ethers.constants.AddressZero], ethers.utils.parseEther(wagerAmount), ["0", "0"]]
+    [
+      "1",
+      [ethers.constants.AddressZero, ethers.constants.AddressZero],
+      ethers.utils.parseEther(wagerAmount),
+      ["0", "0"],
+    ]
   ); // 2-sided
   const equityDataD = useDebounce(equityData, 2000);
   const wagerDataD = useDebounce(wagerData, 2000);

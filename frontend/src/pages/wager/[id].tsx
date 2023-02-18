@@ -23,7 +23,6 @@ import {
 } from "../../utils/constants";
 import {
   WagerOptions,
-  OracleRoundResponse,
   EnterWager,
   constructWagerData,
   SettleWager,
@@ -34,8 +33,6 @@ import { getSubgraphClient } from "../../graphql/client";
 import { getSubgraphClient as getPriceSubgraphClient } from "../../graphql/client_2";
 import { Connect } from "../../components/Connect";
 import { formatDistanceToNow } from "date-fns";
-import useDebounce from "../../hooks/useDebounce";
-import { useCountdown } from "../../hooks";
 
 const WAGER_QUERY = gql`
   query wager($id: String!) {
