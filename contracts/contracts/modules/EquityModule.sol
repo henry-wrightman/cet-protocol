@@ -9,7 +9,7 @@ import "hardhat/console.sol";
  @title EquityModule
  @author Henry Wrightman
 
- @notice equity module to handle equity data & settlements for registry
+ @notice equity module to handle equity data & settlements for a registry
 
  TODO: make gated only by registry
  */

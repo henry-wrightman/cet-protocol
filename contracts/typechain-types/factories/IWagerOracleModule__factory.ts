@@ -4,7 +4,10 @@
 
 import { Contract, Signer, utils } from "ethers";
 import { Provider } from "@ethersproject/providers";
-import type { IWagerOracle, IWagerOracleInterface } from "../IWagerOracle";
+import type {
+  IWagerOracleModule,
+  IWagerOracleModuleInterface,
+} from "../IWagerOracleModule";
 
 const _abi = [
   {
@@ -38,16 +41,6 @@ const _abi = [
           },
           {
             internalType: "bytes",
-            name: "wagerOracleData",
-            type: "bytes",
-          },
-          {
-            internalType: "bytes",
-            name: "supplumentalWagerOracleData",
-            type: "bytes",
-          },
-          {
-            internalType: "bytes",
             name: "result",
             type: "bytes",
           },
@@ -62,7 +55,7 @@ const _abi = [
             type: "address",
           },
           {
-            internalType: "contract IWagerOracle",
+            internalType: "contract IWagerOracleModule",
             name: "oracleModule",
             type: "address",
           },
@@ -70,6 +63,11 @@ const _abi = [
             internalType: "address",
             name: "oracleSource",
             type: "address",
+          },
+          {
+            internalType: "bytes",
+            name: "supplumentalOracleData",
+            type: "bytes",
           },
         ],
         internalType: "struct Wager",
@@ -90,15 +88,15 @@ const _abi = [
   },
 ];
 
-export class IWagerOracle__factory {
+export class IWagerOracleModule__factory {
   static readonly abi = _abi;
-  static createInterface(): IWagerOracleInterface {
-    return new utils.Interface(_abi) as IWagerOracleInterface;
+  static createInterface(): IWagerOracleModuleInterface {
+    return new utils.Interface(_abi) as IWagerOracleModuleInterface;
   }
   static connect(
     address: string,
     signerOrProvider: Signer | Provider
-  ): IWagerOracle {
-    return new Contract(address, _abi, signerOrProvider) as IWagerOracle;
+  ): IWagerOracleModule {
+    return new Contract(address, _abi, signerOrProvider) as IWagerOracleModule;
   }
 }

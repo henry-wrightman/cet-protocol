@@ -18,7 +18,9 @@ contract HighLowWagerModule is IWagerModule {
     function settle(
         Wager memory wager
     ) external override returns (Wager memory, address) {
-        bytes memory result = IWagerOracle(wager.oracleModule).getResult(wager);
+        bytes memory result = IWagerOracleModule(wager.oracleModule).getResult(
+            wager
+        );
         wager.result = result;
         int256 price = int(abi.decode(result, (uint256)));
         (address partyOne, address partyTwo) = abi.decode(

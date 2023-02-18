@@ -81,9 +81,9 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IWagerRegistry__factory>;
     getContractFactory(
-      name: "IWagerOracle",
+      name: "IWagerOracleModule",
       signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.IWagerOracle__factory>;
+    ): Promise<Contracts.IWagerOracleModule__factory>;
     getContractFactory(
       name: "IWagerModule",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -223,10 +223,10 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.IWagerRegistry>;
     getContractAt(
-      name: "IWagerOracle",
+      name: "IWagerOracleModule",
       address: string,
       signer?: ethers.Signer
-    ): Promise<Contracts.IWagerOracle>;
+    ): Promise<Contracts.IWagerOracleModule>;
     getContractAt(
       name: "IWagerModule",
       address: string,

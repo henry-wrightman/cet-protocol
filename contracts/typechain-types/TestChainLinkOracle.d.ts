@@ -21,7 +21,7 @@ import type { TypedEventFilter, TypedEvent, TypedListener } from "./common";
 
 interface TestChainLinkOracleInterface extends ethers.utils.Interface {
   functions: {
-    "getResult((bytes,bytes,bytes,bytes,bytes,bytes,bytes,bytes,uint8,address,address,address))": FunctionFragment;
+    "getResult((bytes,bytes,bytes,bytes,bytes,bytes,uint8,address,address,address,bytes))": FunctionFragment;
     "price()": FunctionFragment;
     "setPrice(int256)": FunctionFragment;
     "toBytes(uint256)": FunctionFragment;
@@ -36,13 +36,12 @@ interface TestChainLinkOracleInterface extends ethers.utils.Interface {
         partyTwoWagerData: BytesLike;
         equityData: BytesLike;
         blockData: BytesLike;
-        wagerOracleData: BytesLike;
-        supplumentalWagerOracleData: BytesLike;
         result: BytesLike;
         state: BigNumberish;
         wagerModule: string;
         oracleModule: string;
         oracleSource: string;
+        supplumentalOracleData: BytesLike;
       }
     ]
   ): string;
@@ -115,13 +114,12 @@ export class TestChainLinkOracle extends BaseContract {
         partyTwoWagerData: BytesLike;
         equityData: BytesLike;
         blockData: BytesLike;
-        wagerOracleData: BytesLike;
-        supplumentalWagerOracleData: BytesLike;
         result: BytesLike;
         state: BigNumberish;
         wagerModule: string;
         oracleModule: string;
         oracleSource: string;
+        supplumentalOracleData: BytesLike;
       },
       overrides?: CallOverrides
     ): Promise<[string]>;
@@ -146,13 +144,12 @@ export class TestChainLinkOracle extends BaseContract {
       partyTwoWagerData: BytesLike;
       equityData: BytesLike;
       blockData: BytesLike;
-      wagerOracleData: BytesLike;
-      supplumentalWagerOracleData: BytesLike;
       result: BytesLike;
       state: BigNumberish;
       wagerModule: string;
       oracleModule: string;
       oracleSource: string;
+      supplumentalOracleData: BytesLike;
     },
     overrides?: CallOverrides
   ): Promise<string>;
@@ -174,13 +171,12 @@ export class TestChainLinkOracle extends BaseContract {
         partyTwoWagerData: BytesLike;
         equityData: BytesLike;
         blockData: BytesLike;
-        wagerOracleData: BytesLike;
-        supplumentalWagerOracleData: BytesLike;
         result: BytesLike;
         state: BigNumberish;
         wagerModule: string;
         oracleModule: string;
         oracleSource: string;
+        supplumentalOracleData: BytesLike;
       },
       overrides?: CallOverrides
     ): Promise<string>;
@@ -202,13 +198,12 @@ export class TestChainLinkOracle extends BaseContract {
         partyTwoWagerData: BytesLike;
         equityData: BytesLike;
         blockData: BytesLike;
-        wagerOracleData: BytesLike;
-        supplumentalWagerOracleData: BytesLike;
         result: BytesLike;
         state: BigNumberish;
         wagerModule: string;
         oracleModule: string;
         oracleSource: string;
+        supplumentalOracleData: BytesLike;
       },
       overrides?: CallOverrides
     ): Promise<BigNumber>;
@@ -231,13 +226,12 @@ export class TestChainLinkOracle extends BaseContract {
         partyTwoWagerData: BytesLike;
         equityData: BytesLike;
         blockData: BytesLike;
-        wagerOracleData: BytesLike;
-        supplumentalWagerOracleData: BytesLike;
         result: BytesLike;
         state: BigNumberish;
         wagerModule: string;
         oracleModule: string;
         oracleSource: string;
+        supplumentalOracleData: BytesLike;
       },
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;

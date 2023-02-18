@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.7;
 
-import "../interfaces/oracles/IWagerOracle.sol";
+import "../interfaces/oracles/IWagerOracleModule.sol";
 
-contract TestChainLinkOracle is IWagerOracle {
+contract TestChainLinkOracle is IWagerOracleModule {
     int256 public price = 21000;
 
     function getResult(

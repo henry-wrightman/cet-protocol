@@ -11,7 +11,7 @@ import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
  @notice ChainLink oracle module for wager price-related data resolution
  */
 
-contract ChainLinkOracleModule is IWagerOracle {
+contract ChainLinkOracleModule is IWagerOracleModule {
     /// @notice getResult
     /// @dev result is always bytes & up to wager module / inheritor to decode desired field(s)
     /// @param wager wager who needs to be settled & its result acquired

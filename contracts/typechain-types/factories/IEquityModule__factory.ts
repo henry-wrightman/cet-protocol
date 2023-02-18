@@ -43,16 +43,6 @@ const _abi = [
           },
           {
             internalType: "bytes",
-            name: "wagerOracleData",
-            type: "bytes",
-          },
-          {
-            internalType: "bytes",
-            name: "supplumentalWagerOracleData",
-            type: "bytes",
-          },
-          {
-            internalType: "bytes",
             name: "result",
             type: "bytes",
           },
@@ -67,7 +57,7 @@ const _abi = [
             type: "address",
           },
           {
-            internalType: "contract IWagerOracle",
+            internalType: "contract IWagerOracleModule",
             name: "oracleModule",
             type: "address",
           },
@@ -75,6 +65,11 @@ const _abi = [
             internalType: "address",
             name: "oracleSource",
             type: "address",
+          },
+          {
+            internalType: "bytes",
+            name: "supplumentalOracleData",
+            type: "bytes",
           },
         ],
         internalType: "struct Wager",
@@ -113,16 +108,6 @@ const _abi = [
           },
           {
             internalType: "bytes",
-            name: "wagerOracleData",
-            type: "bytes",
-          },
-          {
-            internalType: "bytes",
-            name: "supplumentalWagerOracleData",
-            type: "bytes",
-          },
-          {
-            internalType: "bytes",
             name: "result",
             type: "bytes",
           },
@@ -137,7 +122,7 @@ const _abi = [
             type: "address",
           },
           {
-            internalType: "contract IWagerOracle",
+            internalType: "contract IWagerOracleModule",
             name: "oracleModule",
             type: "address",
           },
@@ -145,6 +130,11 @@ const _abi = [
             internalType: "address",
             name: "oracleSource",
             type: "address",
+          },
+          {
+            internalType: "bytes",
+            name: "supplumentalOracleData",
+            type: "bytes",
           },
         ],
         internalType: "struct Wager",
@@ -199,16 +189,6 @@ const _abi = [
           },
           {
             internalType: "bytes",
-            name: "wagerOracleData",
-            type: "bytes",
-          },
-          {
-            internalType: "bytes",
-            name: "supplumentalWagerOracleData",
-            type: "bytes",
-          },
-          {
-            internalType: "bytes",
             name: "result",
             type: "bytes",
           },
@@ -223,7 +203,7 @@ const _abi = [
             type: "address",
           },
           {
-            internalType: "contract IWagerOracle",
+            internalType: "contract IWagerOracleModule",
             name: "oracleModule",
             type: "address",
           },
@@ -231,6 +211,11 @@ const _abi = [
             internalType: "address",
             name: "oracleSource",
             type: "address",
+          },
+          {
+            internalType: "bytes",
+            name: "supplumentalOracleData",
+            type: "bytes",
           },
         ],
         internalType: "struct Wager",
@@ -285,16 +270,6 @@ const _abi = [
           },
           {
             internalType: "bytes",
-            name: "wagerOracleData",
-            type: "bytes",
-          },
-          {
-            internalType: "bytes",
-            name: "supplumentalWagerOracleData",
-            type: "bytes",
-          },
-          {
-            internalType: "bytes",
             name: "result",
             type: "bytes",
           },
@@ -309,7 +284,7 @@ const _abi = [
             type: "address",
           },
           {
-            internalType: "contract IWagerOracle",
+            internalType: "contract IWagerOracleModule",
             name: "oracleModule",
             type: "address",
           },
@@ -317,6 +292,11 @@ const _abi = [
             internalType: "address",
             name: "oracleSource",
             type: "address",
+          },
+          {
+            internalType: "bytes",
+            name: "supplumentalOracleData",
+            type: "bytes",
           },
         ],
         internalType: "struct Wager",

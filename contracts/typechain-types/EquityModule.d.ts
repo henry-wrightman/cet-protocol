@@ -22,12 +22,12 @@ import type { TypedEventFilter, TypedEvent, TypedListener } from "./common";
 
 interface EquityModuleInterface extends ethers.utils.Interface {
   functions: {
-    "acceptCounterEquity(bytes,(bytes,bytes,bytes,bytes,bytes,bytes,bytes,bytes,uint8,address,address,address))": FunctionFragment;
+    "acceptCounterEquity(bytes,(bytes,bytes,bytes,bytes,bytes,bytes,uint8,address,address,address,bytes))": FunctionFragment;
     "acceptEquity(bytes)": FunctionFragment;
     "decodeParties(bytes)": FunctionFragment;
     "decodeWagerEquity(bytes)": FunctionFragment;
-    "settleEquity((bytes,bytes,bytes,bytes,bytes,bytes,bytes,bytes,uint8,address,address,address),address)": FunctionFragment;
-    "voidEquity((bytes,bytes,bytes,bytes,bytes,bytes,bytes,bytes,uint8,address,address,address))": FunctionFragment;
+    "settleEquity((bytes,bytes,bytes,bytes,bytes,bytes,uint8,address,address,address,bytes),address)": FunctionFragment;
+    "voidEquity((bytes,bytes,bytes,bytes,bytes,bytes,uint8,address,address,address,bytes))": FunctionFragment;
   };
 
   encodeFunctionData(
@@ -40,13 +40,12 @@ interface EquityModuleInterface extends ethers.utils.Interface {
         partyTwoWagerData: BytesLike;
         equityData: BytesLike;
         blockData: BytesLike;
-        wagerOracleData: BytesLike;
-        supplumentalWagerOracleData: BytesLike;
         result: BytesLike;
         state: BigNumberish;
         wagerModule: string;
         oracleModule: string;
         oracleSource: string;
+        supplumentalOracleData: BytesLike;
       }
     ]
   ): string;
@@ -71,13 +70,12 @@ interface EquityModuleInterface extends ethers.utils.Interface {
         partyTwoWagerData: BytesLike;
         equityData: BytesLike;
         blockData: BytesLike;
-        wagerOracleData: BytesLike;
-        supplumentalWagerOracleData: BytesLike;
         result: BytesLike;
         state: BigNumberish;
         wagerModule: string;
         oracleModule: string;
         oracleSource: string;
+        supplumentalOracleData: BytesLike;
       },
       string
     ]
@@ -91,13 +89,12 @@ interface EquityModuleInterface extends ethers.utils.Interface {
         partyTwoWagerData: BytesLike;
         equityData: BytesLike;
         blockData: BytesLike;
-        wagerOracleData: BytesLike;
-        supplumentalWagerOracleData: BytesLike;
         result: BytesLike;
         state: BigNumberish;
         wagerModule: string;
         oracleModule: string;
         oracleSource: string;
+        supplumentalOracleData: BytesLike;
       }
     ]
   ): string;
@@ -179,13 +176,12 @@ export class EquityModule extends BaseContract {
         partyTwoWagerData: BytesLike;
         equityData: BytesLike;
         blockData: BytesLike;
-        wagerOracleData: BytesLike;
-        supplumentalWagerOracleData: BytesLike;
         result: BytesLike;
         state: BigNumberish;
         wagerModule: string;
         oracleModule: string;
         oracleSource: string;
+        supplumentalOracleData: BytesLike;
       },
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
@@ -219,13 +215,12 @@ export class EquityModule extends BaseContract {
         partyTwoWagerData: BytesLike;
         equityData: BytesLike;
         blockData: BytesLike;
-        wagerOracleData: BytesLike;
-        supplumentalWagerOracleData: BytesLike;
         result: BytesLike;
         state: BigNumberish;
         wagerModule: string;
         oracleModule: string;
         oracleSource: string;
+        supplumentalOracleData: BytesLike;
       },
       recipient: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -238,13 +233,12 @@ export class EquityModule extends BaseContract {
         partyTwoWagerData: BytesLike;
         equityData: BytesLike;
         blockData: BytesLike;
-        wagerOracleData: BytesLike;
-        supplumentalWagerOracleData: BytesLike;
         result: BytesLike;
         state: BigNumberish;
         wagerModule: string;
         oracleModule: string;
         oracleSource: string;
+        supplumentalOracleData: BytesLike;
       },
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
@@ -258,13 +252,12 @@ export class EquityModule extends BaseContract {
       partyTwoWagerData: BytesLike;
       equityData: BytesLike;
       blockData: BytesLike;
-      wagerOracleData: BytesLike;
-      supplumentalWagerOracleData: BytesLike;
       result: BytesLike;
       state: BigNumberish;
       wagerModule: string;
       oracleModule: string;
       oracleSource: string;
+      supplumentalOracleData: BytesLike;
     },
     overrides?: PayableOverrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
@@ -298,13 +291,12 @@ export class EquityModule extends BaseContract {
       partyTwoWagerData: BytesLike;
       equityData: BytesLike;
       blockData: BytesLike;
-      wagerOracleData: BytesLike;
-      supplumentalWagerOracleData: BytesLike;
       result: BytesLike;
       state: BigNumberish;
       wagerModule: string;
       oracleModule: string;
       oracleSource: string;
+      supplumentalOracleData: BytesLike;
     },
     recipient: string,
     overrides?: Overrides & { from?: string | Promise<string> }
@@ -317,13 +309,12 @@ export class EquityModule extends BaseContract {
       partyTwoWagerData: BytesLike;
       equityData: BytesLike;
       blockData: BytesLike;
-      wagerOracleData: BytesLike;
-      supplumentalWagerOracleData: BytesLike;
       result: BytesLike;
       state: BigNumberish;
       wagerModule: string;
       oracleModule: string;
       oracleSource: string;
+      supplumentalOracleData: BytesLike;
     },
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
@@ -337,13 +328,12 @@ export class EquityModule extends BaseContract {
         partyTwoWagerData: BytesLike;
         equityData: BytesLike;
         blockData: BytesLike;
-        wagerOracleData: BytesLike;
-        supplumentalWagerOracleData: BytesLike;
         result: BytesLike;
         state: BigNumberish;
         wagerModule: string;
         oracleModule: string;
         oracleSource: string;
+        supplumentalOracleData: BytesLike;
       },
       overrides?: CallOverrides
     ): Promise<
@@ -354,9 +344,8 @@ export class EquityModule extends BaseContract {
         string,
         string,
         string,
-        string,
-        string,
         number,
+        string,
         string,
         string,
         string
@@ -366,13 +355,12 @@ export class EquityModule extends BaseContract {
         partyTwoWagerData: string;
         equityData: string;
         blockData: string;
-        wagerOracleData: string;
-        supplumentalWagerOracleData: string;
         result: string;
         state: number;
         wagerModule: string;
         oracleModule: string;
         oracleSource: string;
+        supplumentalOracleData: string;
       }
     >;
 
@@ -405,13 +393,12 @@ export class EquityModule extends BaseContract {
         partyTwoWagerData: BytesLike;
         equityData: BytesLike;
         blockData: BytesLike;
-        wagerOracleData: BytesLike;
-        supplumentalWagerOracleData: BytesLike;
         result: BytesLike;
         state: BigNumberish;
         wagerModule: string;
         oracleModule: string;
         oracleSource: string;
+        supplumentalOracleData: BytesLike;
       },
       recipient: string,
       overrides?: CallOverrides
@@ -424,13 +411,12 @@ export class EquityModule extends BaseContract {
         partyTwoWagerData: BytesLike;
         equityData: BytesLike;
         blockData: BytesLike;
-        wagerOracleData: BytesLike;
-        supplumentalWagerOracleData: BytesLike;
         result: BytesLike;
         state: BigNumberish;
         wagerModule: string;
         oracleModule: string;
         oracleSource: string;
+        supplumentalOracleData: BytesLike;
       },
       overrides?: CallOverrides
     ): Promise<void>;
@@ -447,13 +433,12 @@ export class EquityModule extends BaseContract {
         partyTwoWagerData: BytesLike;
         equityData: BytesLike;
         blockData: BytesLike;
-        wagerOracleData: BytesLike;
-        supplumentalWagerOracleData: BytesLike;
         result: BytesLike;
         state: BigNumberish;
         wagerModule: string;
         oracleModule: string;
         oracleSource: string;
+        supplumentalOracleData: BytesLike;
       },
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
@@ -480,13 +465,12 @@ export class EquityModule extends BaseContract {
         partyTwoWagerData: BytesLike;
         equityData: BytesLike;
         blockData: BytesLike;
-        wagerOracleData: BytesLike;
-        supplumentalWagerOracleData: BytesLike;
         result: BytesLike;
         state: BigNumberish;
         wagerModule: string;
         oracleModule: string;
         oracleSource: string;
+        supplumentalOracleData: BytesLike;
       },
       recipient: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -499,13 +483,12 @@ export class EquityModule extends BaseContract {
         partyTwoWagerData: BytesLike;
         equityData: BytesLike;
         blockData: BytesLike;
-        wagerOracleData: BytesLike;
-        supplumentalWagerOracleData: BytesLike;
         result: BytesLike;
         state: BigNumberish;
         wagerModule: string;
         oracleModule: string;
         oracleSource: string;
+        supplumentalOracleData: BytesLike;
       },
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
@@ -520,13 +503,12 @@ export class EquityModule extends BaseContract {
         partyTwoWagerData: BytesLike;
         equityData: BytesLike;
         blockData: BytesLike;
-        wagerOracleData: BytesLike;
-        supplumentalWagerOracleData: BytesLike;
         result: BytesLike;
         state: BigNumberish;
         wagerModule: string;
         oracleModule: string;
         oracleSource: string;
+        supplumentalOracleData: BytesLike;
       },
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
@@ -553,13 +535,12 @@ export class EquityModule extends BaseContract {
         partyTwoWagerData: BytesLike;
         equityData: BytesLike;
         blockData: BytesLike;
-        wagerOracleData: BytesLike;
-        supplumentalWagerOracleData: BytesLike;
         result: BytesLike;
         state: BigNumberish;
         wagerModule: string;
         oracleModule: string;
         oracleSource: string;
+        supplumentalOracleData: BytesLike;
       },
       recipient: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -572,13 +553,12 @@ export class EquityModule extends BaseContract {
         partyTwoWagerData: BytesLike;
         equityData: BytesLike;
         blockData: BytesLike;
-        wagerOracleData: BytesLike;
-        supplumentalWagerOracleData: BytesLike;
         result: BytesLike;
         state: BigNumberish;
         wagerModule: string;
         oracleModule: string;
         oracleSource: string;
+        supplumentalOracleData: BytesLike;
       },
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
