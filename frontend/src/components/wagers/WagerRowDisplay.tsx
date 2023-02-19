@@ -101,8 +101,8 @@ export const WagerRowDisplay = ({
       {wager && (
         <>
           <tr className="m-1 bg-gray-200 text-left h-[40px]">
-            <td className="rounded-l-lg"></td>
-            <td className="p-4 font-bold border">
+            <td className="p-3 rounded-l-lg font-bold border bg-gray-100"></td>
+            <td className="p-3 font-bold border bg-gray-100">
               <span className="m-2 float-left">Party One&apos;s Bet</span>
 
               <span className="m-2 float-right font-normal">
@@ -112,7 +112,7 @@ export const WagerRowDisplay = ({
                     10 ** TICKER_DECIMALS[ticker as TICKERS]}
               </span>
             </td>
-            <td className="p-4 font-bold border">
+            <td className="p-3 font-bold border bg-gray-100">
               <span className="m-2 float-left">Party Two&apos;s Bet</span>
 
               <span className="m-2 float-right font-normal">
@@ -122,7 +122,7 @@ export const WagerRowDisplay = ({
                   : "TBA"}
               </span>
             </td>
-            <td className="p-4 font-bold border">
+            <td className="p-3 font-bold border bg-gray-100">
               <span className="m-2 float-left">Winner</span>
 
               <span className="m-2 float-right font-normal">
@@ -136,7 +136,7 @@ export const WagerRowDisplay = ({
               </span>
             </td>
             <td
-              className={`p-4 font-bold borde ${
+              className={`p-3 font-bold border bg-gray-100 ${
                 potentialEnter || potentialSettle || potentialVoid
                   ? ""
                   : "rounded-r-lg"
@@ -155,7 +155,7 @@ export const WagerRowDisplay = ({
               </span>
             </td>
             {potentialEnter && (
-              <td className="p-4 font-bold border rounded-r-lg">
+              <td className="p-3 font-bold border rounded-r-lg">
                 <Button type="submit" className="w-full font-normal">
                   <Link href={"/wager/" + wager.id} key={wager.id}>
                     Enter
@@ -164,12 +164,12 @@ export const WagerRowDisplay = ({
               </td>
             )}
             {potentialSettle && (
-              <td className="p-4 font-normal border rounded-r-lg">
+              <td className="p-3 font-normal border rounded-r-lg">
                 <SettleWager wagerId={wager.id} buttonText={"Settle"} />
               </td>
             )}
             {potentialVoid && (
-              <td className="p-4 font-normal border rounded-r-lg">
+              <td className="p-3 font-normal border rounded-r-lg">
                 <VoidWager wagerId={wager.id} buttonText={"Void"} />
               </td>
             )}
