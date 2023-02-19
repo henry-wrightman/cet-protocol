@@ -33,6 +33,7 @@ import { getSubgraphClient } from "../../graphql/client";
 import { getSubgraphClient as getPriceSubgraphClient } from "../../graphql/client_2";
 import { Connect } from "../../components/Connect";
 import { formatDistanceToNow } from "date-fns";
+import { useIsMounted } from "../../hooks";
 
 const WAGER_QUERY = gql`
   query wager($id: String!) {
@@ -101,6 +102,7 @@ const decodeWagerResult = (data: string) => {
 };
 
 const W: NextPage = () => {
+  const isMounted = useIsMounted();
   const router = useRouter();
   const { id } = router.query;
   const { chain } = useNetwork();
@@ -128,14 +130,16 @@ const W: NextPage = () => {
   const {
     data: priceData,
     loading: priceLoading,
-    error: errorLoading,
+    error: errorPrice,
   } = useQuery<PriceResults>(PRICE_FEED_QUERY, {
     client: getPriceSubgraphClient(chain?.id!),
     variables: { first: 1000, tickers: Object.keys(TICKERS).map((x) => x) }, // , timestamp: Date.now()
   });
 
   const network =
-    chain && chain?.network ? (chain?.network as NETWORK) : "goerli";
+    chain && !chain.unsupported && chain.network
+      ? (chain.network as NETWORK)
+      : "goerli";
   const ticker =
     data && data?.wager
       ? (Object.keys(TICKERS).filter(
@@ -150,7 +154,7 @@ const W: NextPage = () => {
       : "0";
 
   useEffect(() => {
-    if (blocknumber == 0) {
+    if (blocknumber == 0 && !chain?.unsupported) {
       ethers
         .getDefaultProvider(chain?.network || "goerli")
         .getBlockNumber()
@@ -162,24 +166,29 @@ const W: NextPage = () => {
   }, [chain?.id]);
 
   if (loading || priceLoading) return Loading();
-  if (error || errorLoading)
+  if (error || errorPrice)
     return (
       <pre>
-        {error ? error.message : errorLoading ? errorLoading.message : null}
+        {error ? error.message : errorPrice ? errorPrice.message : null}
       </pre>
     );
 
-  if (!data?.wager)
+  if (isMounted && (!data?.wager || chain?.unsupported))
     return (
       <div className="min-h-screen bg-green-200 font-normal border-white border-[1px]">
-        <div className="flex flex-col md:p-5 md:flex-row lg:flex-row">
-          <div className="flex-row">
-            <div className="sm:basis-full md:basis-1/3 lg:basis-1/3 justify-center m-2 p-3 shadow-md rounded-lg bg-white min-w-[250px] min-h-[50px] border-black border-[1px]">
-              <span className="text-center">
-                Wager not found. If recently created, try again in a few seconds
-                to allow for The Graph to index it.
-              </span>
-            </div>
+        <div className="flex flex-col md:p-5 md:flex-row lg:flex-row justify-center">
+          <div className="basis-1/2 m-2 p-3 shadow-md rounded-lg bg-white min-w-[250px] min-h-[50px] border-black border-[1px]">
+            <span className="text-center">
+              {!data?.wager && !chain?.unsupported && (
+                <>
+                  Wager not found. If recently created, try again in a few
+                  seconds to allow for The Graph to index it.
+                </>
+              )}
+              {chain?.unsupported && (
+                <>Currently only available on Goerli. Please switch networks!</>
+              )}
+            </span>
           </div>
         </div>
       </div>

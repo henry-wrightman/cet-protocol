@@ -14,20 +14,20 @@ const Page: NextPage = () => {
 
   return (
     <>
-      <div className="min-h-screen bg-green-200 font-normal">
-        {chain?.unsupported && (
-          <div className="flex flex-col md:p-5 md:flex-row lg:flex-row">
-            <div className="flex-row">
-              <div className="sm:basis-full md:basis-1/3 lg:basis-1/3 justify-center m-2 p-3 shadow-md rounded-lg bg-white min-w-[250px] min-h-[50px] border-black border-[1px]">
-                <span className="text-center">
-                  Currently only available on Goerli. Please switch networks!
-                </span>
-              </div>
+      {isMounted && chain && chain.unsupported && (
+        <div className="min-h-screen bg-green-200 font-normal">
+          <div className="flex flex-col md:p-5 md:flex-row lg:flex-row justify-center">
+            <div className="sm:basis-full md:basis-1/3 lg:basis-1/3  m-2 p-3 shadow-md rounded-lg bg-white min-w-[250px] min-h-[50px] border-black border-[1px]">
+              <span className="text-center">
+                Currently only available on Goerli. Please switch networks!
+              </span>
             </div>
           </div>
-        )}
-        {!chain?.unsupported && (
-          <>
+        </div>
+      )}
+      {isMounted && chain && !chain.unsupported && (
+        <>
+          <div className="min-h-screen bg-green-200 font-normal">
             <div className="hidden md:flex lg:flex">
               <div className="h-[10px] m-1 p-2 w-full text-left cursor-pointer">
                 {/* TODO MENU */}
@@ -72,12 +72,14 @@ const Page: NextPage = () => {
                 </div>
               </div>
             </div>
-          </>
-        )}
-      </div>
-      <div className="text-center bg-purple-800 text-white bottom-0 position-absolute p-2">
-        <span>Built with The Graph | Ethereum | ChainLink | Tegridy ❤️ </span>
-      </div>
+          </div>
+          <div className="text-center bg-purple-800 text-white bottom-0 position-absolute p-2">
+            <span>
+              Built with The Graph | Ethereum | ChainLink | Tegridy ❤️{" "}
+            </span>
+          </div>
+        </>
+      )}
     </>
   );
 };
