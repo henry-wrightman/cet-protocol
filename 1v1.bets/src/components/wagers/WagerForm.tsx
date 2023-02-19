@@ -83,12 +83,7 @@ export type OracleDecimalsResponse = {
   decimals: number;
 };
 
-export const constructWagerData = (
-  _type: string,
-  _wager: any[],
-  decimals: number
-) => {
-  if (!_wager[0] || !_wager[1]) return;
+export const constructWagerData = (_type: string, _wager: any[]) => {
   try {
     switch (_type) {
       case "wm.highlow":
@@ -246,7 +241,6 @@ export const WagerForm = ({ signerAddress }: { signerAddress: string }) => {
                       .getBlockNumber();
                     if (curBlocks) {
                       const futBlocks = curBlocks + diffBlocks;
-                      console.log(futBlocks);
                       setValue("wagerExpirationBlock", futBlocks);
                     }
                   }
@@ -269,22 +263,21 @@ export const WagerForm = ({ signerAddress }: { signerAddress: string }) => {
                   <CreateWager
                     signerAddress={signerAddress}
                     wagerData={
-                      constructWagerData(
-                        watch("wagerType"),
-                        [
-                          BigInt(
-                            parseFloat(watch("wager")) *
-                              10 **
-                                TICKER_DECIMALS[ticker as TICKERS]["oracle"] ||
-                              0
-                          ).toString(),
-                          BigInt(
-                            parseFloat(currentPrice) *
-                              10 ** TICKER_DECIMALS[ticker as TICKERS]["oracle"]
-                          ).toString(),
-                        ],
-                        TICKER_DECIMALS[ticker as TICKERS]["oracle"]
-                      ) || []
+                      constructWagerData(watch("wagerType"), [
+                        watch("wagerType") == "wm.highlow"
+                          ? BigInt(watch("wager"))
+                          : BigInt(
+                              parseFloat(watch("wager")) *
+                                10 **
+                                  TICKER_DECIMALS[ticker as TICKERS][
+                                    "oracle"
+                                  ] || 0
+                            ).toString(),
+                        BigInt(
+                          parseFloat(currentPrice) *
+                            10 ** TICKER_DECIMALS[ticker as TICKERS]["oracle"]
+                        ).toString(),
+                      ]) || []
                     }
                     wagerAmount={watch("wagerAmount")}
                     wagerExpirationBlock={watch("wagerExpirationBlock")}

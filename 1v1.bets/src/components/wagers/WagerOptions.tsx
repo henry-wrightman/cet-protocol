@@ -90,7 +90,6 @@ export const WagerOptions = ({
                   placeholder="select option"
                   onSelect={(option: SelectOption) => {
                     setValue("wager", option?.value as string);
-                    //setWagerType(option?.value as string);
                   }}
                 />
               </div>

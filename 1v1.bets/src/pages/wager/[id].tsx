@@ -232,20 +232,18 @@ const W: NextPage = () => {
       : "";
 
   const enterPartyData = watch("wager")
-    ? constructWagerData(
-        wagerType,
-        [
-          BigInt(
-            parseFloat(watch("wager")) *
-              10 ** TICKER_DECIMALS[ticker as TICKERS]["oracle"] || 0
-          ).toString(),
-          BigInt(
-            parseFloat(currentPrice) *
-              10 ** TICKER_DECIMALS[ticker as TICKERS]["oracle"]
-          ).toString(),
-        ],
-        TICKER_DECIMALS[ticker as TICKERS]["oracle"]
-      )
+    ? constructWagerData(wagerType, [
+        watch("wagerType") == "wm.highlow"
+          ? BigInt(watch("wager"))
+          : BigInt(
+              parseFloat(watch("wager")) *
+                10 ** TICKER_DECIMALS[ticker as TICKERS]["oracle"] || 0
+            ).toString(),
+        BigInt(
+          parseFloat(currentPrice) *
+            10 ** TICKER_DECIMALS[ticker as TICKERS]["oracle"]
+        ).toString(),
+      ])
     : null;
 
   setValue("wagerTicker", ticker);
