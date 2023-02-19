@@ -434,6 +434,7 @@ const W: NextPage = () => {
                   </td>
                   <td className="border p-1 text-right border rounded-r-md">
                     {wagerType.replace("wm.", "")} {wagerMetadata}
+                    <span className="font-bold">| {ticker.toString()}</span>
                   </td>
                 </tr>
                 <tr className="bg-gray-200 text-left h-[40px]">

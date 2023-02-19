@@ -308,12 +308,6 @@ export const WagerForm = ({ signerAddress }: { signerAddress: string }) => {
               </WagerConfirmationButton>
             }
           </div>
-          {/* <Label
-            className="mt-5 text-center border-[1px] p-1 m-5 w-25 bg-white rounded-2xl border-black"
-            ping={true}
-          >
-            oracle: ChainLink
-          </Label> */}
         </form>
       </div>
     </>
