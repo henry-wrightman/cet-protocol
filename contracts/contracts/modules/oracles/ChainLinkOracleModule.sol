@@ -11,7 +11,7 @@ import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
  @notice ChainLink oracle module for wager price-related data resolution
  */
 
-contract ChainLinkOracleModule is IWagerOracle {
+contract ChainLinkOracleModule is IWagerOracleModule {
     /// @notice getResult
     /// @dev result is always bytes & up to wager module / inheritor to decode desired field(s)
     /// @param wager wager who needs to be settled & its result acquired
@@ -20,18 +20,8 @@ contract ChainLinkOracleModule is IWagerOracle {
         Wager memory wager
     ) external view override returns (bytes memory) {
         AggregatorV3Interface feed = AggregatorV3Interface(wager.oracleSource);
-        (, uint80 expirationBlock, ) = abi.decode(
-            wager.blockData,
-            (uint80, uint80, uint80)
-        );
 
-        (
-            uint80 roundID,
-            int256 answer,
-            uint256 startedAt,
-            uint256 updatedAt,
-            uint80 answeredInRound
-        ) = feed.latestRoundData();
+        (, int256 answer, , , ) = feed.latestRoundData();
 
         return toBytes(uint256(answer));
     }

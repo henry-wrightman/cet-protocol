@@ -11,6 +11,8 @@ import {
   WagerRegistry__factory,
   TestERC721,
   TestERC721__factory,
+  EquityModule,
+  EquityModule__factory,
 } from "../typechain-types";
 import { expect } from "chai";
 import { ethers } from "hardhat";
@@ -29,6 +31,8 @@ describe("WagerRegistry", function () {
   let wagerRegistry: WagerRegistry;
   let TestERC721: TestERC721__factory;
   let testERC721: TestERC721;
+  let EquityModule: EquityModule__factory;
+  let equityModule: EquityModule;
 
   beforeEach(async function () {
     [creator, address1, address2] = await ethers.getSigners();
@@ -47,9 +51,15 @@ describe("WagerRegistry", function () {
     testERC721 = await TestERC721.deploy();
     await testERC721.deployed();
 
+    EquityModule = await ethers.getContractFactory("EquityModule");
+    equityModule = await EquityModule.deploy();
+    await equityModule.deployed();
+
     WagerRegistry = await ethers.getContractFactory("WagerRegistry");
     wagerRegistry = await WagerRegistry.deploy();
     await wagerRegistry.deployed();
+
+    await wagerRegistry.setEquityModule(equityModule.address);
 
     await testChainLinkOracle.setPrice(21000);
     await testERC721.mint(address1.address);
@@ -101,8 +111,7 @@ describe("WagerRegistry", function () {
             partyTwoWagerData: partyTwoWagerData,
             equityData: equityData,
             blockData: blockData,
-            wagerOracleData: [],
-            supplumentalWagerOracleData: [],
+            supplumentalOracleData: [],
             result: [],
             state: ethers.BigNumber.from("1"),
             wagerModule: highLowWagerModule.address,
@@ -151,8 +160,7 @@ describe("WagerRegistry", function () {
             partyTwoWagerData: partyTwoWagerData,
             equityData: equityData,
             blockData: blockData,
-            wagerOracleData: [],
-            supplumentalWagerOracleData: [],
+            supplumentalOracleData: [],
             result: [],
             state: ethers.BigNumber.from("1"),
             wagerModule: highLowWagerModule.address,
@@ -189,8 +197,7 @@ describe("WagerRegistry", function () {
             partyTwoWagerData: partyTwoWagerData,
             equityData: equityData,
             blockData: blockData,
-            wagerOracleData: [],
-            supplumentalWagerOracleData: [],
+            supplumentalOracleData: [],
             result: [],
             state: ethers.BigNumber.from("1"),
             wagerModule: highLowWagerModule.address,
@@ -252,7 +259,7 @@ describe("WagerRegistry", function () {
         );
 
         // NFT needs to be pre-approved to be used within a wager
-        await testERC721.connect(address1).approve(wagerRegistry.address, 0);
+        await testERC721.connect(address1).approve(equityModule.address, 0);
 
         await wagerRegistry.connect(address1).createWager({
           parties: partiesData,
@@ -260,8 +267,7 @@ describe("WagerRegistry", function () {
           partyTwoWagerData: [], // data flipped, such that partyTwo wins
           equityData: equityData,
           blockData: blockData,
-          wagerOracleData: [],
-          supplumentalWagerOracleData: [],
+          supplumentalOracleData: [],
           result: [],
           state: ethers.BigNumber.from("1"),
           wagerModule: highLowWagerModule.address,
@@ -270,10 +276,10 @@ describe("WagerRegistry", function () {
         });
 
         const rbal = await testERC721.getApproved(0);
-        expect(rbal).to.be.equal(wagerRegistry.address);
+        expect(rbal).to.be.equal(equityModule.address);
 
         // NFT needs to be pre-approved to be used within a wager
-        await testERC721.connect(address2).approve(wagerRegistry.address, 1);
+        await testERC721.connect(address2).approve(equityModule.address, 1);
 
         await wagerRegistry
           .connect(address2)
@@ -328,8 +334,7 @@ describe("WagerRegistry", function () {
             partyTwoWagerData: [],
             equityData: equityData,
             blockData: blockData,
-            wagerOracleData: [],
-            supplumentalWagerOracleData: [],
+            supplumentalOracleData: [],
             result: [],
             state: ethers.BigNumber.from("1"),
             wagerModule: highLowWagerModule.address,
@@ -484,8 +489,7 @@ describe("WagerRegistry", function () {
             partyTwoWagerData: partyTwoWagerData,
             equityData: equityData,
             blockData: blockData,
-            wagerOracleData: [],
-            supplumentalWagerOracleData: [],
+            supplumentalOracleData: [],
             result: [],
             state: ethers.BigNumber.from("1"),
             wagerModule: highLowWagerModule.address,
@@ -499,7 +503,7 @@ describe("WagerRegistry", function () {
       it("partyOne can void wager & be refunded successfully", async function () {
         const address1BalStart = await address1.getBalance();
         const contractBalStart = await ethers.provider.getBalance(
-          wagerRegistry.address
+          equityModule.address
         );
 
         const tx = await wagerRegistry.connect(address1).voidWager(0);
@@ -509,7 +513,7 @@ describe("WagerRegistry", function () {
         const wager = await wagerRegistry.wagers(0);
         const address1BalEnd = await address1.getBalance();
         const contractBalEnd = await ethers.provider.getBalance(
-          wagerRegistry.address
+          equityModule.address
         );
 
         expect(wager.state).to.be.equal(3);

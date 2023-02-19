@@ -27,23 +27,13 @@ const _abi = [
             type: "bytes",
           },
           {
-            internalType: "uint256",
-            name: "wagerAmount",
-            type: "uint256",
+            internalType: "bytes",
+            name: "equityData",
+            type: "bytes",
           },
           {
             internalType: "bytes",
             name: "blockData",
-            type: "bytes",
-          },
-          {
-            internalType: "bytes",
-            name: "wagerOracleData",
-            type: "bytes",
-          },
-          {
-            internalType: "bytes",
-            name: "supplumentalWagerOracleData",
             type: "bytes",
           },
           {
@@ -62,7 +52,7 @@ const _abi = [
             type: "address",
           },
           {
-            internalType: "contract IWagerOracle",
+            internalType: "contract IWagerOracleModule",
             name: "oracleModule",
             type: "address",
           },
@@ -70,6 +60,11 @@ const _abi = [
             internalType: "address",
             name: "oracleSource",
             type: "address",
+          },
+          {
+            internalType: "bytes",
+            name: "supplumentalOracleData",
+            type: "bytes",
           },
         ],
         internalType: "struct Wager",
@@ -97,23 +92,13 @@ const _abi = [
             type: "bytes",
           },
           {
-            internalType: "uint256",
-            name: "wagerAmount",
-            type: "uint256",
+            internalType: "bytes",
+            name: "equityData",
+            type: "bytes",
           },
           {
             internalType: "bytes",
             name: "blockData",
-            type: "bytes",
-          },
-          {
-            internalType: "bytes",
-            name: "wagerOracleData",
-            type: "bytes",
-          },
-          {
-            internalType: "bytes",
-            name: "supplumentalWagerOracleData",
             type: "bytes",
           },
           {
@@ -132,7 +117,7 @@ const _abi = [
             type: "address",
           },
           {
-            internalType: "contract IWagerOracle",
+            internalType: "contract IWagerOracleModule",
             name: "oracleModule",
             type: "address",
           },
@@ -140,6 +125,11 @@ const _abi = [
             internalType: "address",
             name: "oracleSource",
             type: "address",
+          },
+          {
+            internalType: "bytes",
+            name: "supplumentalOracleData",
+            type: "bytes",
           },
         ],
         internalType: "struct Wager",

@@ -11,7 +11,7 @@ import "@uma/core/contracts/optimistic-oracle/interfaces/OptimisticOracleV2Inter
  @notice UMA oracle module for wager price-related data resolution
  */
 
-contract UMAOracleModule is IWagerOracle {
+contract UMAOracleModule is IWagerOracleModule {
     IERC20 bondCurrency = IERC20(0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6); // Use Görli WETH as the bond currency.
     uint256 reward = 0; // Set the reward to 0 (so we dont have to fund it from this contract).
 
@@ -22,6 +22,10 @@ contract UMAOracleModule is IWagerOracle {
     function getResult(
         Wager memory wager
     ) external view override returns (bytes memory) {
+        (bytes memory ancilliaryData, bytes32 identifier) = decodeOracleData(
+            wager.supplumentalOracleData
+        );
+
         OptimisticOracleV2Interface oo = OptimisticOracleV2Interface(
             wager.oracleSource
         );
@@ -34,9 +38,9 @@ contract UMAOracleModule is IWagerOracle {
                 oo
                     .getRequest(
                         address(this),
-                        bytes32(wager.supplumentalWagerOracleData),
+                        identifier,
                         expirationBlock,
-                        wager.wagerOracleData
+                        ancilliaryData
                     )
                     .resolvedPrice
             );
@@ -44,6 +48,9 @@ contract UMAOracleModule is IWagerOracle {
 
     // Submit a data request to the Optimistic oracle.
     function requestData(Wager memory wager) public {
+        (bytes memory ancilliaryData, bytes32 identifier) = decodeOracleData(
+            wager.supplumentalOracleData
+        );
         OptimisticOracleV2Interface oo = OptimisticOracleV2Interface(
             address(wager.oracleModule)
         );
@@ -52,23 +59,21 @@ contract UMAOracleModule is IWagerOracle {
             (uint80, uint80, uint80)
         );
         oo.requestPrice(
-            bytes32(wager.supplumentalWagerOracleData),
+            identifier,
             expirationBlock,
-            wager.wagerOracleData,
+            ancilliaryData,
             bondCurrency,
             reward
         );
-        oo.setCustomLiveness(
-            bytes32(wager.supplumentalWagerOracleData),
-            expirationBlock,
-            wager.wagerOracleData,
-            30
-        );
+        oo.setCustomLiveness(identifier, expirationBlock, ancilliaryData, 30);
     }
 
     // Settle the request once it's gone through the liveness period of 30 seconds. This acts the finalize the voted on price.
     // In a real world use of the Optimistic Oracle this should be longer to give time to disputers to catch bat price proposals.
     function settleRequest(Wager memory wager) public {
+        (bytes memory ancilliaryData, bytes32 identifier) = decodeOracleData(
+            wager.supplumentalOracleData
+        );
         OptimisticOracleV2Interface oo = OptimisticOracleV2Interface(
             address(wager.oracleModule)
         );
@@ -76,12 +81,7 @@ contract UMAOracleModule is IWagerOracle {
             wager.blockData,
             (uint80, uint80, uint80)
         );
-        oo.settle(
-            address(this),
-            bytes32(wager.supplumentalWagerOracleData),
-            expirationBlock,
-            wager.wagerOracleData
-        );
+        oo.settle(address(this), identifier, expirationBlock, ancilliaryData);
     }
 
     function toBytes(int256 x) public pure returns (bytes memory b) {
@@ -89,5 +89,11 @@ contract UMAOracleModule is IWagerOracle {
         assembly {
             mstore(add(b, 32), x)
         }
+    }
+
+    function decodeOracleData(
+        bytes memory data
+    ) public pure returns (bytes memory ancillaryData, bytes32 identifier) {
+        (ancillaryData, identifier) = abi.decode(data, (bytes, bytes32));
     }
 }

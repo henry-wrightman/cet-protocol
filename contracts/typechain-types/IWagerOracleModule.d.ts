@@ -12,7 +12,6 @@ import {
   BaseContract,
   ContractTransaction,
   Overrides,
-  PayableOverrides,
   CallOverrides,
 } from "ethers";
 import { BytesLike } from "@ethersproject/bytes";
@@ -20,48 +19,36 @@ import { Listener, Provider } from "@ethersproject/providers";
 import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
 import type { TypedEventFilter, TypedEvent, TypedListener } from "./common";
 
-interface WagerFactoryInterface extends ethers.utils.Interface {
+interface IWagerOracleModuleInterface extends ethers.utils.Interface {
   functions: {
-    "createWager((bytes,bytes,bytes,bytes,bytes,string,address,address))": FunctionFragment;
-    "registry()": FunctionFragment;
-    "setWagerModule(string,address)": FunctionFragment;
+    "getResult((bytes,bytes,bytes,bytes,bytes,bytes,uint8,address,address,address,bytes))": FunctionFragment;
   };
 
   encodeFunctionData(
-    functionFragment: "createWager",
+    functionFragment: "getResult",
     values: [
       {
         parties: BytesLike;
         partyOneWagerData: BytesLike;
+        partyTwoWagerData: BytesLike;
+        equityData: BytesLike;
         blockData: BytesLike;
-        wagerOracleData: BytesLike;
-        supplumentalWagerOracleData: BytesLike;
-        wagerModuleName: string;
+        result: BytesLike;
+        state: BigNumberish;
+        wagerModule: string;
         oracleModule: string;
         oracleSource: string;
+        supplumentalOracleData: BytesLike;
       }
     ]
   ): string;
-  encodeFunctionData(functionFragment: "registry", values?: undefined): string;
-  encodeFunctionData(
-    functionFragment: "setWagerModule",
-    values: [string, string]
-  ): string;
 
-  decodeFunctionResult(
-    functionFragment: "createWager",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "registry", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "setWagerModule",
-    data: BytesLike
-  ): Result;
+  decodeFunctionResult(functionFragment: "getResult", data: BytesLike): Result;
 
   events: {};
 }
 
-export class WagerFactory extends BaseContract {
+export class IWagerOracleModule extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
@@ -102,124 +89,99 @@ export class WagerFactory extends BaseContract {
     toBlock?: string | number | undefined
   ): Promise<Array<TypedEvent<EventArgsArray & EventArgsObject>>>;
 
-  interface: WagerFactoryInterface;
+  interface: IWagerOracleModuleInterface;
 
   functions: {
-    createWager(
-      params: {
+    getResult(
+      wager: {
         parties: BytesLike;
         partyOneWagerData: BytesLike;
+        partyTwoWagerData: BytesLike;
+        equityData: BytesLike;
         blockData: BytesLike;
-        wagerOracleData: BytesLike;
-        supplumentalWagerOracleData: BytesLike;
-        wagerModuleName: string;
+        result: BytesLike;
+        state: BigNumberish;
+        wagerModule: string;
         oracleModule: string;
         oracleSource: string;
+        supplumentalOracleData: BytesLike;
       },
-      overrides?: PayableOverrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    registry(overrides?: CallOverrides): Promise<[string]>;
-
-    setWagerModule(
-      name: string,
-      wagerModuleAddr: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
   };
 
-  createWager(
-    params: {
+  getResult(
+    wager: {
       parties: BytesLike;
       partyOneWagerData: BytesLike;
+      partyTwoWagerData: BytesLike;
+      equityData: BytesLike;
       blockData: BytesLike;
-      wagerOracleData: BytesLike;
-      supplumentalWagerOracleData: BytesLike;
-      wagerModuleName: string;
+      result: BytesLike;
+      state: BigNumberish;
+      wagerModule: string;
       oracleModule: string;
       oracleSource: string;
+      supplumentalOracleData: BytesLike;
     },
-    overrides?: PayableOverrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  registry(overrides?: CallOverrides): Promise<string>;
-
-  setWagerModule(
-    name: string,
-    wagerModuleAddr: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
   callStatic: {
-    createWager(
-      params: {
+    getResult(
+      wager: {
         parties: BytesLike;
         partyOneWagerData: BytesLike;
+        partyTwoWagerData: BytesLike;
+        equityData: BytesLike;
         blockData: BytesLike;
-        wagerOracleData: BytesLike;
-        supplumentalWagerOracleData: BytesLike;
-        wagerModuleName: string;
+        result: BytesLike;
+        state: BigNumberish;
+        wagerModule: string;
         oracleModule: string;
         oracleSource: string;
+        supplumentalOracleData: BytesLike;
       },
       overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    registry(overrides?: CallOverrides): Promise<string>;
-
-    setWagerModule(
-      name: string,
-      wagerModuleAddr: string,
-      overrides?: CallOverrides
-    ): Promise<void>;
+    ): Promise<string>;
   };
 
   filters: {};
 
   estimateGas: {
-    createWager(
-      params: {
+    getResult(
+      wager: {
         parties: BytesLike;
         partyOneWagerData: BytesLike;
+        partyTwoWagerData: BytesLike;
+        equityData: BytesLike;
         blockData: BytesLike;
-        wagerOracleData: BytesLike;
-        supplumentalWagerOracleData: BytesLike;
-        wagerModuleName: string;
+        result: BytesLike;
+        state: BigNumberish;
+        wagerModule: string;
         oracleModule: string;
         oracleSource: string;
+        supplumentalOracleData: BytesLike;
       },
-      overrides?: PayableOverrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    registry(overrides?: CallOverrides): Promise<BigNumber>;
-
-    setWagerModule(
-      name: string,
-      wagerModuleAddr: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
   };
 
   populateTransaction: {
-    createWager(
-      params: {
+    getResult(
+      wager: {
         parties: BytesLike;
         partyOneWagerData: BytesLike;
+        partyTwoWagerData: BytesLike;
+        equityData: BytesLike;
         blockData: BytesLike;
-        wagerOracleData: BytesLike;
-        supplumentalWagerOracleData: BytesLike;
-        wagerModuleName: string;
+        result: BytesLike;
+        state: BigNumberish;
+        wagerModule: string;
         oracleModule: string;
         oracleSource: string;
+        supplumentalOracleData: BytesLike;
       },
-      overrides?: PayableOverrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    registry(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    setWagerModule(
-      name: string,
-      wagerModuleAddr: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
   };

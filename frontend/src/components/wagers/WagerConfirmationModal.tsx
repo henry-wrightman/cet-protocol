@@ -66,7 +66,12 @@ export const WagerConfirmationModal = ({
                   }
                   rel="noreferrer"
                 >
-                  <Image width={17} height={17} src={externalLinkIcon}></Image>
+                  <Image
+                    width={17}
+                    height={17}
+                    src={externalLinkIcon}
+                    alt="el"
+                  ></Image>
                 </a>
               </h2>
               <Image
@@ -74,6 +79,7 @@ export const WagerConfirmationModal = ({
                 src={
                   images[Math.floor(Math.random() * (5 - 0 + 1) + 0).toString()]
                 }
+                alt="ss"
               ></Image>
             </div>
           )}
@@ -134,6 +140,7 @@ export const WagerConfirmationModal = ({
                             width={17}
                             height={17}
                             src={externalLinkIcon}
+                            alt="el"
                           ></Image>
                         </a>
                       }

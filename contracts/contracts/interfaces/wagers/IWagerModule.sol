@@ -1,22 +1,21 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.7;
 
-import "../oracles/IWagerOracle.sol";
+import "../oracles/IWagerOracleModule.sol";
 
 // -- structs --
 struct Wager {
     bytes parties; // party data; |partyOne|partyTwo|
-    bytes partyOneWagerData; // wager data; |wagerStart|wagerValue|
+    bytes partyOneWagerData; // wager data for wager module to discern; e.g |wagerStart|wagerValue|
     bytes partyTwoWagerData;
     bytes equityData; // wager equity data; |WagerType|ercContractAddr(s)|amount(s)|tokenId(s)|
     bytes blockData; // blocktime data; |created|expiration|enterLimit|
-    bytes wagerOracleData; // ancillary wager data
-    bytes supplumentalWagerOracleData; // supplumental wager data
     bytes result; // wager outcome
     WagerState state;
     IWagerModule wagerModule; // wager semantics
-    IWagerOracle oracleModule; // oracle module semantics
+    IWagerOracleModule oracleModule; // oracle module semantics
     address oracleSource; // oracle source
+    bytes supplumentalOracleData; // supplumental wager oracle data
 }
 
 // -- wager type

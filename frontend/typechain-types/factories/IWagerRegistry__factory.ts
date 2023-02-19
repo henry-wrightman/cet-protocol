@@ -34,12 +34,6 @@ const _abi = [
       {
         indexed: false,
         internalType: "uint256",
-        name: "createdBlock",
-        type: "uint256",
-      },
-      {
-        indexed: false,
-        internalType: "uint256",
         name: "enterLimitBlock",
         type: "uint256",
       },
@@ -160,23 +154,13 @@ const _abi = [
             type: "bytes",
           },
           {
-            internalType: "uint256",
-            name: "wagerAmount",
-            type: "uint256",
+            internalType: "bytes",
+            name: "equityData",
+            type: "bytes",
           },
           {
             internalType: "bytes",
             name: "blockData",
-            type: "bytes",
-          },
-          {
-            internalType: "bytes",
-            name: "wagerOracleData",
-            type: "bytes",
-          },
-          {
-            internalType: "bytes",
-            name: "supplumentalWagerOracleData",
             type: "bytes",
           },
           {
@@ -195,7 +179,7 @@ const _abi = [
             type: "address",
           },
           {
-            internalType: "contract IWagerOracle",
+            internalType: "contract IWagerOracleModule",
             name: "oracleModule",
             type: "address",
           },
@@ -204,6 +188,11 @@ const _abi = [
             name: "oracleSource",
             type: "address",
           },
+          {
+            internalType: "bytes",
+            name: "supplumentalOracleData",
+            type: "bytes",
+          },
         ],
         internalType: "struct Wager",
         name: "wager",
@@ -211,13 +200,7 @@ const _abi = [
       },
     ],
     name: "createWager",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
+    outputs: [],
     stateMutability: "payable",
     type: "function",
   },
@@ -227,6 +210,11 @@ const _abi = [
         internalType: "uint256",
         name: "wagerId",
         type: "uint256",
+      },
+      {
+        internalType: "bytes",
+        name: "partyTwoEquityData",
+        type: "bytes",
       },
       {
         internalType: "bytes",

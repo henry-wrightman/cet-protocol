@@ -73,13 +73,17 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.OptimisticOracleV2Interface__factory>;
     getContractFactory(
+      name: "IEquityModule",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IEquityModule__factory>;
+    getContractFactory(
       name: "IWagerRegistry",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IWagerRegistry__factory>;
     getContractFactory(
-      name: "IWagerOracle",
+      name: "IWagerOracleModule",
       signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.IWagerOracle__factory>;
+    ): Promise<Contracts.IWagerOracleModule__factory>;
     getContractFactory(
       name: "IWagerModule",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -88,6 +92,10 @@ declare module "hardhat/types/runtime" {
       name: "WagerExecutor",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.WagerExecutor__factory>;
+    getContractFactory(
+      name: "EquityModule",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.EquityModule__factory>;
     getContractFactory(
       name: "ChainLinkOracleModule",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -205,15 +213,20 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.OptimisticOracleV2Interface>;
     getContractAt(
+      name: "IEquityModule",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IEquityModule>;
+    getContractAt(
       name: "IWagerRegistry",
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.IWagerRegistry>;
     getContractAt(
-      name: "IWagerOracle",
+      name: "IWagerOracleModule",
       address: string,
       signer?: ethers.Signer
-    ): Promise<Contracts.IWagerOracle>;
+    ): Promise<Contracts.IWagerOracleModule>;
     getContractAt(
       name: "IWagerModule",
       address: string,
@@ -224,6 +237,11 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.WagerExecutor>;
+    getContractAt(
+      name: "EquityModule",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.EquityModule>;
     getContractAt(
       name: "ChainLinkOracleModule",
       address: string,

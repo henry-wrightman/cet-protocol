@@ -18,7 +18,9 @@ contract HighLowWagerModule is IWagerModule {
     function settle(
         Wager memory wager
     ) external override returns (Wager memory, address) {
-        bytes memory result = IWagerOracle(wager.oracleModule).getResult(wager);
+        bytes memory result = IWagerOracleModule(wager.oracleModule).getResult(
+            wager
+        );
         wager.result = result;
         int256 price = int(abi.decode(result, (uint256)));
         (address partyOne, address partyTwo) = abi.decode(
@@ -30,10 +32,9 @@ contract HighLowWagerModule is IWagerModule {
             uint256 partyOneWagerDirection,
             int256 partyOneWagerInitialPrice
         ) = decodeHighLowWager(wager.partyOneWagerData);
-        (
-            uint256 partyTwoWagerDirection,
-            int256 partyTwoWagerInitialPrice
-        ) = decodeHighLowWager(wager.partyTwoWagerData);
+        (, int256 partyTwoWagerInitialPrice) = decodeHighLowWager(
+            wager.partyTwoWagerData
+        );
 
         if (partyOneWagerDirection == 1) {
             // partyOne bet high

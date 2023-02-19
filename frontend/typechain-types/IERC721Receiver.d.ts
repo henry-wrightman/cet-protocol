@@ -19,37 +19,25 @@ import { Listener, Provider } from "@ethersproject/providers";
 import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
 import type { TypedEventFilter, TypedEvent, TypedListener } from "./common";
 
-interface IWagerOracleInterface extends ethers.utils.Interface {
+interface IERC721ReceiverInterface extends ethers.utils.Interface {
   functions: {
-    "getResult((bytes,bytes,bytes,bytes,bytes,bytes,bytes,bytes,uint8,address,address,address))": FunctionFragment;
+    "onERC721Received(address,address,uint256,bytes)": FunctionFragment;
   };
 
   encodeFunctionData(
-    functionFragment: "getResult",
-    values: [
-      {
-        parties: BytesLike;
-        partyOneWagerData: BytesLike;
-        partyTwoWagerData: BytesLike;
-        equityData: BytesLike;
-        blockData: BytesLike;
-        wagerOracleData: BytesLike;
-        supplumentalWagerOracleData: BytesLike;
-        result: BytesLike;
-        state: BigNumberish;
-        wagerModule: string;
-        oracleModule: string;
-        oracleSource: string;
-      }
-    ]
+    functionFragment: "onERC721Received",
+    values: [string, string, BigNumberish, BytesLike]
   ): string;
 
-  decodeFunctionResult(functionFragment: "getResult", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "onERC721Received",
+    data: BytesLike
+  ): Result;
 
   events: {};
 }
 
-export class IWagerOracle extends BaseContract {
+export class IERC721Receiver extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
@@ -90,62 +78,32 @@ export class IWagerOracle extends BaseContract {
     toBlock?: string | number | undefined
   ): Promise<Array<TypedEvent<EventArgsArray & EventArgsObject>>>;
 
-  interface: IWagerOracleInterface;
+  interface: IERC721ReceiverInterface;
 
   functions: {
-    getResult(
-      wager: {
-        parties: BytesLike;
-        partyOneWagerData: BytesLike;
-        partyTwoWagerData: BytesLike;
-        equityData: BytesLike;
-        blockData: BytesLike;
-        wagerOracleData: BytesLike;
-        supplumentalWagerOracleData: BytesLike;
-        result: BytesLike;
-        state: BigNumberish;
-        wagerModule: string;
-        oracleModule: string;
-        oracleSource: string;
-      },
+    onERC721Received(
+      operator: string,
+      from: string,
+      tokenId: BigNumberish,
+      data: BytesLike,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
   };
 
-  getResult(
-    wager: {
-      parties: BytesLike;
-      partyOneWagerData: BytesLike;
-      partyTwoWagerData: BytesLike;
-      equityData: BytesLike;
-      blockData: BytesLike;
-      wagerOracleData: BytesLike;
-      supplumentalWagerOracleData: BytesLike;
-      result: BytesLike;
-      state: BigNumberish;
-      wagerModule: string;
-      oracleModule: string;
-      oracleSource: string;
-    },
+  onERC721Received(
+    operator: string,
+    from: string,
+    tokenId: BigNumberish,
+    data: BytesLike,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
   callStatic: {
-    getResult(
-      wager: {
-        parties: BytesLike;
-        partyOneWagerData: BytesLike;
-        partyTwoWagerData: BytesLike;
-        equityData: BytesLike;
-        blockData: BytesLike;
-        wagerOracleData: BytesLike;
-        supplumentalWagerOracleData: BytesLike;
-        result: BytesLike;
-        state: BigNumberish;
-        wagerModule: string;
-        oracleModule: string;
-        oracleSource: string;
-      },
+    onERC721Received(
+      operator: string,
+      from: string,
+      tokenId: BigNumberish,
+      data: BytesLike,
       overrides?: CallOverrides
     ): Promise<string>;
   };
@@ -153,41 +111,21 @@ export class IWagerOracle extends BaseContract {
   filters: {};
 
   estimateGas: {
-    getResult(
-      wager: {
-        parties: BytesLike;
-        partyOneWagerData: BytesLike;
-        partyTwoWagerData: BytesLike;
-        equityData: BytesLike;
-        blockData: BytesLike;
-        wagerOracleData: BytesLike;
-        supplumentalWagerOracleData: BytesLike;
-        result: BytesLike;
-        state: BigNumberish;
-        wagerModule: string;
-        oracleModule: string;
-        oracleSource: string;
-      },
+    onERC721Received(
+      operator: string,
+      from: string,
+      tokenId: BigNumberish,
+      data: BytesLike,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
   };
 
   populateTransaction: {
-    getResult(
-      wager: {
-        parties: BytesLike;
-        partyOneWagerData: BytesLike;
-        partyTwoWagerData: BytesLike;
-        equityData: BytesLike;
-        blockData: BytesLike;
-        wagerOracleData: BytesLike;
-        supplumentalWagerOracleData: BytesLike;
-        result: BytesLike;
-        state: BigNumberish;
-        wagerModule: string;
-        oracleModule: string;
-        oracleSource: string;
-      },
+    onERC721Received(
+      operator: string,
+      from: string,
+      tokenId: BigNumberish,
+      data: BytesLike,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
   };

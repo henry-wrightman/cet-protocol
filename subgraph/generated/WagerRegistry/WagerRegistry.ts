@@ -35,28 +35,24 @@ export class WagerCreated__Params {
     return this._event.parameters[2].value.toBytes();
   }
 
-  get createdBlock(): BigInt {
+  get enterLimitBlock(): BigInt {
     return this._event.parameters[3].value.toBigInt();
   }
 
-  get enterLimitBlock(): BigInt {
+  get expirationBlock(): BigInt {
     return this._event.parameters[4].value.toBigInt();
   }
 
-  get expirationBlock(): BigInt {
-    return this._event.parameters[5].value.toBigInt();
-  }
-
   get wagerModule(): Address {
-    return this._event.parameters[6].value.toAddress();
+    return this._event.parameters[5].value.toAddress();
   }
 
   get oracleModule(): Address {
-    return this._event.parameters[7].value.toAddress();
+    return this._event.parameters[6].value.toAddress();
   }
 
   get wagerId(): BigInt {
-    return this._event.parameters[8].value.toBigInt();
+    return this._event.parameters[7].value.toBigInt();
   }
 }
 
@@ -175,29 +171,27 @@ export class WagerRegistry__wagersResult {
   value0: Bytes;
   value1: Bytes;
   value2: Bytes;
-  value3: BigInt;
+  value3: Bytes;
   value4: Bytes;
   value5: Bytes;
-  value6: Bytes;
-  value7: Bytes;
-  value8: i32;
+  value6: i32;
+  value7: Address;
+  value8: Address;
   value9: Address;
-  value10: Address;
-  value11: Address;
+  value10: Bytes;
 
   constructor(
     value0: Bytes,
     value1: Bytes,
     value2: Bytes,
-    value3: BigInt,
+    value3: Bytes,
     value4: Bytes,
     value5: Bytes,
-    value6: Bytes,
-    value7: Bytes,
-    value8: i32,
+    value6: i32,
+    value7: Address,
+    value8: Address,
     value9: Address,
-    value10: Address,
-    value11: Address
+    value10: Bytes
   ) {
     this.value0 = value0;
     this.value1 = value1;
@@ -210,7 +204,6 @@ export class WagerRegistry__wagersResult {
     this.value8 = value8;
     this.value9 = value9;
     this.value10 = value10;
-    this.value11 = value11;
   }
 
   toMap(): TypedMap<string, ethereum.Value> {
@@ -218,18 +211,17 @@ export class WagerRegistry__wagersResult {
     map.set("value0", ethereum.Value.fromBytes(this.value0));
     map.set("value1", ethereum.Value.fromBytes(this.value1));
     map.set("value2", ethereum.Value.fromBytes(this.value2));
-    map.set("value3", ethereum.Value.fromUnsignedBigInt(this.value3));
+    map.set("value3", ethereum.Value.fromBytes(this.value3));
     map.set("value4", ethereum.Value.fromBytes(this.value4));
     map.set("value5", ethereum.Value.fromBytes(this.value5));
-    map.set("value6", ethereum.Value.fromBytes(this.value6));
-    map.set("value7", ethereum.Value.fromBytes(this.value7));
     map.set(
-      "value8",
-      ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(this.value8))
+      "value6",
+      ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(this.value6))
     );
+    map.set("value7", ethereum.Value.fromAddress(this.value7));
+    map.set("value8", ethereum.Value.fromAddress(this.value8));
     map.set("value9", ethereum.Value.fromAddress(this.value9));
-    map.set("value10", ethereum.Value.fromAddress(this.value10));
-    map.set("value11", ethereum.Value.fromAddress(this.value11));
+    map.set("value10", ethereum.Value.fromBytes(this.value10));
     return map;
   }
 }
@@ -307,6 +299,21 @@ export class WagerRegistry extends ethereum.SmartContract {
     );
   }
 
+  equityModule(): Address {
+    let result = super.call("equityModule", "equityModule():(address)", []);
+
+    return result[0].toAddress();
+  }
+
+  try_equityModule(): ethereum.CallResult<Address> {
+    let result = super.tryCall("equityModule", "equityModule():(address)", []);
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toAddress());
+  }
+
   executionSchedule(param0: BigInt, param1: BigInt): BigInt {
     let result = super.call(
       "executionSchedule",
@@ -342,7 +349,7 @@ export class WagerRegistry extends ethereum.SmartContract {
   wagers(param0: BigInt): WagerRegistry__wagersResult {
     let result = super.call(
       "wagers",
-      "wagers(uint256):(bytes,bytes,bytes,uint256,bytes,bytes,bytes,bytes,uint8,address,address,address)",
+      "wagers(uint256):(bytes,bytes,bytes,bytes,bytes,bytes,uint8,address,address,address,bytes)",
       [ethereum.Value.fromUnsignedBigInt(param0)]
     );
 
@@ -350,22 +357,21 @@ export class WagerRegistry extends ethereum.SmartContract {
       result[0].toBytes(),
       result[1].toBytes(),
       result[2].toBytes(),
-      result[3].toBigInt(),
+      result[3].toBytes(),
       result[4].toBytes(),
       result[5].toBytes(),
-      result[6].toBytes(),
-      result[7].toBytes(),
-      result[8].toI32(),
+      result[6].toI32(),
+      result[7].toAddress(),
+      result[8].toAddress(),
       result[9].toAddress(),
-      result[10].toAddress(),
-      result[11].toAddress()
+      result[10].toBytes()
     );
   }
 
   try_wagers(param0: BigInt): ethereum.CallResult<WagerRegistry__wagersResult> {
     let result = super.tryCall(
       "wagers",
-      "wagers(uint256):(bytes,bytes,bytes,uint256,bytes,bytes,bytes,bytes,uint8,address,address,address)",
+      "wagers(uint256):(bytes,bytes,bytes,bytes,bytes,bytes,uint8,address,address,address,bytes)",
       [ethereum.Value.fromUnsignedBigInt(param0)]
     );
     if (result.reverted) {
@@ -377,15 +383,14 @@ export class WagerRegistry extends ethereum.SmartContract {
         value[0].toBytes(),
         value[1].toBytes(),
         value[2].toBytes(),
-        value[3].toBigInt(),
+        value[3].toBytes(),
         value[4].toBytes(),
         value[5].toBytes(),
-        value[6].toBytes(),
-        value[7].toBytes(),
-        value[8].toI32(),
+        value[6].toI32(),
+        value[7].toAddress(),
+        value[8].toAddress(),
         value[9].toAddress(),
-        value[10].toAddress(),
-        value[11].toAddress()
+        value[10].toBytes()
       )
     );
   }
@@ -447,10 +452,6 @@ export class CreateWagerCall__Outputs {
   constructor(call: CreateWagerCall) {
     this._call = call;
   }
-
-  get value0(): BigInt {
-    return this._call.outputValues[0].value.toBigInt();
-  }
 }
 
 export class CreateWagerCallWagerStruct extends ethereum.Tuple {
@@ -466,40 +467,36 @@ export class CreateWagerCallWagerStruct extends ethereum.Tuple {
     return this[2].toBytes();
   }
 
-  get wagerAmount(): BigInt {
-    return this[3].toBigInt();
+  get equityData(): Bytes {
+    return this[3].toBytes();
   }
 
   get blockData(): Bytes {
     return this[4].toBytes();
   }
 
-  get wagerOracleData(): Bytes {
+  get result(): Bytes {
     return this[5].toBytes();
   }
 
-  get supplumentalWagerOracleData(): Bytes {
-    return this[6].toBytes();
-  }
-
-  get result(): Bytes {
-    return this[7].toBytes();
-  }
-
   get state(): i32 {
-    return this[8].toI32();
+    return this[6].toI32();
   }
 
   get wagerModule(): Address {
-    return this[9].toAddress();
+    return this[7].toAddress();
   }
 
   get oracleModule(): Address {
-    return this[10].toAddress();
+    return this[8].toAddress();
   }
 
   get oracleSource(): Address {
-    return this[11].toAddress();
+    return this[9].toAddress();
+  }
+
+  get supplumentalOracleData(): Bytes {
+    return this[10].toBytes();
   }
 }
 
@@ -524,8 +521,12 @@ export class EnterWagerCall__Inputs {
     return this._call.inputValues[0].value.toBigInt();
   }
 
-  get partyTwoWagerData(): Bytes {
+  get partyTwoEquityData(): Bytes {
     return this._call.inputValues[1].value.toBytes();
+  }
+
+  get partyTwoWagerData(): Bytes {
+    return this._call.inputValues[2].value.toBytes();
   }
 }
 
@@ -567,6 +568,36 @@ export class ExecuteBlockRangeCall__Outputs {
   _call: ExecuteBlockRangeCall;
 
   constructor(call: ExecuteBlockRangeCall) {
+    this._call = call;
+  }
+}
+
+export class SetEquityModuleCall extends ethereum.Call {
+  get inputs(): SetEquityModuleCall__Inputs {
+    return new SetEquityModuleCall__Inputs(this);
+  }
+
+  get outputs(): SetEquityModuleCall__Outputs {
+    return new SetEquityModuleCall__Outputs(this);
+  }
+}
+
+export class SetEquityModuleCall__Inputs {
+  _call: SetEquityModuleCall;
+
+  constructor(call: SetEquityModuleCall) {
+    this._call = call;
+  }
+
+  get moduleAddr(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+}
+
+export class SetEquityModuleCall__Outputs {
+  _call: SetEquityModuleCall;
+
+  constructor(call: SetEquityModuleCall) {
     this._call = call;
   }
 }

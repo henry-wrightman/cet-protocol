@@ -6,9 +6,9 @@ dataSources:
     name: WagerRegistry
     network: goerli
     source:
-      address: "0xC69626736c6D17A8BC7c31dBc9C1A86AD60Abb0d"
+      address: "0x38010244A6f0e6824AB1FCe54E4d11891DA8Cb49"
       abi: WagerRegistry
-      startBlock: 8419128
+      startBlock: 8515636
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -19,8 +19,8 @@ dataSources:
         - name: WagerRegistry
           file: WagerRegistry/contractDeployments/0/WagerRegistry.json
       eventHandlers:
-        - event: WagerCreated(indexed
-            address,uint256,bytes,uint256,uint256,uint256,address,address,indexed uint256)
+        - event: WagerCreated(indexed address,uint256,bytes,uint256,uint256,address,address,indexed
+            uint256)
           handler: handleWagerCreated
         - event: WagerEntered(indexed address,bytes,indexed uint256)
           handler: handleWagerEntered
