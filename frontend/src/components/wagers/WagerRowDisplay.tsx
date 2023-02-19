@@ -101,31 +101,31 @@ export const WagerRowDisplay = ({
       {wager && (
         <>
           <tr className="m-1 bg-gray-200 text-left h-[40px]">
-            <td className="p-3 rounded-l-lg font-bold border-2 bg-gray-100"></td>
-            <td className="p-3 font-bold border-2 bg-gray-100">
-              <span className="m-2 float-left">Party One&apos;s Bet</span>
+            <td className="p-2 rounded-l-lg font-bold border-2 bg-gray-100"></td>
+            <td className="p-2 font-bold border-2 bg-gray-100">
+              <span className="m-1 float-left">Party One&apos;s Bet</span>
 
-              <span className="m-2 float-right font-normal">
+              <span className="m-1 float-right font-normal">
                 {wagerType == "wm.highlow"
                   ? partyOneWager![0].toString()
                   : parseInt(partyOneWager![0].toString()) /
                     10 ** TICKER_DECIMALS[ticker as TICKERS]}
               </span>
             </td>
-            <td className="p-3 font-bold border-2 bg-gray-100">
-              <span className="m-2 float-left">Party Two&apos;s Bet</span>
+            <td className="p-2 font-bold border-2 bg-gray-100">
+              <span className="m-1 float-left">Party Two&apos;s Bet</span>
 
-              <span className="m-2 float-right font-normal">
+              <span className="m-1 float-right font-normal">
                 {partyTwoWager
                   ? parseInt(partyTwoWager![0].toString()) /
                     10 ** TICKER_DECIMALS[ticker as TICKERS]
                   : "TBA"}
               </span>
             </td>
-            <td className="p-3 font-bold border-2 bg-gray-100">
-              <span className="m-2 float-left">Winner</span>
+            <td className="p-2 font-bold border-2 bg-gray-100">
+              <span className="m-1 float-left">Winner</span>
 
-              <span className="m-2 float-right font-normal">
+              <span className="m-1 float-right font-normal">
                 {wager.winner ? (
                   <span className="p-1 bg-green-400 border-gray-400 rounded-md">
                     {wager.winner.slice(0, 6)}
@@ -136,13 +136,9 @@ export const WagerRowDisplay = ({
               </span>
             </td>
             <td className={`p-3 font-bold border-2 bg-gray-100`}>
-              <span className="m-2 float-left">Outcome</span>
-              <span>
-                {blocknumber >= wager.expirationBlock && wager.state == "0"
-                  ? "t"
-                  : "f"}
-              </span>
-              <span className="m-2 float-right font-normal">
+              <span className="m-1 float-left">Outcome</span>
+
+              <span className="m-1 float-right font-normal">
                 {wagerResult
                   ? wagerResult![0].toString().length >
                     TICKER_DECIMALS[ticker as TICKERS]
@@ -153,7 +149,7 @@ export const WagerRowDisplay = ({
               </span>
             </td>
             {potentialEnter && (
-              <td className="p-3 rounded-r-lg font-bold border-2 bg-gray-100">
+              <td className="p-2 rounded-r-lg font-bold border-2 bg-gray-100">
                 <Button type="submit" className="w-full font-normal">
                   <Link href={"/wager/" + wager.id} key={wager.id}>
                     Enter
@@ -161,15 +157,18 @@ export const WagerRowDisplay = ({
                 </Button>
               </td>
             )}
-            {potentialSettle && (
-              <td className="p-3 rounded-r-lg font-bold border-2 bg-gray-100">
+            {(potentialVoid || potentialSettle) && (
+              <td className="p-2 rounded-r-lg font-bold border-2 bg-gray-100">
                 {potentialSettle && (
                   <SettleWager wagerId={wager.id} buttonText={"Settle"} />
+                )}
+                {!potentialSettle && potentialVoid && (
+                  <VoidWager wagerId={wager.id} buttonText={"Void"} />
                 )}
               </td>
             )}
             {!potentialEnter && !potentialSettle && !potentialVoid && (
-              <td className="p-3 rounded-r-lg font-bold border-2 bg-gray-100"></td>
+              <td className="p-2 rounded-r-lg font-bold border-2 bg-gray-100"></td>
             )}
           </tr>
         </>
