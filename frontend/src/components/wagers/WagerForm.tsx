@@ -99,7 +99,13 @@ export const constructWagerData = (
       case "wm.nearest":
         return utils.defaultAbiCoder.encode(
           ["uint256"],
-          [BigInt((_wager[0] * 10 ** decimals).toFixed(0))]
+          [
+            decimals > 10
+              ? ethers.BigNumber.from(_wager[0]).mul(
+                  ethers.BigNumber.from(10).pow(decimals)
+                )
+              : BigInt((_wager[0] * 10 ** decimals).toFixed(0)),
+          ]
         );
 
       default:
@@ -140,12 +146,7 @@ export const WagerForm = ({ signerAddress }: { signerAddress: string }) => {
   });
   let currentPrice =
     data && data.prices.length > 0
-      ? (
-          parseInt(
-            data.prices.filter((x) => x.assetPair.id == ticker)[0].price
-          ) /
-          10 ** TICKER_DECIMALS[ticker as TICKERS]
-        ).toLocaleString()
+      ? data.prices.filter((x) => x.assetPair.id == ticker)[0].price
       : "0";
 
   const onSubmit: SubmitHandler<WAGER_FORM_TYPE> = async (
@@ -211,6 +212,7 @@ export const WagerForm = ({ signerAddress }: { signerAddress: string }) => {
                   className="m-1"
                   defaultValue={"wm.highlow"}
                   onSelect={(option: SelectOption) => {
+                    setValue("wager", "");
                     setValue("wagerType", option?.value as string);
                   }}
                 />
@@ -220,7 +222,10 @@ export const WagerForm = ({ signerAddress }: { signerAddress: string }) => {
 
           <WagerOptions
             wagerType={watch("wagerType")}
-            currentPrice={currentPrice}
+            currentPrice={(
+              parseInt(currentPrice) /
+              10 ** TICKER_DECIMALS[ticker as TICKERS]["subgraph"]
+            ).toLocaleString()}
             form={form}
           />
           <div className="mb-2 mt-4">
@@ -277,9 +282,14 @@ export const WagerForm = ({ signerAddress }: { signerAddress: string }) => {
                         watch("wagerType"),
                         [
                           watch("wager"), // todo probably ensure formatting/parsability like below
-                          parseFloat(currentPrice.replace(",", "")).toString(),
+                          parseFloat(
+                            (
+                              parseInt(currentPrice) /
+                              10 ** TICKER_DECIMALS[ticker as TICKERS]["oracle"]
+                            ).toString()
+                          ),
                         ],
-                        TICKER_DECIMALS[ticker as TICKERS]
+                        TICKER_DECIMALS[ticker as TICKERS]["oracle"]
                       ) || []
                     }
                     wagerAmount={watch("wagerAmount")}

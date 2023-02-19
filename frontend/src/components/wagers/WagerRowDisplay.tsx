@@ -46,7 +46,6 @@ export const WagerRowDisplay = ({
 }) => {
   const { chain } = useNetwork();
   const { address, isConnected } = useAccount();
-  console.log(wager);
 
   const network =
     chain && chain?.network ? (chain?.network as NETWORK) : "goerli";
@@ -80,8 +79,10 @@ export const WagerRowDisplay = ({
   const wagerMetadata =
     wagerType == WM_HIGHLOW
       ? "(start: " +
-        parseInt(partyOneWager![1].toString()) /
-          10 ** TICKER_DECIMALS[ticker as TICKERS] +
+        (
+          parseInt(partyOneWager![1].toString()) /
+          10 ** TICKER_DECIMALS[ticker as TICKERS]["oracle"]
+        ).toLocaleString() +
         ")"
       : "";
 
@@ -100,25 +101,29 @@ export const WagerRowDisplay = ({
     <>
       {wager && (
         <>
-          <tr className="m-1 bg-gray-200 text-left h-[40px]">
+          <tr className="m-1 bg-gray-200 text-left h-[40px] text-sm">
             <td className="p-2 rounded-l-lg font-bold border-2 bg-gray-100"></td>
             <td className="p-2 font-bold border-2 bg-gray-100">
-              <span className="m-1 float-left">Party One&apos;s Bet</span>
+              <span className="m-1 float-left">Party One&apos;s Wager</span>
 
               <span className="m-1 float-right font-normal">
                 {wagerType == "wm.highlow"
                   ? partyOneWager![0].toString()
-                  : parseInt(partyOneWager![0].toString()) /
-                    10 ** TICKER_DECIMALS[ticker as TICKERS]}
+                  : (
+                      parseInt(partyOneWager![0].toString()) /
+                      10 ** TICKER_DECIMALS[ticker as TICKERS]["oracle"]
+                    ).toLocaleString()}
               </span>
             </td>
             <td className="p-2 font-bold border-2 bg-gray-100">
-              <span className="m-1 float-left">Party Two&apos;s Bet</span>
+              <span className="m-1 float-left">Party Two&apos;s Wager</span>
 
               <span className="m-1 float-right font-normal">
                 {partyTwoWager
-                  ? parseInt(partyTwoWager![0].toString()) /
-                    10 ** TICKER_DECIMALS[ticker as TICKERS]
+                  ? (
+                      parseInt(partyTwoWager![0].toString()) /
+                      10 ** TICKER_DECIMALS[ticker as TICKERS]["oracle"]
+                    ).toLocaleString()
                   : "TBA"}
               </span>
             </td>
@@ -137,14 +142,18 @@ export const WagerRowDisplay = ({
             </td>
             <td className={`p-3 font-bold border-2 bg-gray-100`}>
               <span className="m-1 float-left">Outcome</span>
+              {wagerResult && (
+                <span className="m-1 float-right font-normal">
+                  {wagerMetadata}
+                </span>
+              )}
 
               <span className="m-1 float-right font-normal">
                 {wagerResult
-                  ? wagerResult![0].toString().length >
-                    TICKER_DECIMALS[ticker as TICKERS]
-                    ? parseInt(wagerResult![0].toString()) /
-                      10 ** TICKER_DECIMALS[ticker as TICKERS]
-                    : wagerResult![0].toString()
+                  ? (
+                      parseInt(wagerResult![0].toString()) /
+                      10 ** TICKER_DECIMALS[ticker as TICKERS]["oracle"]
+                    ).toLocaleString()
                   : "TBA"}
               </span>
             </td>

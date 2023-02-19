@@ -351,8 +351,6 @@ export const WagersList = () => {
                       }`}
                       key={wager.id}
                       onClick={() => {
-                        console.log(wager.id);
-                        console.log(expandedWager?.id);
                         if (expandedWager && expandedWager.id == wager.id) {
                           setExpandedWager(undefined);
                         } else {

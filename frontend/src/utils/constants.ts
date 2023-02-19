@@ -111,16 +111,21 @@ type OracleSource = {
 type OracleEntries = {
   [key in ORACLE_TYPES]: { [key in NETWORK]: OracleSource };
 };
-type TICKERS_DECIMALS_TYPE = {
-  [key in TICKERS]: number;
+export type TICKERS_DECIMALS_TYPE = {
+  [key in TICKERS]: { [key in TICKER_SOURCE]: number };
 };
+
+export enum TICKER_SOURCE {
+  "subgraph" = "subgraph",
+  "oracle" = "oracle",
+}
 export const TICKER_DECIMALS: TICKERS_DECIMALS_TYPE = {
-  "BTC/USD": 8,
-  "BTC/ETH": 18,
-  "EUR/USD": 8,
-  "JPY/USD": 8,
-  "LINK/ETH": 18,
-  "XAU/USD": 8,
+  "BTC/USD": { subgraph: 8, oracle: 8 },
+  "BTC/ETH": { subgraph: 18, oracle: 18 },
+  "EUR/USD": { subgraph: 8, oracle: 8 },
+  "JPY/USD": { subgraph: 8, oracle: 8 },
+  "LINK/ETH": { subgraph: 18, oracle: 18 },
+  "XAU/USD": { subgraph: 8, oracle: 18 },
 };
 
 export const ORACLES: OracleEntries = {

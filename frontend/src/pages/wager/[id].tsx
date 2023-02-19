@@ -146,12 +146,7 @@ const W: NextPage = () => {
       : TICKERS["BTC/ETH"];
   let currentPrice =
     priceData && priceData.prices.length > 0
-      ? (
-          parseInt(
-            priceData.prices.filter((x) => x.assetPair.id == ticker)[0].price
-          ) /
-          10 ** TICKER_DECIMALS[ticker as TICKERS]
-        ).toLocaleString()
+      ? priceData.prices.filter((x) => x.assetPair.id == ticker)[0].price
       : "0";
 
   useEffect(() => {
@@ -201,15 +196,23 @@ const W: NextPage = () => {
     wagerType == WM_HIGHLOW
       ? "(start: " +
         parseInt(partyOneWager![1].toString()) /
-          10 ** TICKER_DECIMALS[ticker as TICKERS] +
+          10 ** TICKER_DECIMALS[ticker as TICKERS]["oracle"] +
         ")"
       : "";
 
   const enterPartyData = watch("wager")
     ? constructWagerData(
         wagerType,
-        [watch("wager"), parseInt(currentPrice).toFixed(0).toString()],
-        TICKER_DECIMALS[ticker as TICKERS]
+        [
+          watch("wager"),
+          parseFloat(
+            (
+              parseInt(currentPrice) /
+              10 ** TICKER_DECIMALS[ticker as TICKERS]["oracle"]
+            ).toString()
+          ),
+        ],
+        TICKER_DECIMALS[ticker as TICKERS]["oracle"]
       )
     : null;
 
@@ -256,7 +259,10 @@ const W: NextPage = () => {
               <>
                 <WagerOptions
                   wagerType={wagerType}
-                  currentPrice={currentPrice}
+                  currentPrice={(
+                    parseInt(currentPrice) /
+                    10 ** TICKER_DECIMALS[ticker as TICKERS]["subgraph"]
+                  ).toLocaleString()}
                   ticker={ticker}
                   form={form}
                 />
@@ -316,7 +322,7 @@ const W: NextPage = () => {
                     {wagerType == "wm.highlow"
                       ? partyOneWager![0].toString()
                       : parseInt(partyOneWager![0].toString()) /
-                        10 ** TICKER_DECIMALS[ticker as TICKERS]}
+                        10 ** TICKER_DECIMALS[ticker as TICKERS]["oracle"]}
                   </td>
                 </tr>
                 <tr className="bg-gray-200 text-left h-[40px]">
@@ -340,7 +346,7 @@ const W: NextPage = () => {
                   <td className="p-1 text-right border rounded-r-md">
                     {partyTwoWager
                       ? parseInt(partyTwoWager![0].toString()) /
-                        10 ** TICKER_DECIMALS[ticker as TICKERS]
+                        10 ** TICKER_DECIMALS[ticker as TICKERS]["oracle"]
                       : "TBA"}
                   </td>
                 </tr>
@@ -386,7 +392,7 @@ const W: NextPage = () => {
                       ? wagerResult![0].toString().length >
                         TICKER_DECIMALS[ticker as TICKERS]
                         ? parseInt(wagerResult![0].toString()) /
-                          10 ** TICKER_DECIMALS[ticker as TICKERS]
+                          10 ** TICKER_DECIMALS[ticker as TICKERS]["oracle"]
                         : wagerResult![0].toString()
                       : "TBA"}
                   </td>

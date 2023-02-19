@@ -9,6 +9,7 @@ import {
   ORACLES,
   TICKERS,
   TICKER_DECIMALS,
+  TICKERS_DECIMALS_TYPE,
 } from "../../utils/constants";
 import { getSubgraphClient } from "../../graphql/client_2";
 import { formatDistanceToNow } from "date-fns";
@@ -86,7 +87,7 @@ export const PriceFeed = () => {
                       data.prices.filter((x) => x.assetPair.id == ticker)[0]
                         .price
                     ) /
-                    10 ** TICKER_DECIMALS[ticker as TICKERS]
+                    10 ** TICKER_DECIMALS[ticker as TICKERS]["subgraph"]
                   ).toLocaleString()}
                 </span>
               </>
