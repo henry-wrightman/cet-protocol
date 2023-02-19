@@ -8,6 +8,7 @@ import { getSubgraphClient } from "../../graphql/client";
 import { formatDistanceToNow } from "date-fns";
 import Link from "next/link";
 import { Loading, Countdown, Button, Label } from "../common";
+import { WagerRowDisplay } from "../wagers";
 import { useAccount } from "wagmi";
 
 const WAGERS_QUERY = gql`
@@ -200,6 +201,9 @@ export const WagersList = () => {
   const network =
     chain && chain?.network ? (chain?.network as NETWORK) : "goerli";
   const [blocknumber, setBlocknumber] = useState(0);
+  const [expandedWager, setExpandedWager] = useState<Wager | undefined>(
+    undefined
+  );
   const [state, dispatch] = useReducer(reducer, INITIAL_STATE);
   const { data, loading, error } = useQuery<WagerResults>(state.query, {
     client: getSubgraphClient(chain?.id!),
@@ -235,6 +239,8 @@ export const WagersList = () => {
       </span>
     );
   };
+
+  const expandWagerRow = (wager: any) => {};
 
   if (loading) return <span>{Loading(100, 100)}</span>;
   if (error) return <pre>{error.message}</pre>;
@@ -306,7 +312,7 @@ export const WagersList = () => {
         <table className="w-full border-separate border-spacing-x-0 border-spacing-y-2">
           <thead className="border-[2px] border-black">
             <tr>
-              <th className="p-1 font-light text-black">#</th>
+              <th className="p-1 font-light text-black w-10">#</th>
               <th className="p-1 font-light text-black">Participants</th>
               <th className="p-1 font-light text-black">Wager</th>
               <th className="p-1 font-light text-black">Type</th>
@@ -336,10 +342,23 @@ export const WagersList = () => {
                     : TICKERS["BTC/ETH"];
 
                 return (
-                  <Link href={"/wager/" + wager.id} key={wager.id}>
+                  <>
                     <tr
-                      className="text-center cursor-pointer hover:text-white hover:bg-purple-500 h-[40px]"
+                      className={`text-center cursor-pointer hover:text-white hover:bg-purple-500 h-[40px] ${
+                        expandedWager && expandedWager.id == wager.id
+                          ? "bg-purple-500 text-white"
+                          : ""
+                      }`}
                       key={wager.id}
+                      onClick={() => {
+                        console.log(wager.id);
+                        console.log(expandedWager?.id);
+                        if (expandedWager && expandedWager.id == wager.id) {
+                          setExpandedWager(undefined);
+                        } else {
+                          setExpandedWager(wager);
+                        }
+                      }}
                     >
                       <td className="p-1 rounded-l-lg">{wager.id}</td>
                       <td className="p-1">
@@ -392,7 +411,13 @@ export const WagersList = () => {
                         )}
                       </td>
                     </tr>
-                  </Link>
+                    {expandedWager && expandedWager.id == wager.id && (
+                      <WagerRowDisplay
+                        wager={wager}
+                        blocknumber={blocknumber}
+                      />
+                    )}
+                  </>
                 );
               })}
           </tbody>

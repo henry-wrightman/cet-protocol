@@ -83,6 +83,7 @@ type AssetPair = {
 };
 
 const decodeWagerData = (_type: string, data: string) => {
+  if (data.length == 0) return;
   switch (_type) {
     case "wm.highlow":
       return utils.defaultAbiCoder.decode(["uint", "uint"], data);
@@ -90,7 +91,7 @@ const decodeWagerData = (_type: string, data: string) => {
       return utils.defaultAbiCoder.decode(["uint256"], data);
 
     default:
-      return null;
+      return;
   }
 };
 
@@ -105,6 +106,20 @@ const W: NextPage = () => {
   const { chain } = useNetwork();
   const { address, isConnected } = useAccount();
   const [blocknumber, setBlocknumber] = useState(0);
+
+  const form = useForm<WAGER_FORM_TYPE>({
+    defaultValues: {
+      wager: "",
+      wagerTicker: "",
+      wagerType: "",
+      wagerExpirationBlock: 0,
+    },
+  });
+  const { setValue, register, watch, handleSubmit, getValues, formState } =
+    form;
+  const onSubmit: SubmitHandler<WAGER_FORM_TYPE> = async (data: any) => {
+    console.log(data);
+  };
 
   const { data, loading, error } = useQuery<WagerResult>(WAGER_QUERY, {
     variables: { id },
@@ -139,44 +154,17 @@ const W: NextPage = () => {
         ).toLocaleString()
       : "0";
 
-  const form = useForm<WAGER_FORM_TYPE>({
-    defaultValues: {
-      wager: "",
-      wagerTicker: "",
-      wagerType: "",
-      wagerExpirationBlock: 0,
-    },
-  });
-  const { setValue, register, watch, handleSubmit, getValues, formState } =
-    form;
-  const onSubmit: SubmitHandler<WAGER_FORM_TYPE> = async (data: any) => {
-    console.log(data);
-  };
-
-  const getBlockNumber = useCallback(() => {
-    ethers
-      .getDefaultProvider(chain?.network || "goerli")
-      .getBlockNumber()
-      .then((res) => {
-        setBlocknumber(res);
-      });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   useEffect(() => {
     if (blocknumber == 0) {
-      getBlockNumber();
+      ethers
+        .getDefaultProvider(chain?.network || "goerli")
+        .getBlockNumber()
+        .then((res) => {
+          setBlocknumber(res);
+        });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [chain?.id]);
-
-  const getBlockETA = (futureBlocks: number) => {
-    if (blocknumber === 0) return Loading(20, 20);
-    if (futureBlocks <= blocknumber) return "expired";
-    return formatDistanceToNow(
-      new Date(Date.now() + (futureBlocks - blocknumber) * 12 * 1000)
-    );
-  };
 
   if (loading || priceLoading) return Loading();
   if (error || errorLoading)

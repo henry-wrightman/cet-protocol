@@ -76,7 +76,10 @@ export const PriceFeed = () => {
           {Object.keys(TICKERS).map((ticker) => {
             return (
               <>
-                <span className="font-medium p-1 ml-1 mr-1 bg-purple-200 border-green rounded-md">
+                <span
+                  key={ticker}
+                  className="font-medium p-1 ml-1 mr-1 bg-purple-200 border-green rounded-md"
+                >
                   <span className="font-light text-sm">{ticker}</span>{" "}
                   {(
                     parseInt(
