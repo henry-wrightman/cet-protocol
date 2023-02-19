@@ -197,8 +197,8 @@ export class Wager extends Entity {
     }
   }
 
-  get supplumentalWagerOracleData(): Bytes | null {
-    let value = this.get("supplumentalWagerOracleData");
+  get supplementalWagerOracleData(): Bytes | null {
+    let value = this.get("supplementalWagerOracleData");
     if (!value || value.kind == ValueKind.NULL) {
       return null;
     } else {
@@ -206,11 +206,11 @@ export class Wager extends Entity {
     }
   }
 
-  set supplumentalWagerOracleData(value: Bytes | null) {
+  set supplementalWagerOracleData(value: Bytes | null) {
     if (!value) {
-      this.unset("supplumentalWagerOracleData");
+      this.unset("supplementalWagerOracleData");
     } else {
-      this.set("supplumentalWagerOracleData", Value.fromBytes(<Bytes>value));
+      this.set("supplementalWagerOracleData", Value.fromBytes(<Bytes>value));
     }
   }
 

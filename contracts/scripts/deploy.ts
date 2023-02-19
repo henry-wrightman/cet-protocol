@@ -149,7 +149,7 @@ async function main() {
   //     wagerAmount: ethers.utils.parseEther("0.002"), // 1 ETH
   //     blockData: blockData,
   //     wagerOracleData: [],
-  //     supplumentalWagerOracleData: [],
+  //     supplementalWagerOracleData: [],
   //     result: [],
   //     state: ethers.BigNumber.from("1"),
   //     wagerModule: "0xfcC7DbC86f20b97f9E8FAA935AF23a465eab7e8A",

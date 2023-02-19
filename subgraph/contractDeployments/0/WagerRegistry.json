@@ -184,7 +184,7 @@
           },
           {
             "internalType": "bytes",
-            "name": "supplumentalOracleData",
+            "name": "supplementalOracleData",
             "type": "bytes"
           }
         ],
@@ -430,7 +430,7 @@
       },
       {
         "internalType": "bytes",
-        "name": "supplumentalOracleData",
+        "name": "supplementalOracleData",
         "type": "bytes"
       }
     ],

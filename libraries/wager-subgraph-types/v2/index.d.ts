@@ -36,7 +36,7 @@ export type Wager = {
   registry: Registry;
   result?: Maybe<Scalars['Bytes']>;
   state: Scalars['BigInt'];
-  supplumentalWagerOracleData?: Maybe<Scalars['Bytes']>;
+  supplementalWagerOracleData?: Maybe<Scalars['Bytes']>;
   wagerModule: Scalars['Bytes'];
   wagerOracleData?: Maybe<Scalars['Bytes']>;
   winner?: Maybe<Scalars['Bytes']>;

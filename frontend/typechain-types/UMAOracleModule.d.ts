@@ -46,7 +46,7 @@ interface UMAOracleModuleInterface extends ethers.utils.Interface {
         wagerModule: string;
         oracleModule: string;
         oracleSource: string;
-        supplumentalOracleData: BytesLike;
+        supplementalOracleData: BytesLike;
       }
     ]
   ): string;
@@ -64,7 +64,7 @@ interface UMAOracleModuleInterface extends ethers.utils.Interface {
         wagerModule: string;
         oracleModule: string;
         oracleSource: string;
-        supplumentalOracleData: BytesLike;
+        supplementalOracleData: BytesLike;
       }
     ]
   ): string;
@@ -82,7 +82,7 @@ interface UMAOracleModuleInterface extends ethers.utils.Interface {
         wagerModule: string;
         oracleModule: string;
         oracleSource: string;
-        supplumentalOracleData: BytesLike;
+        supplementalOracleData: BytesLike;
       }
     ]
   ): string;
@@ -172,7 +172,7 @@ export class UMAOracleModule extends BaseContract {
         wagerModule: string;
         oracleModule: string;
         oracleSource: string;
-        supplumentalOracleData: BytesLike;
+        supplementalOracleData: BytesLike;
       },
       overrides?: CallOverrides
     ): Promise<[string]>;
@@ -189,7 +189,7 @@ export class UMAOracleModule extends BaseContract {
         wagerModule: string;
         oracleModule: string;
         oracleSource: string;
-        supplumentalOracleData: BytesLike;
+        supplementalOracleData: BytesLike;
       },
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
@@ -206,7 +206,7 @@ export class UMAOracleModule extends BaseContract {
         wagerModule: string;
         oracleModule: string;
         oracleSource: string;
-        supplumentalOracleData: BytesLike;
+        supplementalOracleData: BytesLike;
       },
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
@@ -234,7 +234,7 @@ export class UMAOracleModule extends BaseContract {
       wagerModule: string;
       oracleModule: string;
       oracleSource: string;
-      supplumentalOracleData: BytesLike;
+      supplementalOracleData: BytesLike;
     },
     overrides?: CallOverrides
   ): Promise<string>;
@@ -251,7 +251,7 @@ export class UMAOracleModule extends BaseContract {
       wagerModule: string;
       oracleModule: string;
       oracleSource: string;
-      supplumentalOracleData: BytesLike;
+      supplementalOracleData: BytesLike;
     },
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
@@ -268,7 +268,7 @@ export class UMAOracleModule extends BaseContract {
       wagerModule: string;
       oracleModule: string;
       oracleSource: string;
-      supplumentalOracleData: BytesLike;
+      supplementalOracleData: BytesLike;
     },
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
@@ -295,7 +295,7 @@ export class UMAOracleModule extends BaseContract {
         wagerModule: string;
         oracleModule: string;
         oracleSource: string;
-        supplumentalOracleData: BytesLike;
+        supplementalOracleData: BytesLike;
       },
       overrides?: CallOverrides
     ): Promise<string>;
@@ -312,7 +312,7 @@ export class UMAOracleModule extends BaseContract {
         wagerModule: string;
         oracleModule: string;
         oracleSource: string;
-        supplumentalOracleData: BytesLike;
+        supplementalOracleData: BytesLike;
       },
       overrides?: CallOverrides
     ): Promise<void>;
@@ -329,7 +329,7 @@ export class UMAOracleModule extends BaseContract {
         wagerModule: string;
         oracleModule: string;
         oracleSource: string;
-        supplumentalOracleData: BytesLike;
+        supplementalOracleData: BytesLike;
       },
       overrides?: CallOverrides
     ): Promise<void>;
@@ -357,7 +357,7 @@ export class UMAOracleModule extends BaseContract {
         wagerModule: string;
         oracleModule: string;
         oracleSource: string;
-        supplumentalOracleData: BytesLike;
+        supplementalOracleData: BytesLike;
       },
       overrides?: CallOverrides
     ): Promise<BigNumber>;
@@ -374,7 +374,7 @@ export class UMAOracleModule extends BaseContract {
         wagerModule: string;
         oracleModule: string;
         oracleSource: string;
-        supplumentalOracleData: BytesLike;
+        supplementalOracleData: BytesLike;
       },
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
@@ -391,7 +391,7 @@ export class UMAOracleModule extends BaseContract {
         wagerModule: string;
         oracleModule: string;
         oracleSource: string;
-        supplumentalOracleData: BytesLike;
+        supplementalOracleData: BytesLike;
       },
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
@@ -417,7 +417,7 @@ export class UMAOracleModule extends BaseContract {
         wagerModule: string;
         oracleModule: string;
         oracleSource: string;
-        supplumentalOracleData: BytesLike;
+        supplementalOracleData: BytesLike;
       },
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
@@ -434,7 +434,7 @@ export class UMAOracleModule extends BaseContract {
         wagerModule: string;
         oracleModule: string;
         oracleSource: string;
-        supplumentalOracleData: BytesLike;
+        supplementalOracleData: BytesLike;
       },
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
@@ -451,7 +451,7 @@ export class UMAOracleModule extends BaseContract {
         wagerModule: string;
         oracleModule: string;
         oracleSource: string;
-        supplumentalOracleData: BytesLike;
+        supplementalOracleData: BytesLike;
       },
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;

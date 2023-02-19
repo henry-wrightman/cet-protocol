@@ -43,7 +43,7 @@ interface HighLowWagerModuleInterface extends ethers.utils.Interface {
         wagerModule: string;
         oracleModule: string;
         oracleSource: string;
-        supplumentalOracleData: BytesLike;
+        supplementalOracleData: BytesLike;
       }
     ]
   ): string;
@@ -123,7 +123,7 @@ export class HighLowWagerModule extends BaseContract {
         wagerModule: string;
         oracleModule: string;
         oracleSource: string;
-        supplumentalOracleData: BytesLike;
+        supplementalOracleData: BytesLike;
       },
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
@@ -151,7 +151,7 @@ export class HighLowWagerModule extends BaseContract {
       wagerModule: string;
       oracleModule: string;
       oracleSource: string;
-      supplumentalOracleData: BytesLike;
+      supplementalOracleData: BytesLike;
     },
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
@@ -179,7 +179,7 @@ export class HighLowWagerModule extends BaseContract {
         wagerModule: string;
         oracleModule: string;
         oracleSource: string;
-        supplumentalOracleData: BytesLike;
+        supplementalOracleData: BytesLike;
       },
       overrides?: CallOverrides
     ): Promise<
@@ -207,7 +207,7 @@ export class HighLowWagerModule extends BaseContract {
           wagerModule: string;
           oracleModule: string;
           oracleSource: string;
-          supplumentalOracleData: string;
+          supplementalOracleData: string;
         },
         string
       ]
@@ -234,7 +234,7 @@ export class HighLowWagerModule extends BaseContract {
         wagerModule: string;
         oracleModule: string;
         oracleSource: string;
-        supplumentalOracleData: BytesLike;
+        supplementalOracleData: BytesLike;
       },
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
@@ -258,7 +258,7 @@ export class HighLowWagerModule extends BaseContract {
         wagerModule: string;
         oracleModule: string;
         oracleSource: string;
-        supplumentalOracleData: BytesLike;
+        supplementalOracleData: BytesLike;
       },
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;

@@ -49,7 +49,7 @@ interface WagerRegistryInterface extends ethers.utils.Interface {
         wagerModule: string;
         oracleModule: string;
         oracleSource: string;
-        supplumentalOracleData: BytesLike;
+        supplementalOracleData: BytesLike;
       }
     ]
   ): string;
@@ -240,7 +240,7 @@ export class WagerRegistry extends BaseContract {
         wagerModule: string;
         oracleModule: string;
         oracleSource: string;
-        supplumentalOracleData: BytesLike;
+        supplementalOracleData: BytesLike;
       },
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
@@ -324,7 +324,7 @@ export class WagerRegistry extends BaseContract {
         wagerModule: string;
         oracleModule: string;
         oracleSource: string;
-        supplumentalOracleData: string;
+        supplementalOracleData: string;
       }
     >;
   };
@@ -341,7 +341,7 @@ export class WagerRegistry extends BaseContract {
       wagerModule: string;
       oracleModule: string;
       oracleSource: string;
-      supplumentalOracleData: BytesLike;
+      supplementalOracleData: BytesLike;
     },
     overrides?: PayableOverrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
@@ -425,7 +425,7 @@ export class WagerRegistry extends BaseContract {
       wagerModule: string;
       oracleModule: string;
       oracleSource: string;
-      supplumentalOracleData: string;
+      supplementalOracleData: string;
     }
   >;
 
@@ -442,7 +442,7 @@ export class WagerRegistry extends BaseContract {
         wagerModule: string;
         oracleModule: string;
         oracleSource: string;
-        supplumentalOracleData: BytesLike;
+        supplementalOracleData: BytesLike;
       },
       overrides?: CallOverrides
     ): Promise<void>;
@@ -523,7 +523,7 @@ export class WagerRegistry extends BaseContract {
         wagerModule: string;
         oracleModule: string;
         oracleSource: string;
-        supplumentalOracleData: string;
+        supplementalOracleData: string;
       }
     >;
   };
@@ -653,7 +653,7 @@ export class WagerRegistry extends BaseContract {
         wagerModule: string;
         oracleModule: string;
         oracleSource: string;
-        supplumentalOracleData: BytesLike;
+        supplementalOracleData: BytesLike;
       },
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
@@ -720,7 +720,7 @@ export class WagerRegistry extends BaseContract {
         wagerModule: string;
         oracleModule: string;
         oracleSource: string;
-        supplumentalOracleData: BytesLike;
+        supplementalOracleData: BytesLike;
       },
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;

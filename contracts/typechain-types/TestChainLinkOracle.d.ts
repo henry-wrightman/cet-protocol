@@ -41,7 +41,7 @@ interface TestChainLinkOracleInterface extends ethers.utils.Interface {
         wagerModule: string;
         oracleModule: string;
         oracleSource: string;
-        supplumentalOracleData: BytesLike;
+        supplementalOracleData: BytesLike;
       }
     ]
   ): string;
@@ -119,7 +119,7 @@ export class TestChainLinkOracle extends BaseContract {
         wagerModule: string;
         oracleModule: string;
         oracleSource: string;
-        supplumentalOracleData: BytesLike;
+        supplementalOracleData: BytesLike;
       },
       overrides?: CallOverrides
     ): Promise<[string]>;
@@ -149,7 +149,7 @@ export class TestChainLinkOracle extends BaseContract {
       wagerModule: string;
       oracleModule: string;
       oracleSource: string;
-      supplumentalOracleData: BytesLike;
+      supplementalOracleData: BytesLike;
     },
     overrides?: CallOverrides
   ): Promise<string>;
@@ -176,7 +176,7 @@ export class TestChainLinkOracle extends BaseContract {
         wagerModule: string;
         oracleModule: string;
         oracleSource: string;
-        supplumentalOracleData: BytesLike;
+        supplementalOracleData: BytesLike;
       },
       overrides?: CallOverrides
     ): Promise<string>;
@@ -203,7 +203,7 @@ export class TestChainLinkOracle extends BaseContract {
         wagerModule: string;
         oracleModule: string;
         oracleSource: string;
-        supplumentalOracleData: BytesLike;
+        supplementalOracleData: BytesLike;
       },
       overrides?: CallOverrides
     ): Promise<BigNumber>;
@@ -231,7 +231,7 @@ export class TestChainLinkOracle extends BaseContract {
         wagerModule: string;
         oracleModule: string;
         oracleSource: string;
-        supplumentalOracleData: BytesLike;
+        supplementalOracleData: BytesLike;
       },
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;

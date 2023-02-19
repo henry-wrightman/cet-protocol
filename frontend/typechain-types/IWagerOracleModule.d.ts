@@ -38,7 +38,7 @@ interface IWagerOracleModuleInterface extends ethers.utils.Interface {
         wagerModule: string;
         oracleModule: string;
         oracleSource: string;
-        supplumentalOracleData: BytesLike;
+        supplementalOracleData: BytesLike;
       }
     ]
   ): string;
@@ -104,7 +104,7 @@ export class IWagerOracleModule extends BaseContract {
         wagerModule: string;
         oracleModule: string;
         oracleSource: string;
-        supplumentalOracleData: BytesLike;
+        supplementalOracleData: BytesLike;
       },
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
@@ -122,7 +122,7 @@ export class IWagerOracleModule extends BaseContract {
       wagerModule: string;
       oracleModule: string;
       oracleSource: string;
-      supplumentalOracleData: BytesLike;
+      supplementalOracleData: BytesLike;
     },
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
@@ -140,7 +140,7 @@ export class IWagerOracleModule extends BaseContract {
         wagerModule: string;
         oracleModule: string;
         oracleSource: string;
-        supplumentalOracleData: BytesLike;
+        supplementalOracleData: BytesLike;
       },
       overrides?: CallOverrides
     ): Promise<string>;
@@ -161,7 +161,7 @@ export class IWagerOracleModule extends BaseContract {
         wagerModule: string;
         oracleModule: string;
         oracleSource: string;
-        supplumentalOracleData: BytesLike;
+        supplementalOracleData: BytesLike;
       },
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
@@ -180,7 +180,7 @@ export class IWagerOracleModule extends BaseContract {
         wagerModule: string;
         oracleModule: string;
         oracleSource: string;
-        supplumentalOracleData: BytesLike;
+        supplementalOracleData: BytesLike;
       },
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;

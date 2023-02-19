@@ -495,7 +495,7 @@ export class CreateWagerCallWagerStruct extends ethereum.Tuple {
     return this[9].toAddress();
   }
 
-  get supplumentalOracleData(): Bytes {
+  get supplementalOracleData(): Bytes {
     return this[10].toBytes();
   }
 }

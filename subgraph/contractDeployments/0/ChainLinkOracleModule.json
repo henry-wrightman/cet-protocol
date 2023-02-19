@@ -40,7 +40,7 @@
           },
           {
             "internalType": "bytes",
-            "name": "supplumentalWagerOracleData",
+            "name": "supplementalWagerOracleData",
             "type": "bytes"
           },
           {

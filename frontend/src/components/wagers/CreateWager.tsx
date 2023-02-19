@@ -67,7 +67,7 @@ export const CreateWager = ({
         partyTwoWagerData: [],
         equityData: equityDataD,
         blockData: blockDataD,
-        supplumentalOracleData: [],
+        supplementalOracleData: [],
         result: [],
         state: ethers.BigNumber.from("1"),
         wagerModule,

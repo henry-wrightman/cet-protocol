@@ -102,7 +102,7 @@ describe("WagerExecutor", function () {
               partyTwoWagerData: [],
               equityData: equityData,
               blockData: blockData,
-              supplumentalOracleData: [],
+              supplementalOracleData: [],
               result: [],
               state: ethers.BigNumber.from("1"),
               wagerModule: highLowWagerModule.address,

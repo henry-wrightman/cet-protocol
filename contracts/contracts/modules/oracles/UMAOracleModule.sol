@@ -23,7 +23,7 @@ contract UMAOracleModule is IWagerOracleModule {
         Wager memory wager
     ) external view override returns (bytes memory) {
         (bytes memory ancilliaryData, bytes32 identifier) = decodeOracleData(
-            wager.supplumentalOracleData
+            wager.supplementalOracleData
         );
 
         OptimisticOracleV2Interface oo = OptimisticOracleV2Interface(
@@ -49,7 +49,7 @@ contract UMAOracleModule is IWagerOracleModule {
     // Submit a data request to the Optimistic oracle.
     function requestData(Wager memory wager) public {
         (bytes memory ancilliaryData, bytes32 identifier) = decodeOracleData(
-            wager.supplumentalOracleData
+            wager.supplementalOracleData
         );
         OptimisticOracleV2Interface oo = OptimisticOracleV2Interface(
             address(wager.oracleModule)
@@ -72,7 +72,7 @@ contract UMAOracleModule is IWagerOracleModule {
     // In a real world use of the Optimistic Oracle this should be longer to give time to disputers to catch bat price proposals.
     function settleRequest(Wager memory wager) public {
         (bytes memory ancilliaryData, bytes32 identifier) = decodeOracleData(
-            wager.supplumentalOracleData
+            wager.supplementalOracleData
         );
         OptimisticOracleV2Interface oo = OptimisticOracleV2Interface(
             address(wager.oracleModule)

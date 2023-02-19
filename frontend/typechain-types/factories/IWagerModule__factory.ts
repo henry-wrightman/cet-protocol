@@ -63,7 +63,7 @@ const _abi = [
           },
           {
             internalType: "bytes",
-            name: "supplumentalOracleData",
+            name: "supplementalOracleData",
             type: "bytes",
           },
         ],
@@ -128,7 +128,7 @@ const _abi = [
           },
           {
             internalType: "bytes",
-            name: "supplumentalOracleData",
+            name: "supplementalOracleData",
             type: "bytes",
           },
         ],
