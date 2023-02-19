@@ -107,7 +107,11 @@ const WAGER_QUERY_CLOSEST_EXPIRATION = gql`
 
 const WAGER_QUERY_HOTTEST = gql`
   {
-    wagers(orderBy: partyWager, orderDirection: desc, where: { state: 0 }) {
+    wagers(
+      orderBy: partyWager
+      orderDirection: desc
+      where: { or: [{ state: 0 }, { state: 1 }] }
+    ) {
       id
       partyOne
       partyTwo

@@ -3,6 +3,20 @@ pragma solidity ^0.8.7;
 
 import "../oracles/IWagerOracleModule.sol";
 
+/**
+ @title IWagerModule
+ @author Henry Wrightman
+
+ @notice Interface for wagers
+ */
+
+interface IWagerModule {
+    // -- methods --
+    function settle(
+        Wager memory wager
+    ) external returns (Wager memory, address);
+}
+
 // -- structs --
 struct Wager {
     bytes parties; // party data; |partyOne|partyTwo|
@@ -30,11 +44,4 @@ enum WagerState {
     created,
     completed,
     voided
-}
-
-interface IWagerModule {
-    // -- methods --
-    function settle(
-        Wager memory wager
-    ) external returns (Wager memory, address);
 }

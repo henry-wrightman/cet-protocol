@@ -54,7 +54,8 @@ const DateTimeDisplay = ({
     <>
       {value > 0 ? (
         <>
-          <span>{value}</span> <span>{type}</span>
+          <span>{value}</span>
+          <span>{type}</span>
         </>
       ) : (
         ""

@@ -4,6 +4,13 @@ pragma solidity ^0.8.7;
 
 import "./wagers/IWagerModule.sol";
 
+/**
+ @title IEquityModule
+ @author Henry Wrightman
+
+ @notice Interface for wager equity
+ */
+
 interface IEquityModule {
     function acceptEquity(bytes memory equityData) external payable;
 

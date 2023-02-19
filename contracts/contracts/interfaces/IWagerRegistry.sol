@@ -4,6 +4,13 @@ pragma solidity ^0.8.7;
 
 import "./wagers/IWagerModule.sol";
 
+/**
+ @title IWagerRegistry
+ @author Henry Wrightman
+
+ @notice Interface for wager registry
+ */
+
 interface IWagerRegistry {
     // -- events --
     event WagerCreated(
