@@ -168,7 +168,22 @@ const W: NextPage = () => {
         {error ? error.message : errorLoading ? errorLoading.message : null}
       </pre>
     );
-  if (!data?.wager) return <pre>{"no wager"}</pre>;
+
+  if (!data?.wager)
+    return (
+      <div className="min-h-screen bg-green-200 font-normal border-white border-[1px]">
+        <div className="flex flex-col md:p-5 md:flex-row lg:flex-row">
+          <div className="flex-row">
+            <div className="sm:basis-full md:basis-1/3 lg:basis-1/3 justify-center m-2 p-3 shadow-md rounded-lg bg-white min-w-[250px] min-h-[50px] border-black border-[1px]">
+              <span className="text-center">
+                Wager not found. If recently created, try again in a few seconds
+                to allow for The Graph to index it.
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
 
   const wagerType = MODULES[network].filter(
     (x) => x.address.toLowerCase() == data?.wager.wagerModule.toLowerCase()
