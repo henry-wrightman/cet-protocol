@@ -94,19 +94,10 @@ export const constructWagerData = (
       case "wm.highlow":
         return utils.defaultAbiCoder.encode(
           ["uint", "uint"],
-          [_wager[0], BigInt((_wager[1] * 10 ** decimals).toFixed(0))]
+          [_wager[0], _wager[1]]
         );
       case "wm.nearest":
-        return utils.defaultAbiCoder.encode(
-          ["uint256"],
-          [
-            decimals > 10
-              ? ethers.BigNumber.from(_wager[0]).mul(
-                  ethers.BigNumber.from(10).pow(decimals)
-                )
-              : BigInt((_wager[0] * 10 ** decimals).toFixed(0)),
-          ]
-        );
+        return utils.defaultAbiCoder.encode(["uint256"], [_wager[0]]);
 
       default:
         return null;
@@ -223,7 +214,7 @@ export const WagerForm = ({ signerAddress }: { signerAddress: string }) => {
           <WagerOptions
             wagerType={watch("wagerType")}
             currentPrice={(
-              parseInt(currentPrice) /
+              parseFloat(currentPrice) /
               10 ** TICKER_DECIMALS[ticker as TICKERS]["subgraph"]
             ).toLocaleString()}
             form={form}
@@ -281,13 +272,16 @@ export const WagerForm = ({ signerAddress }: { signerAddress: string }) => {
                       constructWagerData(
                         watch("wagerType"),
                         [
-                          watch("wager"), // todo probably ensure formatting/parsability like below
-                          parseFloat(
-                            (
-                              parseInt(currentPrice) /
+                          BigInt(
+                            parseFloat(watch("wager")) *
+                              10 **
+                                TICKER_DECIMALS[ticker as TICKERS]["oracle"] ||
+                              0
+                          ).toString(),
+                          BigInt(
+                            parseFloat(currentPrice) *
                               10 ** TICKER_DECIMALS[ticker as TICKERS]["oracle"]
-                            ).toString()
-                          ),
+                          ).toString(),
                         ],
                         TICKER_DECIMALS[ticker as TICKERS]["oracle"]
                       ) || []
