@@ -389,11 +389,8 @@ const W: NextPage = () => {
                   <td className="p-1 font-bold border rounded-l-md">Outcome</td>
                   <td className="p-1 text-right border rounded-r-md">
                     {wagerResult
-                      ? wagerResult![0].toString().length >
-                        TICKER_DECIMALS[ticker as TICKERS]
-                        ? parseInt(wagerResult![0].toString()) /
-                          10 ** TICKER_DECIMALS[ticker as TICKERS]["oracle"]
-                        : wagerResult![0].toString()
+                      ? parseInt(wagerResult![0].toString()) /
+                        10 ** TICKER_DECIMALS[ticker as TICKERS]["oracle"]
                       : "TBA"}
                   </td>
                 </tr>
