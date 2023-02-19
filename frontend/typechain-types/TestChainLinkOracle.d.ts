@@ -108,7 +108,7 @@ export class TestChainLinkOracle extends BaseContract {
 
   functions: {
     getResult(
-      wager: {
+      arg0: {
         parties: BytesLike;
         partyOneWagerData: BytesLike;
         partyTwoWagerData: BytesLike;
@@ -138,7 +138,7 @@ export class TestChainLinkOracle extends BaseContract {
   };
 
   getResult(
-    wager: {
+    arg0: {
       parties: BytesLike;
       partyOneWagerData: BytesLike;
       partyTwoWagerData: BytesLike;
@@ -165,7 +165,7 @@ export class TestChainLinkOracle extends BaseContract {
 
   callStatic: {
     getResult(
-      wager: {
+      arg0: {
         parties: BytesLike;
         partyOneWagerData: BytesLike;
         partyTwoWagerData: BytesLike;
@@ -192,7 +192,7 @@ export class TestChainLinkOracle extends BaseContract {
 
   estimateGas: {
     getResult(
-      wager: {
+      arg0: {
         parties: BytesLike;
         partyOneWagerData: BytesLike;
         partyTwoWagerData: BytesLike;
@@ -220,7 +220,7 @@ export class TestChainLinkOracle extends BaseContract {
 
   populateTransaction: {
     getResult(
-      wager: {
+      arg0: {
         parties: BytesLike;
         partyOneWagerData: BytesLike;
         partyTwoWagerData: BytesLike;

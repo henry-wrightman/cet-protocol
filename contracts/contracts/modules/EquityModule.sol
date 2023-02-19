@@ -3,7 +3,6 @@ pragma solidity ^0.8.7;
 
 import "../interfaces/IEquityModule.sol";
 import "../interfaces/wagers/IWagerModule.sol";
-import "hardhat/console.sol";
 
 /**
  @title EquityModule
@@ -15,6 +14,8 @@ import "hardhat/console.sol";
  */
 
 contract EquityModule is IEquityModule {
+    bytes4 private ERC721_ID = 0x80ac58cd;
+
     /// @notice acceptEquity
     /// @dev handles the creator party's equity creating a wager
     /// @param equityData wager's equity data
@@ -26,19 +27,19 @@ contract EquityModule is IEquityModule {
             uint256[2] memory ids
         ) = decodeWagerEquity(equityData);
         require(msg.value == amount, "W9");
+
         if (ercInterfaces[0] != address(0)) {
             (bool success, bytes memory addressData) = ercInterfaces[0].call(
                 abi.encodeWithSignature("getApproved(uint256)", ids[0])
             );
-            console.log(success);
             require(
-                abi.decode(addressData, (address)) == address(this),
-                "Registry requires NFT approval"
+                success && abi.decode(addressData, (address)) == address(this),
+                "W20"
             );
-            (bool success2, ) = ercInterfaces[0].call(
-                abi.encodeWithSignature("supportsInterface(bytes4)", 0x80ac58cd)
+            (bool valid, ) = ercInterfaces[0].call(
+                abi.encodeWithSignature("supportsInterface(bytes4)", ERC721_ID)
             );
-            console.log(success2);
+            require(valid, "W22");
         }
     }
 
@@ -63,21 +64,20 @@ contract EquityModule is IEquityModule {
         ) = decodeWagerEquity(wager.equityData);
         if (ercInterfaces[0] == address(0)) {
             require(msg.value == amount, "W9");
-            require(ercInterface == address(0), "invalid wager collateral");
+            require(ercInterface == address(0), "W21");
         }
-        if (ercInterfaces[1] != address(0)) {
-            (bool success, bytes memory addressData) = ercInterfaces[1].call(
+        if (ercInterface != address(0)) {
+            (bool success, bytes memory addressData) = ercInterface.call(
                 abi.encodeWithSignature("getApproved(uint256)", id)
             );
-            console.log(success);
             require(
-                abi.decode(addressData, (address)) == address(this),
-                "Registry requires NFT approval"
+                success && abi.decode(addressData, (address)) == address(this),
+                "W20"
             );
-            (bool success2, bytes memory boolData) = ercInterfaces[1].call(
-                abi.encodeWithSignature("supportsInterface(bytes4)", 0x80ac58cd)
+            (bool valid, ) = ercInterface.call(
+                abi.encodeWithSignature("supportsInterface(bytes4)", ERC721_ID)
             );
-            console.log(success2);
+            require(valid, "W22");
         }
         wager.equityData = abi.encode(
             style,
@@ -90,11 +90,13 @@ contract EquityModule is IEquityModule {
 
     /// @notice settleEquity
     /// @dev handles the equity settlment of a wager being settled
-    /// @param wager wager to be settled
+    /// @param parties wager parties
+    /// @param equityData wager equity data
     /// @param recipient address of recipient recieving settled funds
     /// @return settledAmount uint256 amount settled
     function settleEquity(
-        Wager memory wager,
+        bytes memory parties,
+        bytes memory equityData,
         address recipient
     ) external override returns (uint256) {
         (
@@ -102,13 +104,13 @@ contract EquityModule is IEquityModule {
             address[2] memory ercInterfaces,
             uint256 amount,
             uint256[2] memory ids
-        ) = decodeWagerEquity(wager.equityData);
+        ) = decodeWagerEquity(equityData);
         uint256 winnings = style == WagerType.twoSided ? (amount * 2) : amount;
         if (ercInterfaces[0] == address(0)) {
             (bool sent, ) = recipient.call{value: winnings}("");
             require(sent, "W11");
         } else {
-            (address partyOne, address partyTwo) = decodeParties(wager.parties);
+            (address partyOne, address partyTwo) = decodeParties(parties);
             bytes memory data = abi.encodeWithSignature(
                 "safeTransferFrom(address,address,uint256)",
                 partyOne == recipient ? partyTwo : partyOne,
@@ -118,22 +120,26 @@ contract EquityModule is IEquityModule {
             (bool sent, ) = ercInterfaces[partyOne == recipient ? 0 : 1].call(
                 data
             );
-            console.log(sent);
+            require(sent, "W11");
         }
         return winnings;
     }
 
     /// @notice voidEquity
     /// @dev handles the equity distribution of a wager being voided
-    /// @param wager wager being voided
-    function voidEquity(Wager memory wager) external override {
+    /// @param parties wager parties
+    /// @param equityData wager equity data
+    function voidEquity(
+        bytes memory parties,
+        bytes memory equityData
+    ) external override {
         (
             WagerType style,
             address[2] memory ercInterfaces,
             uint256 amount,
 
-        ) = decodeWagerEquity(wager.equityData);
-        (address partyOne, address partyTwo) = decodeParties(wager.parties);
+        ) = decodeWagerEquity(equityData);
+        (address partyOne, address partyTwo) = decodeParties(parties);
 
         if (ercInterfaces[0] == address(0)) {
             (bool sent, ) = partyOne.call{value: amount}("");

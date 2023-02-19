@@ -26,13 +26,13 @@ type ModuleEntries = { [key in NETWORK]: WagerModule[] };
 type NetworkEntries = { [key in NETWORK]: string };
 
 export const REGISTRY_ADDRESSES: NetworkEntries = {
-  goerli: "0xBa01ae45fD1297b44CcbacB430BdEa9bd3D3dc64",
+  goerli: "0x38010244A6f0e6824AB1FCe54E4d11891DA8Cb49",
   hardhat: "0xdc64a140aa3e981100a9beca4e685f962f0cf6c9",
   mainnet: "",
 };
 
 export const EQUITY_MODULE_ADDRESSES: NetworkEntries = {
-  goerli: "0x14492E21f544241344B85A39f9452343ad665C3F",
+  goerli: "0x46F41D466Ac309d1F9d50Ef4e683F8419581ECa1",
   hardhat: "",
   mainnet: "",
 };
@@ -49,7 +49,7 @@ export const MODULES: ModuleEntries = {
     },
     {
       type: "oracle.chainlink",
-      address: "0x2CadA81B2a080dbB7E59BcA49cde8D158A47f81D", // executor: 0xcC9D00C3C9093cEe00e6c645cD33a858Fd78A71C
+      address: "0x2CadA81B2a080dbB7E59BcA49cde8D158A47f81D", // executor: 0x0ff56Bade3E2f7ce7D4AE2F46EcAD691efe2E1A2
     },
   ],
   hardhat: [

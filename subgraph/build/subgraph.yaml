@@ -6,7 +6,7 @@ dataSources:
     name: WagerRegistry
     network: goerli
     source:
-      address: "0xBa01ae45fD1297b44CcbacB430BdEa9bd3D3dc64"
+      address: "0x38010244A6f0e6824AB1FCe54E4d11891DA8Cb49"
       abi: WagerRegistry
       startBlock: 8515636
     mapping:

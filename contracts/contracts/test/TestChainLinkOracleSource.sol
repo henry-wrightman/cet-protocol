@@ -9,7 +9,7 @@ contract TestChainLinkOracleSource is AggregatorV3Interface {
         uint80 expirationBlock
     )
         external
-        view
+        pure
         override
         returns (
             uint80 roundID,

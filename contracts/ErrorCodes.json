@@ -18,6 +18,9 @@
     "W16": "invalid partyOne wager params",
     "W17": "enter limit exceeds expiration",
     "W18": "wager already taken by opposing party",
-    "W19": "enterLimitBlock must be prior to expirationBlock"
+    "W19": "enterLimitBlock must be prior to expirationBlock",
+    "W20": "EM requires NFT approval",
+    "W21": "invalid wager collateral",
+    "W22": "invalid ERC721 / unsupported interface"
   }
 }

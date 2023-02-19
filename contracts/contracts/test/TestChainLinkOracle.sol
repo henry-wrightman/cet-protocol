@@ -7,7 +7,7 @@ contract TestChainLinkOracle is IWagerOracleModule {
     int256 public price = 21000;
 
     function getResult(
-        Wager memory wager
+        Wager memory
     ) external view override returns (bytes memory) {
         return toBytes(uint256(price));
     }

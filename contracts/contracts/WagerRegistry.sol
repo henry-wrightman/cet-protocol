@@ -4,8 +4,6 @@ pragma solidity ^0.8.7;
 import "./interfaces/wagers/IWagerModule.sol";
 import "./interfaces/IWagerRegistry.sol";
 import "./interfaces/IEquityModule.sol";
-import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
-import "hardhat/console.sol";
 
 /**
  @title WagerRegistry
@@ -24,7 +22,7 @@ contract WagerRegistry is IWagerRegistry {
     constructor() {}
 
     /// @notice createWager
-    /// @dev
+    /// @dev create a wager as partyOne
     /// @param wager wager to be created
     function createWager(Wager memory wager) external payable override {
         require(wager.partyOneWagerData.length > 0, "W14");
@@ -63,7 +61,7 @@ contract WagerRegistry is IWagerRegistry {
     }
 
     /// @notice enterWager
-    /// @dev
+    /// @dev enter a wager as partyTwo
     /// @param wagerId id of wager to be entered by second party
     /// @param partyTwoEquityData bytes encoded of address and id (if NFT)
     /// @param partyTwoWagerData second party's supplemental data for their specific wager
@@ -116,7 +114,7 @@ contract WagerRegistry is IWagerRegistry {
     }
 
     /// @notice settleWager
-    /// @dev
+    /// @dev settle a wager
     /// @param wagerId id of wager to be settled
     function settleWager(uint256 wagerId) external override {
         require(wagerId <= _id, "W1");
@@ -133,13 +131,18 @@ contract WagerRegistry is IWagerRegistry {
         wagers[wagerId] = settledWager;
 
         uint256 winnings = IEquityModule(equityModule).settleEquity(
-            wager,
+            wager.parties,
+            wager.equityData,
             recipient
         );
 
         emit WagerSettled(recipient, winnings, settledWager.result, wagerId);
     }
 
+    /// @notice executeBlockRange
+    /// @dev for autonomous settling via executionSchedule
+    /// @param startBlock starting block of the range to check for expirations to settle
+    /// @param endBlock ending block of the range
     function executeBlockRange(
         uint256 startBlock,
         uint256 endBlock
@@ -153,7 +156,7 @@ contract WagerRegistry is IWagerRegistry {
     }
 
     /// @notice voidWager
-    /// @dev
+    /// @dev voids a wager
     /// @param wagerId id of wager to be voided & respective parties refunded
     function voidWager(uint256 wagerId) external override {
         require(wagerId <= _id, "W1");
@@ -188,7 +191,7 @@ contract WagerRegistry is IWagerRegistry {
         wager.state = WagerState.voided;
         wagers[wagerId] = wager;
 
-        IEquityModule(equityModule).voidEquity(wager);
+        IEquityModule(equityModule).voidEquity(wager.parties, wager.equityData);
 
         emit WagerVoided(wagerId);
     }

@@ -13,9 +13,10 @@ interface IEquityModule {
     ) external payable returns (Wager memory);
 
     function settleEquity(
-        Wager memory wager,
+        bytes memory parties,
+        bytes memory equityData,
         address recipient
     ) external returns (uint256);
 
-    function voidEquity(Wager memory wager) external;
+    function voidEquity(bytes memory parties, bytes memory equityData) external;
 }

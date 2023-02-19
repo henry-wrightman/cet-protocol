@@ -32,10 +32,9 @@ contract HighLowWagerModule is IWagerModule {
             uint256 partyOneWagerDirection,
             int256 partyOneWagerInitialPrice
         ) = decodeHighLowWager(wager.partyOneWagerData);
-        (
-            uint256 partyTwoWagerDirection,
-            int256 partyTwoWagerInitialPrice
-        ) = decodeHighLowWager(wager.partyTwoWagerData);
+        (, int256 partyTwoWagerInitialPrice) = decodeHighLowWager(
+            wager.partyTwoWagerData
+        );
 
         if (partyOneWagerDirection == 1) {
             // partyOne bet high

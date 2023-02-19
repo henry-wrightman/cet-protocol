@@ -161,66 +161,14 @@ const _abi = [
   {
     inputs: [
       {
-        components: [
-          {
-            internalType: "bytes",
-            name: "parties",
-            type: "bytes",
-          },
-          {
-            internalType: "bytes",
-            name: "partyOneWagerData",
-            type: "bytes",
-          },
-          {
-            internalType: "bytes",
-            name: "partyTwoWagerData",
-            type: "bytes",
-          },
-          {
-            internalType: "bytes",
-            name: "equityData",
-            type: "bytes",
-          },
-          {
-            internalType: "bytes",
-            name: "blockData",
-            type: "bytes",
-          },
-          {
-            internalType: "bytes",
-            name: "result",
-            type: "bytes",
-          },
-          {
-            internalType: "enum WagerState",
-            name: "state",
-            type: "uint8",
-          },
-          {
-            internalType: "contract IWagerModule",
-            name: "wagerModule",
-            type: "address",
-          },
-          {
-            internalType: "contract IWagerOracleModule",
-            name: "oracleModule",
-            type: "address",
-          },
-          {
-            internalType: "address",
-            name: "oracleSource",
-            type: "address",
-          },
-          {
-            internalType: "bytes",
-            name: "supplumentalOracleData",
-            type: "bytes",
-          },
-        ],
-        internalType: "struct Wager",
-        name: "wager",
-        type: "tuple",
+        internalType: "bytes",
+        name: "parties",
+        type: "bytes",
+      },
+      {
+        internalType: "bytes",
+        name: "equityData",
+        type: "bytes",
       },
       {
         internalType: "address",
@@ -242,66 +190,14 @@ const _abi = [
   {
     inputs: [
       {
-        components: [
-          {
-            internalType: "bytes",
-            name: "parties",
-            type: "bytes",
-          },
-          {
-            internalType: "bytes",
-            name: "partyOneWagerData",
-            type: "bytes",
-          },
-          {
-            internalType: "bytes",
-            name: "partyTwoWagerData",
-            type: "bytes",
-          },
-          {
-            internalType: "bytes",
-            name: "equityData",
-            type: "bytes",
-          },
-          {
-            internalType: "bytes",
-            name: "blockData",
-            type: "bytes",
-          },
-          {
-            internalType: "bytes",
-            name: "result",
-            type: "bytes",
-          },
-          {
-            internalType: "enum WagerState",
-            name: "state",
-            type: "uint8",
-          },
-          {
-            internalType: "contract IWagerModule",
-            name: "wagerModule",
-            type: "address",
-          },
-          {
-            internalType: "contract IWagerOracleModule",
-            name: "oracleModule",
-            type: "address",
-          },
-          {
-            internalType: "address",
-            name: "oracleSource",
-            type: "address",
-          },
-          {
-            internalType: "bytes",
-            name: "supplumentalOracleData",
-            type: "bytes",
-          },
-        ],
-        internalType: "struct Wager",
-        name: "wager",
-        type: "tuple",
+        internalType: "bytes",
+        name: "parties",
+        type: "bytes",
+      },
+      {
+        internalType: "bytes",
+        name: "equityData",
+        type: "bytes",
       },
     ],
     name: "voidEquity",
