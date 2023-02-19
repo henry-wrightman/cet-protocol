@@ -36,7 +36,6 @@ export const Transaction = ({
 }) => {
   const buttonClass = classNames(buttonClassAdditions, "w-3/4 m-1");
   if (isSuccess && !isLoading) {
-    console.log(data);
     successCallback(data);
   }
   return (

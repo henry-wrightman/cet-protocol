@@ -16,7 +16,7 @@ import { getSubgraphClient } from "../../graphql/client";
 import { formatDistanceToNow } from "date-fns";
 import Link from "next/link";
 import { Loading, Countdown, Button, Label } from "../common";
-import { getWagerState } from "../wagers";
+import { getWagerState, SettleWager, VoidWager } from "../wagers";
 import { useAccount } from "wagmi";
 
 const decodeWagerData = (_type: string, data: string) => {
@@ -91,6 +91,11 @@ export const WagerRowDisplay = ({
     isConnected &&
     blocknumber <= wager.expirationBlock;
 
+  const potentialSettle =
+    blocknumber >= wager.expirationBlock && wager?.state == "0";
+  const potentialVoid =
+    isPartyOne && (wager?.state == "0" || wager?.state == "1");
+
   return (
     <>
       {wager && (
@@ -132,7 +137,9 @@ export const WagerRowDisplay = ({
             </td>
             <td
               className={`p-4 font-bold borde ${
-                potentialEnter ? "" : "rounded-r-lg"
+                potentialEnter || potentialSettle || potentialVoid
+                  ? ""
+                  : "rounded-r-lg"
               }`}
             >
               <span className="m-2 float-left">Outcome</span>
@@ -154,6 +161,16 @@ export const WagerRowDisplay = ({
                     Enter
                   </Link>
                 </Button>
+              </td>
+            )}
+            {potentialSettle && (
+              <td className="p-4 font-normal border rounded-r-lg">
+                <SettleWager wagerId={wager.id} buttonText={"Settle"} />
+              </td>
+            )}
+            {potentialVoid && (
+              <td className="p-4 font-normal border rounded-r-lg">
+                <VoidWager wagerId={wager.id} buttonText={"Void"} />
               </td>
             )}
           </tr>

@@ -12,9 +12,11 @@ import { TransactionReceipt } from "@ethersproject/providers";
 
 export const VoidWager = ({
   wagerId,
+  buttonText,
   successCallback,
 }: {
   wagerId: string;
+  buttonText?: string;
   successCallback?: (tx?: TransactionReceipt) => void;
 }) => {
   const { chain } = useNetwork();
@@ -40,7 +42,7 @@ export const VoidWager = ({
 
   return (
     <Transaction
-      text="Void Wager"
+      text={buttonText || "Void Wager"}
       tx={write}
       error={error}
       data={data}

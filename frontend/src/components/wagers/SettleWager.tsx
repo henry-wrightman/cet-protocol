@@ -12,9 +12,11 @@ import { TransactionReceipt } from "@ethersproject/providers";
 
 export const SettleWager = ({
   wagerId,
+  buttonText,
   successCallback,
 }: {
   wagerId: string;
+  buttonText?: string;
   successCallback?: (tx?: TransactionReceipt) => void;
 }) => {
   const { chain } = useNetwork();
@@ -40,7 +42,7 @@ export const SettleWager = ({
 
   return (
     <Transaction
-      text="Settle Wager"
+      text={buttonText || "Settle Wager"}
       tx={write}
       data={data}
       successCallback={successCallback}
