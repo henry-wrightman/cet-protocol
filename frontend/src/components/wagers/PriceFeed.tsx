@@ -88,7 +88,7 @@ export const PriceFeed = () => {
                         .price
                     ) /
                     10 ** TICKER_DECIMALS[ticker as TICKERS]["subgraph"]
-                  ).toLocaleString()}
+                  ).toLocaleString(undefined, { minimumFractionDigits: 4 })}
                 </span>
               </>
             );

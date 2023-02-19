@@ -34,10 +34,7 @@ export const Transaction = ({
   isSuccess: boolean;
   successCallback?: (tx?: TransactionReceipt) => void;
 }) => {
-  const buttonClass = classNames(
-    buttonClassAdditions,
-    "w-full font-normal m-1"
-  );
+  const buttonClass = classNames(buttonClassAdditions, "w-3/4 font-normal");
   if (isSuccess && !isLoading) {
     successCallback(data);
   }
@@ -45,7 +42,7 @@ export const Transaction = ({
     <div className="flex flex-col items-center">
       {isSuccess && (
         <Link href="/wagers/">
-          <span className="w-full text-center"></span>
+          <span className="w-3/4 text-center"></span>
         </Link>
       )}
       {!error && !isSuccess && (

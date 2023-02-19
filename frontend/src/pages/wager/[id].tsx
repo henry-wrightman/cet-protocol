@@ -263,7 +263,7 @@ const W: NextPage = () => {
                   currentPrice={(
                     parseFloat(currentPrice) /
                     10 ** TICKER_DECIMALS[ticker as TICKERS]["subgraph"]
-                  ).toLocaleString()}
+                  ).toLocaleString(undefined, { minimumFractionDigits: 4 })}
                   ticker={ticker}
                   form={form}
                 />

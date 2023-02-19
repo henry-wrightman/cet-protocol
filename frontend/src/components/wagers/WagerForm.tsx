@@ -216,7 +216,7 @@ export const WagerForm = ({ signerAddress }: { signerAddress: string }) => {
             currentPrice={(
               parseFloat(currentPrice) /
               10 ** TICKER_DECIMALS[ticker as TICKERS]["subgraph"]
-            ).toLocaleString()}
+            ).toLocaleString(undefined, { minimumFractionDigits: 4 })}
             form={form}
           />
           <div className="mb-2 mt-4">

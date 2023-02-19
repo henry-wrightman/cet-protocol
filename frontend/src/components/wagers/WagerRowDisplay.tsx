@@ -82,7 +82,14 @@ export const WagerRowDisplay = ({
         (
           parseInt(partyOneWager![1].toString()) /
           10 ** TICKER_DECIMALS[ticker as TICKERS]["oracle"]
-        ).toLocaleString() +
+        ).toLocaleString(undefined, {
+          minimumFractionDigits:
+            parseInt(partyOneWager![1].toString()) /
+              10 ** TICKER_DECIMALS[ticker as TICKERS]["oracle"] <
+            1
+              ? 4
+              : 0,
+        }) +
         ")"
       : "";
 
@@ -97,6 +104,49 @@ export const WagerRowDisplay = ({
   const potentialVoid =
     isPartyOne && (wager.state == "0" || wager.state == "1");
 
+  const partyOneWagerFormatted =
+    wagerType == "wm.highlow"
+      ? partyOneWager![0].toString()
+      : (
+          parseInt(partyOneWager![0].toString()) /
+          10 ** TICKER_DECIMALS[ticker as TICKERS]["oracle"]
+        ).toLocaleString(undefined, {
+          minimumFractionDigits:
+            parseInt(partyOneWager![0].toString()) /
+              10 ** TICKER_DECIMALS[ticker as TICKERS]["oracle"] <
+            1
+              ? 4
+              : 0,
+        });
+
+  const partyTwoWagerFormatted = partyTwoWager
+    ? (
+        parseInt(partyTwoWager![0].toString()) /
+        10 ** TICKER_DECIMALS[ticker as TICKERS]["oracle"]
+      ).toLocaleString(undefined, {
+        minimumFractionDigits:
+          parseInt(partyTwoWager![0].toString()) /
+            10 ** TICKER_DECIMALS[ticker as TICKERS]["oracle"] <
+          1
+            ? 4
+            : 0,
+      })
+    : "TBA";
+
+  const wagerResultFormatted = wagerResult
+    ? (
+        parseInt(wagerResult![0].toString()) /
+        10 ** TICKER_DECIMALS[ticker as TICKERS]["oracle"]
+      ).toLocaleString(undefined, {
+        minimumFractionDigits:
+          parseInt(wagerResult![0].toString()) /
+            10 ** TICKER_DECIMALS[ticker as TICKERS]["oracle"] <
+          1
+            ? 4
+            : 0,
+      })
+    : "TBA";
+
   return (
     <>
       {wager && (
@@ -107,24 +157,14 @@ export const WagerRowDisplay = ({
               <span className="m-1 float-left">Party One&apos;s Wager</span>
 
               <span className="m-1 float-right font-normal">
-                {wagerType == "wm.highlow"
-                  ? partyOneWager![0].toString()
-                  : (
-                      parseInt(partyOneWager![0].toString()) /
-                      10 ** TICKER_DECIMALS[ticker as TICKERS]["oracle"]
-                    ).toLocaleString()}
+                {partyOneWagerFormatted}
               </span>
             </td>
             <td className="p-2 font-bold border-2 bg-gray-100">
               <span className="m-1 float-left">Party Two&apos;s Wager</span>
 
               <span className="m-1 float-right font-normal">
-                {partyTwoWager
-                  ? (
-                      parseInt(partyTwoWager![0].toString()) /
-                      10 ** TICKER_DECIMALS[ticker as TICKERS]["oracle"]
-                    ).toLocaleString()
-                  : "TBA"}
+                {partyTwoWagerFormatted}
               </span>
             </td>
             <td className="p-2 font-bold border-2 bg-gray-100">
@@ -140,7 +180,7 @@ export const WagerRowDisplay = ({
                 )}
               </span>
             </td>
-            <td className={`p-3 font-bold border-2 bg-gray-100`}>
+            <td className={`p-2 font-bold border-2 bg-gray-100`}>
               <span className="m-1 float-left">Outcome</span>
               {wagerResult && (
                 <span className="m-1 float-right font-normal">
@@ -149,21 +189,21 @@ export const WagerRowDisplay = ({
               )}
 
               <span className="m-1 float-right font-normal">
-                {wagerResult
-                  ? (
-                      parseInt(wagerResult![0].toString()) /
-                      10 ** TICKER_DECIMALS[ticker as TICKERS]["oracle"]
-                    ).toLocaleString()
-                  : "TBA"}
+                {wagerResultFormatted}
               </span>
             </td>
             {potentialEnter && (
               <td className="p-2 rounded-r-lg font-bold border-2 bg-gray-100">
-                <Button type="submit" className="w-full font-normal">
-                  <Link href={"/wager/" + wager.id} key={wager.id}>
-                    Enter
-                  </Link>
-                </Button>
+                <div className="flex flex-col items-center">
+                  <Button
+                    type="submit"
+                    className="w-3/4 float-center font-normal"
+                  >
+                    <Link href={"/wager/" + wager.id} key={wager.id}>
+                      Enter
+                    </Link>
+                  </Button>
+                </div>
               </td>
             )}
             {(potentialVoid || potentialSettle) && (
