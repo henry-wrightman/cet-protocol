@@ -34,7 +34,7 @@ export const Transaction = ({
   isSuccess: boolean;
   successCallback?: (tx?: TransactionReceipt) => void;
 }) => {
-  const buttonClass = classNames(buttonClassAdditions, "w-3/4 m-1");
+  const buttonClass = classNames(buttonClassAdditions, "w-full m-1");
   if (isSuccess && !isLoading) {
     successCallback(data);
   }

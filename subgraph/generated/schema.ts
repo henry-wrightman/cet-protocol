@@ -180,8 +180,8 @@ export class Wager extends Entity {
     this.set("expirationBlock", Value.fromBigInt(value));
   }
 
-  get wagerOracleData(): Bytes | null {
-    let value = this.get("wagerOracleData");
+  get supplementalOracleData(): Bytes | null {
+    let value = this.get("supplementalOracleData");
     if (!value || value.kind == ValueKind.NULL) {
       return null;
     } else {
@@ -189,28 +189,11 @@ export class Wager extends Entity {
     }
   }
 
-  set wagerOracleData(value: Bytes | null) {
+  set supplementalOracleData(value: Bytes | null) {
     if (!value) {
-      this.unset("wagerOracleData");
+      this.unset("supplementalOracleData");
     } else {
-      this.set("wagerOracleData", Value.fromBytes(<Bytes>value));
-    }
-  }
-
-  get supplementalWagerOracleData(): Bytes | null {
-    let value = this.get("supplementalWagerOracleData");
-    if (!value || value.kind == ValueKind.NULL) {
-      return null;
-    } else {
-      return value.toBytes();
-    }
-  }
-
-  set supplementalWagerOracleData(value: Bytes | null) {
-    if (!value) {
-      this.unset("supplementalWagerOracleData");
-    } else {
-      this.set("supplementalWagerOracleData", Value.fromBytes(<Bytes>value));
+      this.set("supplementalOracleData", Value.fromBytes(<Bytes>value));
     }
   }
 

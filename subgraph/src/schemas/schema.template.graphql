@@ -18,8 +18,7 @@ type Wager @entity {
   createdBlock: BigInt!
   enterLimitBlock: BigInt!
   expirationBlock: BigInt!
-  wagerOracleData: Bytes
-  supplementalWagerOracleData: Bytes
+  supplementalOracleData: Bytes
   result: Bytes
   state: BigInt!
   wagerModule: Bytes!

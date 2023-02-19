@@ -6,9 +6,9 @@ dataSources:
     name: WagerRegistry
     network: goerli
     source:
-      address: "0x38010244A6f0e6824AB1FCe54E4d11891DA8Cb49"
+      address: "0x2d44fC4eDFC9195612514008B38AF666fcFdcE3d"
       abi: WagerRegistry
-      startBlock: 8516598
+      startBlock: 8519799
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6

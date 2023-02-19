@@ -26,13 +26,13 @@ type ModuleEntries = { [key in NETWORK]: WagerModule[] };
 type NetworkEntries = { [key in NETWORK]: string };
 
 export const REGISTRY_ADDRESSES: NetworkEntries = {
-  goerli: "0x38010244A6f0e6824AB1FCe54E4d11891DA8Cb49",
+  goerli: "0x2d44fC4eDFC9195612514008B38AF666fcFdcE3d",
   hardhat: "0xdc64a140aa3e981100a9beca4e685f962f0cf6c9",
   mainnet: "",
 };
 
 export const EQUITY_MODULE_ADDRESSES: NetworkEntries = {
-  goerli: "0x46F41D466Ac309d1F9d50Ef4e683F8419581ECa1",
+  goerli: "0x2557467C0A46F51bC673E69B08D83738337D460b",
   hardhat: "",
   mainnet: "",
 };
@@ -41,15 +41,15 @@ export const MODULES: ModuleEntries = {
   goerli: [
     {
       type: WM_HIGHLOW,
-      address: "0x53d0bc3bFD6De22DACA014024Bd113Ff2F4557B3",
+      address: "0x0C9d9FB22e483c33aE942D5106eD8aE02A5dD2fd",
     },
     {
       type: WM_NEAREST,
-      address: "0x4080A33d561aeb06b71aCE3EA1eb6a6DcFc1caDC",
+      address: "0x21FCcae58677abbc86c69bEBa69786aB3bBb7f15",
     },
     {
       type: "oracle.chainlink",
-      address: "0x2CadA81B2a080dbB7E59BcA49cde8D158A47f81D", // executor: 0x0ff56Bade3E2f7ce7D4AE2F46EcAD691efe2E1A2
+      address: "0x8CC73Ae12Aa5633477977787331cF472387496d3", // executor: 0x263AFAf61193b24Bd137A6d30bcc4283EF74350D
     },
   ],
   hardhat: [

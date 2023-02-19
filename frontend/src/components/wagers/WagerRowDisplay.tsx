@@ -92,17 +92,17 @@ export const WagerRowDisplay = ({
     blocknumber <= wager.expirationBlock;
 
   const potentialSettle =
-    blocknumber >= wager.expirationBlock && wager?.state == "0";
+    blocknumber >= wager.expirationBlock && wager.state == "0";
   const potentialVoid =
-    isPartyOne && (wager?.state == "0" || wager?.state == "1");
+    isPartyOne && (wager.state == "0" || wager.state == "1");
 
   return (
     <>
       {wager && (
         <>
           <tr className="m-1 bg-gray-200 text-left h-[40px]">
-            <td className="p-3 rounded-l-lg font-bold border bg-gray-100"></td>
-            <td className="p-3 font-bold border bg-gray-100">
+            <td className="p-3 rounded-l-lg font-bold border-2 bg-gray-100"></td>
+            <td className="p-3 font-bold border-2 bg-gray-100">
               <span className="m-2 float-left">Party One&apos;s Bet</span>
 
               <span className="m-2 float-right font-normal">
@@ -112,7 +112,7 @@ export const WagerRowDisplay = ({
                     10 ** TICKER_DECIMALS[ticker as TICKERS]}
               </span>
             </td>
-            <td className="p-3 font-bold border bg-gray-100">
+            <td className="p-3 font-bold border-2 bg-gray-100">
               <span className="m-2 float-left">Party Two&apos;s Bet</span>
 
               <span className="m-2 float-right font-normal">
@@ -122,7 +122,7 @@ export const WagerRowDisplay = ({
                   : "TBA"}
               </span>
             </td>
-            <td className="p-3 font-bold border bg-gray-100">
+            <td className="p-3 font-bold border-2 bg-gray-100">
               <span className="m-2 float-left">Winner</span>
 
               <span className="m-2 float-right font-normal">
@@ -135,15 +135,13 @@ export const WagerRowDisplay = ({
                 )}
               </span>
             </td>
-            <td
-              className={`p-3 font-bold border bg-gray-100 ${
-                potentialEnter || potentialSettle || potentialVoid
-                  ? ""
-                  : "rounded-r-lg"
-              }`}
-            >
+            <td className={`p-3 font-bold border-2 bg-gray-100`}>
               <span className="m-2 float-left">Outcome</span>
-
+              <span>
+                {blocknumber >= wager.expirationBlock && wager.state == "0"
+                  ? "t"
+                  : "f"}
+              </span>
               <span className="m-2 float-right font-normal">
                 {wagerResult
                   ? wagerResult![0].toString().length >
@@ -155,7 +153,7 @@ export const WagerRowDisplay = ({
               </span>
             </td>
             {potentialEnter && (
-              <td className="p-3 font-bold border rounded-r-lg">
+              <td className="p-3 rounded-r-lg font-bold border-2 bg-gray-100">
                 <Button type="submit" className="w-full font-normal">
                   <Link href={"/wager/" + wager.id} key={wager.id}>
                     Enter
@@ -164,14 +162,14 @@ export const WagerRowDisplay = ({
               </td>
             )}
             {potentialSettle && (
-              <td className="p-3 font-normal border rounded-r-lg">
-                <SettleWager wagerId={wager.id} buttonText={"Settle"} />
+              <td className="p-3 rounded-r-lg font-bold border-2 bg-gray-100">
+                {potentialSettle && (
+                  <SettleWager wagerId={wager.id} buttonText={"Settle"} />
+                )}
               </td>
             )}
-            {potentialVoid && (
-              <td className="p-3 font-normal border rounded-r-lg">
-                <VoidWager wagerId={wager.id} buttonText={"Void"} />
-              </td>
+            {!potentialEnter && !potentialSettle && !potentialVoid && (
+              <td className="p-3 rounded-r-lg font-bold border-2 bg-gray-100"></td>
             )}
           </tr>
         </>

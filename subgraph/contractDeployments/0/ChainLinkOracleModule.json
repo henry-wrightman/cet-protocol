@@ -4,9 +4,9 @@
       {
         "components": [
           {
-            "internalType": "address",
-            "name": "partyOne",
-            "type": "address"
+            "internalType": "bytes",
+            "name": "parties",
+            "type": "bytes"
           },
           {
             "internalType": "bytes",
@@ -14,33 +14,18 @@
             "type": "bytes"
           },
           {
-            "internalType": "address",
-            "name": "partyTwo",
-            "type": "address"
-          },
-          {
             "internalType": "bytes",
             "name": "partyTwoWagerData",
             "type": "bytes"
           },
           {
-            "internalType": "uint256",
-            "name": "wagerAmount",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint80",
-            "name": "expirationBlock",
-            "type": "uint80"
-          },
-          {
             "internalType": "bytes",
-            "name": "wagerOracleData",
+            "name": "equityData",
             "type": "bytes"
           },
           {
             "internalType": "bytes",
-            "name": "supplementalWagerOracleData",
+            "name": "blockData",
             "type": "bytes"
           },
           {
@@ -59,9 +44,19 @@
             "type": "address"
           },
           {
-            "internalType": "contract IWagerOracle",
-            "name": "oracleImpl",
+            "internalType": "contract IWagerOracleModule",
+            "name": "oracleModule",
             "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "oracleSource",
+            "type": "address"
+          },
+          {
+            "internalType": "bytes",
+            "name": "supplementalOracleData",
+            "type": "bytes"
           }
         ],
         "internalType": "struct Wager",
