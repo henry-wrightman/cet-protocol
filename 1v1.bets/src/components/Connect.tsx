@@ -9,7 +9,7 @@ import { useIsMounted } from "../hooks";
 import { Button, Error, Select } from "./common";
 import { InjectedConnector } from "wagmi/connectors/injected";
 import { NETWORK } from "../utils/constants";
-import { SelectOption } from "../components/wagers";
+import { SelectOption } from "./wagers";
 
 const NETWORK_OPTIONS = ["goerli"].map((x) => {
   return {

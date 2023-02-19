@@ -13,7 +13,7 @@ import { ethers, utils } from "ethers";
 import EAC_ABI from "../../../../subgraph/contractDeployments/0/EACAggregatorProxy.json";
 import { Button, Input, Label, Select } from "../common";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { CreateWager, WagerOptions, WagerConfirmationButton } from "./";
+import { CreateWager, WagerOptions, WagerConfirmationButton } from ".";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import TextField from "@mui/material/TextField";

@@ -8,7 +8,7 @@ import { getSubgraphClient } from "../../graphql/client";
 import { formatDistanceToNow } from "date-fns";
 import Link from "next/link";
 import { Loading, Countdown, Button, Label } from "../common";
-import { WagerRowDisplay } from "../wagers";
+import { WagerRowDisplay } from ".";
 import { useAccount } from "wagmi";
 
 const WAGERS_QUERY = gql`

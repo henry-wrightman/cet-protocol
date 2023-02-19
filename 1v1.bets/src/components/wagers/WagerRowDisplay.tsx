@@ -16,7 +16,7 @@ import { getSubgraphClient } from "../../graphql/client";
 import { formatDistanceToNow } from "date-fns";
 import Link from "next/link";
 import { Loading, Countdown, Button, Label } from "../common";
-import { getWagerState, SettleWager, VoidWager } from "../wagers";
+import { getWagerState, SettleWager, VoidWager } from ".";
 import { useAccount } from "wagmi";
 
 const decodeWagerData = (_type: string, data: string) => {
