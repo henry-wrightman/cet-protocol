@@ -173,25 +173,32 @@ const W: NextPage = () => {
       </pre>
     );
 
-  if (isMounted && (!data?.wager || chain?.unsupported))
+  if (!data?.wager)
     return (
-      <div className="min-h-screen bg-green-200 font-normal border-white border-[1px]">
-        <div className="flex flex-col md:p-5 md:flex-row lg:flex-row justify-center">
-          <div className="basis-1/2 m-2 p-3 shadow-md rounded-lg bg-white min-w-[250px] min-h-[50px] border-black border-[1px]">
-            <span className="text-center">
-              {!data?.wager && !chain?.unsupported && (
-                <>
-                  Wager not found. If recently created, try again in a few
-                  seconds to allow for The Graph to index it.
-                </>
-              )}
-              {chain?.unsupported && (
-                <>Currently only available on Goerli. Please switch networks!</>
-              )}
-            </span>
+      <>
+        {isMounted && (
+          <div className="min-h-screen bg-green-200 font-normal border-white border-[1px]">
+            <div className="flex flex-col md:p-5 md:flex-row lg:flex-row justify-center">
+              <div className="basis-1/2 m-2 p-3 shadow-md rounded-lg bg-white min-w-[250px] min-h-[50px] border-black border-[1px]">
+                <span className="text-center">
+                  {!data?.wager && !chain?.unsupported && (
+                    <>
+                      Wager not found. If recently created, try again in a few
+                      seconds to allow for The Graph to index it.
+                    </>
+                  )}
+                  {chain?.unsupported && (
+                    <>
+                      Currently only available on Goerli. Please switch
+                      networks!
+                    </>
+                  )}
+                </span>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
+        )}
+      </>
     );
 
   const wagerType = MODULES[network].filter(
