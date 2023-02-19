@@ -87,7 +87,7 @@ export const WagerOptions = ({
                   name="wager"
                   options={HIGHLOW_OPTIONS}
                   className="mb-2"
-                  defaultValue={"1"}
+                  placeholder="select option"
                   onSelect={(option: SelectOption) => {
                     setValue("wager", option?.value as string);
                     //setWagerType(option?.value as string);
