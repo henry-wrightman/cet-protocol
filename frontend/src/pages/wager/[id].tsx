@@ -242,6 +242,49 @@ const W: NextPage = () => {
     (data?.wager?.state == "0" || data?.wager?.state == "1");
   const enterReady = watch("wager") != null && data?.wager?.state == "1";
 
+  const partyOneWagerFormatted =
+    wagerType == "wm.highlow"
+      ? partyOneWager![0].toString()
+      : (
+          parseInt(partyOneWager![0].toString()) /
+          10 ** TICKER_DECIMALS[ticker as TICKERS]["oracle"]
+        ).toLocaleString(undefined, {
+          minimumFractionDigits:
+            parseInt(partyOneWager![0].toString()) /
+              10 ** TICKER_DECIMALS[ticker as TICKERS]["oracle"] <
+            1
+              ? 4
+              : 0,
+        });
+
+  const partyTwoWagerFormatted = partyTwoWager
+    ? (
+        parseInt(partyTwoWager![0].toString()) /
+        10 ** TICKER_DECIMALS[ticker as TICKERS]["oracle"]
+      ).toLocaleString(undefined, {
+        minimumFractionDigits:
+          parseInt(partyTwoWager![0].toString()) /
+            10 ** TICKER_DECIMALS[ticker as TICKERS]["oracle"] <
+          1
+            ? 4
+            : 0,
+      })
+    : "TBA";
+
+  const wagerResultFormatted = wagerResult
+    ? (
+        parseInt(wagerResult![0].toString()) /
+        10 ** TICKER_DECIMALS[ticker as TICKERS]["oracle"]
+      ).toLocaleString(undefined, {
+        minimumFractionDigits:
+          parseInt(wagerResult![0].toString()) /
+            10 ** TICKER_DECIMALS[ticker as TICKERS]["oracle"] <
+          1
+            ? 4
+            : 0,
+      })
+    : "TBA";
+
   return (
     <div className="min-h-screen bg-green-200 font-normal border-white border-[1px]">
       <div className="flex flex-col md:flex-row lg:flex-row">
@@ -320,10 +363,7 @@ const W: NextPage = () => {
                     Party One&apos;s Bet
                   </td>
                   <td className="p-1 text-right border rounded-r-md">
-                    {wagerType == "wm.highlow"
-                      ? partyOneWager![0].toString()
-                      : parseFloat(partyOneWager![0].toString()) /
-                        10 ** TICKER_DECIMALS[ticker as TICKERS]["oracle"]}
+                    {partyOneWagerFormatted}
                   </td>
                 </tr>
                 <tr className="bg-gray-200 text-left h-[40px]">
@@ -345,10 +385,7 @@ const W: NextPage = () => {
                     Party Two&apos;s Bet
                   </td>
                   <td className="p-1 text-right border rounded-r-md">
-                    {partyTwoWager
-                      ? parseFloat(partyTwoWager![0].toString()) /
-                        10 ** TICKER_DECIMALS[ticker as TICKERS]["oracle"]
-                      : "TBA"}
+                    {partyTwoWagerFormatted}
                   </td>
                 </tr>
                 <tr className="bg-gray-200 text-left h-[40px]">
@@ -389,10 +426,7 @@ const W: NextPage = () => {
                 <tr className="bg-gray-200 text-left h-[40px]">
                   <td className="p-1 font-bold border rounded-l-md">Outcome</td>
                   <td className="p-1 text-right border rounded-r-md">
-                    {wagerResult
-                      ? parseFloat(wagerResult![0].toString()) /
-                        10 ** TICKER_DECIMALS[ticker as TICKERS]["oracle"]
-                      : "TBA"}
+                    {wagerResultFormatted}
                   </td>
                 </tr>
                 <tr className="bg-gray-200 text-left h-[40px]">
