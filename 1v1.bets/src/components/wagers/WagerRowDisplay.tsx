@@ -76,10 +76,11 @@ export const WagerRowDisplay = ({
     wager.partyOne &&
     wager.partyOne.toLowerCase() === address!.toLowerCase();
 
-  const wagerMetadataValue = partyOneWager
-    ? parseInt(partyOneWager![1].toString()) /
-      10 ** TICKER_DECIMALS[ticker as TICKERS]["oracle"]
-    : "";
+  const wagerMetadataValue =
+    wagerType == WM_HIGHLOW && partyOneWager
+      ? parseInt(partyOneWager![1].toString()) /
+        10 ** TICKER_DECIMALS[ticker as TICKERS]["oracle"]
+      : "";
   const wagerMetadata =
     wagerType == WM_HIGHLOW
       ? "(start: " +
@@ -102,7 +103,7 @@ export const WagerRowDisplay = ({
     isPartyOne && (wager.state == "0" || wager.state == "1");
 
   const partyOneWagerValue = partyOneWager
-    ? parseInt(partyOneWager![0].toString()) /
+    ? parseFloat(partyOneWager![0].toString()) /
       10 ** TICKER_DECIMALS[ticker as TICKERS]["oracle"]
     : 0;
   const partyOneWagerFormatted =
@@ -114,14 +115,16 @@ export const WagerRowDisplay = ({
         });
 
   const partyTwoWagerValue = partyTwoWager
-    ? parseInt(partyTwoWager![0].toString()) /
+    ? parseFloat(partyTwoWager![0].toString()) /
       10 ** TICKER_DECIMALS[ticker as TICKERS]["oracle"]
     : 0;
   const partyTwoWagerFormatted = partyTwoWager
-    ? partyTwoWagerValue.toLocaleString(undefined, {
-        minimumFractionDigits:
-          partyTwoWagerValue > 0 && partyTwoWagerValue < 1 ? 4 : 0,
-      })
+    ? wagerType == "wm.highlow"
+      ? partyTwoWager![0].toString()
+      : partyTwoWagerValue.toLocaleString(undefined, {
+          minimumFractionDigits:
+            partyTwoWagerValue > 0 && partyTwoWagerValue < 1 ? 4 : 0,
+        })
     : "TBA";
 
   const wagerResultValue = wagerResult
