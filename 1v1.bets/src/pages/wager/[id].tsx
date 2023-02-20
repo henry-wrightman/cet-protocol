@@ -229,13 +229,17 @@ const W: NextPage = () => {
     data?.wager.partyOne &&
     data?.wager.partyOne.toLowerCase() === address!.toLowerCase();
 
+  const wagerMetadataValue = partyOneWager
+    ? parseInt(partyOneWager![1].toString()) /
+      10 ** TICKER_DECIMALS[ticker as TICKERS]["oracle"]
+    : "";
   const wagerMetadata =
     wagerType == WM_HIGHLOW
       ? "(start: " +
-        (
-          parseFloat(partyOneWager![1].toString()) /
-          10 ** TICKER_DECIMALS[ticker as TICKERS]["oracle"]
-        ).toLocaleString() +
+        wagerMetadataValue.toLocaleString(undefined, {
+          minimumFractionDigits:
+            wagerMetadataValue > 0 && wagerMetadataValue < 1 ? 4 : 0,
+        }) +
         ")"
       : "";
 

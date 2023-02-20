@@ -76,19 +76,16 @@ export const WagerRowDisplay = ({
     wager.partyOne &&
     wager.partyOne.toLowerCase() === address!.toLowerCase();
 
+  const wagerMetadataValue = partyOneWager
+    ? parseInt(partyOneWager![1].toString()) /
+      10 ** TICKER_DECIMALS[ticker as TICKERS]["oracle"]
+    : "";
   const wagerMetadata =
     wagerType == WM_HIGHLOW
       ? "(start: " +
-        (
-          parseInt(partyOneWager![1].toString()) /
-          10 ** TICKER_DECIMALS[ticker as TICKERS]["oracle"]
-        ).toLocaleString(undefined, {
+        wagerMetadataValue.toLocaleString(undefined, {
           minimumFractionDigits:
-            parseInt(partyOneWager![1].toString()) /
-              10 ** TICKER_DECIMALS[ticker as TICKERS]["oracle"] <
-            1
-              ? 4
-              : 0,
+            wagerMetadataValue > 0 && wagerMetadataValue < 1 ? 4 : 0,
         }) +
         ")"
       : "";
@@ -173,7 +170,7 @@ export const WagerRowDisplay = ({
             </td>
             <td className={`p-2 font-bold border-2 bg-gray-100`}>
               <span className="m-1 float-left">Outcome</span>
-              {wagerResult && (
+              {wagerMetadata && (
                 <span className="m-1 float-right font-normal">
                   {wagerMetadata}
                 </span>
