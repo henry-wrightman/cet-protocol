@@ -162,6 +162,10 @@ export const WagerForm = ({ signerAddress }: { signerAddress: string }) => {
     watch("wagerExpirationBlock") != null &&
     watch("wager") != null;
 
+  const currentPriceFormatted =
+    parseFloat(currentPrice) /
+    10 ** TICKER_DECIMALS[ticker as TICKERS]["subgraph"];
+
   return (
     <>
       <div className="flex-col">
@@ -208,10 +212,9 @@ export const WagerForm = ({ signerAddress }: { signerAddress: string }) => {
 
           <WagerOptions
             wagerType={watch("wagerType")}
-            currentPrice={(
-              parseFloat(currentPrice) /
-              10 ** TICKER_DECIMALS[ticker as TICKERS]["subgraph"]
-            ).toLocaleString(undefined, { minimumFractionDigits: 4 })}
+            currentPrice={currentPriceFormatted.toLocaleString(undefined, {
+              minimumFractionDigits: 4,
+            })}
             form={form}
           />
           <div className="mb-2 mt-4">
@@ -274,9 +277,9 @@ export const WagerForm = ({ signerAddress }: { signerAddress: string }) => {
                                   ] || 0
                             ).toString(),
                         BigInt(
-                          parseFloat(currentPrice) *
+                          currentPriceFormatted *
                             10 ** TICKER_DECIMALS[ticker as TICKERS]["oracle"]
-                        ).toString(),
+                        ),
                       ]) || []
                     }
                     wagerAmount={watch("wagerAmount")}

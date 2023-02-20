@@ -104,46 +104,37 @@ export const WagerRowDisplay = ({
   const potentialVoid =
     isPartyOne && (wager.state == "0" || wager.state == "1");
 
+  const partyOneWagerValue = partyOneWager
+    ? parseInt(partyOneWager![0].toString()) /
+      10 ** TICKER_DECIMALS[ticker as TICKERS]["oracle"]
+    : 0;
   const partyOneWagerFormatted =
     wagerType == "wm.highlow"
       ? partyOneWager![0].toString()
-      : (
-          parseInt(partyOneWager![0].toString()) /
-          10 ** TICKER_DECIMALS[ticker as TICKERS]["oracle"]
-        ).toLocaleString(undefined, {
+      : partyOneWagerValue.toLocaleString(undefined, {
           minimumFractionDigits:
-            parseInt(partyOneWager![0].toString()) /
-              10 ** TICKER_DECIMALS[ticker as TICKERS]["oracle"] <
-            1
-              ? 4
-              : 0,
+            partyOneWagerValue > 0 && partyOneWagerValue < 1 ? 4 : 0,
         });
 
+  const partyTwoWagerValue = partyTwoWager
+    ? parseInt(partyTwoWager![0].toString()) /
+      10 ** TICKER_DECIMALS[ticker as TICKERS]["oracle"]
+    : 0;
   const partyTwoWagerFormatted = partyTwoWager
-    ? (
-        parseInt(partyTwoWager![0].toString()) /
-        10 ** TICKER_DECIMALS[ticker as TICKERS]["oracle"]
-      ).toLocaleString(undefined, {
+    ? partyTwoWagerValue.toLocaleString(undefined, {
         minimumFractionDigits:
-          parseInt(partyTwoWager![0].toString()) /
-            10 ** TICKER_DECIMALS[ticker as TICKERS]["oracle"] <
-          1
-            ? 4
-            : 0,
+          partyTwoWagerValue > 0 && partyTwoWagerValue < 1 ? 4 : 0,
       })
     : "TBA";
 
+  const wagerResultValue = wagerResult
+    ? parseInt(wagerResult![0].toString()) /
+      10 ** TICKER_DECIMALS[ticker as TICKERS]["oracle"]
+    : 0;
   const wagerResultFormatted = wagerResult
-    ? (
-        parseInt(wagerResult![0].toString()) /
-        10 ** TICKER_DECIMALS[ticker as TICKERS]["oracle"]
-      ).toLocaleString(undefined, {
+    ? wagerResultValue.toLocaleString(undefined, {
         minimumFractionDigits:
-          parseInt(wagerResult![0].toString()) /
-            10 ** TICKER_DECIMALS[ticker as TICKERS]["oracle"] <
-          1
-            ? 4
-            : 0,
+          wagerResultValue > 0 && wagerResultValue < 1 ? 4 : 0,
       })
     : "TBA";
 
