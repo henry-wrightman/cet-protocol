@@ -239,8 +239,12 @@ const W: NextPage = () => {
         ")"
       : "";
 
+  const currentPriceFormatted =
+    parseFloat(currentPrice) /
+    10 ** TICKER_DECIMALS[ticker as TICKERS]["subgraph"];
+
   const enterPartyData = watch("wager")
-    ? constructWagerData(wagerType, [
+    ? constructWagerData(watch("wagerType"), [
         watch("wagerType") == "wm.highlow"
           ? BigInt(watch("wager"))
           : BigInt(
@@ -248,9 +252,9 @@ const W: NextPage = () => {
                 10 ** TICKER_DECIMALS[ticker as TICKERS]["oracle"] || 0
             ).toString(),
         BigInt(
-          parseFloat(currentPrice) *
+          currentPriceFormatted *
             10 ** TICKER_DECIMALS[ticker as TICKERS]["oracle"]
-        ).toString(),
+        ),
       ])
     : null;
 
