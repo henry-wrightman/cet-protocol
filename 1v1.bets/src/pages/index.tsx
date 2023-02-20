@@ -14,6 +14,55 @@ const Page: NextPage = () => {
 
   return (
     <>
+      {isMounted && !chain && (
+        <div className="min-h-screen bg-green-200 font-normal">
+          <div className="flex flex-row md:p-5 md:flex-row lg:flex-row justify-center">
+            <div className="text-center sm:basis-full md:basis-1/3 lg:basis-1/3  m-2 p-3 shadow-md rounded-lg bg-white min-w-[250px] min-h-[50px] border-black border-[1px]">
+              <div className="">
+                <span className="text-center">
+                  Please install a web3 wallet to continue!
+                </span>
+              </div>
+              <div className="">
+                <span className="text-center">
+                  <a
+                    className="text-blue-600"
+                    href="https://metamask.io/"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Metamask
+                  </a>
+                </span>
+              </div>
+              <div className="">
+                <span className="text-center">
+                  <a
+                    className="text-blue-600"
+                    href="https://walletconnect.com/"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    WalletConnect
+                  </a>
+                </span>
+              </div>
+              <div className="">
+                <span className="text-center">
+                  <a
+                    className="text-blue-600"
+                    href="https://www.coinbase.com/wallet"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Coinbase Wallet
+                  </a>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
       {isMounted && chain && chain.unsupported && (
         <div className="min-h-screen bg-green-200 font-normal">
           <div className="flex flex-col md:p-5 md:flex-row lg:flex-row justify-center">
