@@ -1,5 +1,5 @@
 {
-  "name": "1v1.bets",
+  "name": "cet-protocol",
   "version": "1.0.0",
   "scripts": {
     "vercel-build": "cd frontend && yarn && yarn next build"
