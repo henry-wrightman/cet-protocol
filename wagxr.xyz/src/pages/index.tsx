@@ -18,7 +18,6 @@ const Page: NextPage = () => {
   const { connect } = useConnect({
     connector: new MetaMaskConnector(),
   })
-  const { disconnect } = useDisconnect()
   const { chain } = useNetwork();
 
   useEffect(() => {
@@ -105,7 +104,7 @@ const Page: NextPage = () => {
                 </div>
                 {isMounted && address && (
                   <div className="sm:basis-full md:basis-1/3 lg:basis-1/3 justify-center m-2 p-3 shadow-md rounded-lg bg-white min-h-[250px] overflow-hidden border-black border-[1px]">
-                    {chain && (
+                    {chain && isConnected && (
                       <div className="pt-2">
                         <App
                           signerAddress={address}
