@@ -12,8 +12,8 @@ this is a [poc](https://github.com/henry-wrightman/cet-protocol/contracts) of an
 
 ### [wagxr.xyz](https://wagxr.xyz)
 
-this [dapp](https://github.com/henry-wrightman/cet-protocol/blob/main/wagxr.xyz/README.md) fascilitates the means for 1v1 style wagering on-chain; from creation to settlement leveraging the cet protocol (and chainlink kinda)
+this [dapp](https://github.com/henry-wrightman/cet-protocol/blob/main/wagxr.xyz/README.md) fascilitates the means for 1v1 style wagering on-chain; from creation to settlement via the cet protocol. wagers can be one-sided (e.g airdrops), two-sided (e.g wagers), transfer ERC20/ERC721s (hopefully ERC1155s), and validate against oracles like chainlink or UMA. 
 
-### [airdrxp.xyz](https://airdrxp.xyz)
+### [airdrxp.xyz](https://airdrxp.xyz) (WIP)
 
-this [dapp](https://github.com/henry-wrightman/cet-protocol/blob/main/airdrxp.xyz/README.md) demonstrates the cet-protocol for something like conditional airdrops, where NFTs could be dropped to recipients based off of on-chain preconditions reliant on an oracle. again due to the creators lack of ingenuity, it's horribly gas inefficient
+this [dapp](https://github.com/henry-wrightman/cet-protocol/blob/main/airdrxp.xyz/README.md) demonstrates the cet-protocol for something like conditional airdrops, where NFTs could be dropped to recipients based off of on-chain preconditions reliant on an oracle.
