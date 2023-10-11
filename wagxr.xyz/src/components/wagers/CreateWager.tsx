@@ -83,7 +83,7 @@ export const CreateWager = ({
       console.log("suc" + res);
     },
   });
-  console.log(error);
+
   const { data: tx, write } = useContractWrite(config);
   const { isLoading, isSuccess, data } = useWaitForTransaction({
     hash: tx?.hash,
