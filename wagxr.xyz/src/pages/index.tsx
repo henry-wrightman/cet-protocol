@@ -15,7 +15,7 @@ const Page: NextPage = () => {
 
   return (
     <>
-      {isMounted && (chain === undefined || !chain) && (
+      {isMounted && !chain && (
         <div className="min-h-screen bg-green-200 font-normal">
           <div className="flex flex-row md:p-5 md:flex-row lg:flex-row justify-center">
             <div className="text-center sm:basis-full md:basis-1/3 lg:basis-1/3  m-2 p-3 shadow-md rounded-lg bg-white min-w-[250px] min-h-[50px] border-black border-[1px]">
@@ -76,7 +76,7 @@ const Page: NextPage = () => {
         </div>
       )}
 
-      {isMounted && ( //            {isMounted && chain && !chain.unsupported && (
+      {isMounted && chain && !chain.unsupported && ( //            {isMounted && chain && !chain.unsupported && (
         <>
           <div className="min-h-screen bg-green-200 font-normal">
             <div className="hidden md:flex lg:flex">
