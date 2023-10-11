@@ -56,7 +56,7 @@ export const Connect = () => {
             defaultValue={`${shortenHex(address ?? "")}`}
             onSelect={(option: SelectOption) => {
               if (option.label === "Disconnect") {
-                // TODO
+                disconnect();
               }
             }}
           />
