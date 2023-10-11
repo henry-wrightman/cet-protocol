@@ -10,10 +10,10 @@ this is a [poc](https://github.com/henry-wrightman/cet-protocol/contracts) of an
 - https://api.thegraph.com/subgraphs/name/henry-wrightman/1v1-goerli (goerli)
 - https://api.thegraph.com/subgraphs/name/henry-wrightman/1v1-mumbai (mumbai)
 
-### wagxr.xyz
+### [wagxr.xyz](https://wagxr.xyz)
 
 this [dapp](https://github.com/henry-wrightman/cet-protocol/blob/main/wagxr.xyz/README.md) fascilitates the means for 1v1 style wagering on-chain; from creation to settlement leveraging the cet protocol (and chainlink kinda)
 
-### airdrxp.xyz
+### [airdrxp.xyz](https://airdrxp.xyz)
 
 this [dapp](https://github.com/henry-wrightman/cet-protocol/blob/main/airdrxp.xyz/README.md) demonstrates the cet-protocol for something like conditional airdrops, where NFTs could be dropped to recipients based off of on-chain preconditions reliant on an oracle. again due to the creators lack of ingenuity, it's horribly gas inefficient
