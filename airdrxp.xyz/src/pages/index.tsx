@@ -14,17 +14,17 @@ import {
 
 const Page: NextPage = () => {
   const isMounted = useIsMounted();
-  const { address, isConnected } = useAccount()
+  const { address, isConnected, connector } = useAccount()
   const { connect } = useConnect({
     connector: new MetaMaskConnector(),
   })
   const { chain } = useNetwork();
 
-  useEffect(() => {
-    if (!chain && !isConnected) {
-      connect()
-    }
-  }, [isConnected, address, chain])
+  // useEffect(() => {
+  //   if (!chain && !connector && !address && !isConnected) {
+  //     connect()
+  //   }
+  // }, [chain, connector, isConnected])
 
   return (
     <>
