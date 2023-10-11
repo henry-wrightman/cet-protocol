@@ -24,7 +24,7 @@ export const SettleWager = ({
     chain && chain?.network ? (chain?.network as NETWORK) : "goerli";
 
   const { config, error } = usePrepareContractWrite({
-    address: REGISTRY_ADDRESSES[network],
+    address: `0x${REGISTRY_ADDRESSES[network]}`,
     abi: REG_ABI,
     functionName: "settleWager",
     args: [ethers.BigNumber.from(wagerId)],

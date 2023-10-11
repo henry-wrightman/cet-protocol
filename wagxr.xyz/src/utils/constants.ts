@@ -26,8 +26,8 @@ type ModuleEntries = { [key in NETWORK]: WagerModule[] };
 type NetworkEntries = { [key in NETWORK]: string };
 
 export const REGISTRY_ADDRESSES: NetworkEntries = {
-  goerli: "0x2d44fC4eDFC9195612514008B38AF666fcFdcE3d",
-  hardhat: "0xdc64a140aa3e981100a9beca4e685f962f0cf6c9",
+  goerli: "2d44fC4eDFC9195612514008B38AF666fcFdcE3d",
+  hardhat: "dc64a140aa3e981100a9beca4e685f962f0cf6c9",
   mainnet: "",
 };
 

@@ -24,7 +24,7 @@ export const VoidWager = ({
     chain && chain?.network ? (chain?.network as NETWORK) : "goerli";
 
   const { config, error } = usePrepareContractWrite({
-    address: REGISTRY_ADDRESSES[network],
+    address: `0x${REGISTRY_ADDRESSES[network]}`,
     abi: REG_ABI,
     functionName: "voidWager",
     args: [ethers.BigNumber.from(wagerId)],

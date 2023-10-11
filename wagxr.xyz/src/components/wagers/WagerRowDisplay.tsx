@@ -86,7 +86,7 @@ export const WagerRowDisplay = ({
       ? "(start: " +
         wagerMetadataValue.toLocaleString(undefined, {
           minimumFractionDigits:
-            wagerMetadataValue > 0 && wagerMetadataValue < 1 ? 4 : 0,
+          wagerMetadataValue !== "" && wagerMetadataValue > 0 && wagerMetadataValue < 1 ? 4 : 0,
         }) +
         ")"
       : "";

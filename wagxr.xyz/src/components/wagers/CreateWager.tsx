@@ -56,9 +56,10 @@ export const CreateWager = ({
   const blockDataD = useDebounce(blockData, 2000);
   const partiesDataD = useDebounce(partiesData, 2000);
   const { config, error } = usePrepareContractWrite({
-    address: REGISTRY_ADDRESSES[network],
+    address: `0x${REGISTRY_ADDRESSES[network]}`,
     abi: REG_ABI,
     functionName: "createWager",
+    value: ethers.utils.parseEther(wagerAmount).toBigInt(),
     args: [
       {
         parties: partiesDataD,
@@ -74,9 +75,6 @@ export const CreateWager = ({
         oracleSource,
       },
     ],
-    overrides: {
-      value: ethers.utils.parseEther(wagerAmount),
-    },
     onError: (err) => {
       console.log("err: " + err);
     },
