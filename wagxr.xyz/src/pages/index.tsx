@@ -1,4 +1,4 @@
-import { useAccount, useConnect, useDisconnect, useNetwork } from 'wagmi'
+import { useAccount, useConnect, useNetwork } from 'wagmi'
 import { InjectedConnector } from 'wagmi/connectors/injected'
 import { Account, Connect, App, NetworkSwitcher } from "../components";
 import { WagersList, PriceFeed } from "../components/wagers";

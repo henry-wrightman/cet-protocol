@@ -22,10 +22,10 @@ const NETWORK_OPTIONS = ["goerli"].map((x) => {
 
 export const Connect = () => {
   const isMounted = useIsMounted();
-  const { address } = useAccount();
+  const { address, isConnected, connector } = useAccount();
   const { chain } = useNetwork();
   const { data: ensNameData } = useEnsName({ address });
-  const { disconnect } = useDisconnect();
+  const { disconnect } = useDisconnect()
   
   const { connect, connectors, error, pendingConnector } = useConnect({
     onError(error) {
@@ -33,6 +33,9 @@ export const Connect = () => {
     },
     connector: new InjectedConnector(),
   });
+  console.log(address);
+  console.log(isConnected);
+  console.log(connector)
   return (
     <>
       {address && isMounted && (
@@ -63,7 +66,7 @@ export const Connect = () => {
         </div>
       )}
 
-      {!address &&
+      {!address && !isConnected && 
         connectors
           .filter((x) => isMounted && x.ready)
           .map((x) => (

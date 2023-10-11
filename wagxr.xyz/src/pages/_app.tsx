@@ -25,7 +25,7 @@ const config = createConfig({
   publicClient: publicClient,
   connectors: [
     //new InjectedConnector({ chains }),
-    new MetaMaskConnector({ chains }),
+    new MetaMaskConnector({ chains, options: { shimDisconnect: true }}),
     new CoinbaseWalletConnector({
       chains,
       options: {
