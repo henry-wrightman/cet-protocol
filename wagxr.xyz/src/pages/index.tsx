@@ -11,10 +11,11 @@ const Page: NextPage = () => {
   const { address, isConnected } = useAccount();
   const { data: signer } = useSigner();
   const { chain } = useNetwork();
+  console.log(chain);
 
   return (
     <>
-      {/* {isMounted && !chain && (
+      {isMounted && (chain === undefined || !chain) && (
         <div className="min-h-screen bg-green-200 font-normal">
           <div className="flex flex-row md:p-5 md:flex-row lg:flex-row justify-center">
             <div className="text-center sm:basis-full md:basis-1/3 lg:basis-1/3  m-2 p-3 shadow-md rounded-lg bg-white min-w-[250px] min-h-[50px] border-black border-[1px]">
@@ -73,7 +74,7 @@ const Page: NextPage = () => {
             </div>
           </div>
         </div>
-      )} */}
+      )}
 
       {isMounted && ( //            {isMounted && chain && !chain.unsupported && (
         <>
