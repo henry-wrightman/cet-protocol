@@ -33,9 +33,7 @@ export const Connect = () => {
     },
     connector: new InjectedConnector(),
   });
-  console.log(address);
-  console.log(isConnected);
-  console.log(connector)
+
   return (
     <>
       {address && isMounted && (
