@@ -142,28 +142,28 @@ export const WagerRowDisplay = ({
     <>
       {wager && (
         <>
-          <tr className="m-1 bg-gray-200 text-left h-[40px] text-sm">
-            <td className="p-2 rounded-l-lg font-bold border-2 bg-gray-100"></td>
-            <td className="p-2 font-bold border-2 bg-gray-100">
+          <tr className="m-1 bg-purple-500 text-left h-[40px] text-sm text-white">
+            <td className="p-2 rounded-l-lg font-bold bg-purple-500"></td>
+            <td className="p-2 font-bold bg-purple-500">
               <span className="m-1 float-left">Party One&apos;s Wager</span>
 
-              <span className="m-1 float-right font-normal">
+              <span className="m-1 float-left font-normal">
                 {partyOneWagerFormatted}
               </span>
             </td>
-            <td className="p-2 font-bold border-2 bg-gray-100">
+            <td className="p-2 font-bold bg-purple-500">
               <span className="m-1 float-left">Party Two&apos;s Wager</span>
 
-              <span className="m-1 float-right font-normal">
+              <span className="m-1 float-left font-normal">
                 {partyTwoWagerFormatted}
               </span>
             </td>
-            <td className="p-2 font-bold border-2 bg-gray-100">
+            <td className="p-2 font-bold  bg-purple-500">
               <span className="m-1 float-left">Winner</span>
 
-              <span className="m-1 float-right font-normal">
+              <span className="m-1 float-left font-normal">
                 {wager.winner ? (
-                  <span className="p-1 bg-green-400 border-gray-400 rounded-md">
+                  <span className="p-1 bg-green-400 rounded-md">
                     {wager.winner.slice(0, 6)}
                   </span>
                 ) : (
@@ -171,7 +171,7 @@ export const WagerRowDisplay = ({
                 )}
               </span>
             </td>
-            <td className={`p-2 font-bold border-2 bg-gray-100`}>
+            <td className={`p-2 font-bold  bg-purple-500`}>
               <span className="m-1 float-left">Outcome</span>
               {wagerMetadata && (
                 <span className="m-1 float-right font-normal">
@@ -179,12 +179,12 @@ export const WagerRowDisplay = ({
                 </span>
               )}
 
-              <span className="m-1 float-right font-normal">
+              <span className="m-1 float-left font-normal">
                 {wagerResultFormatted}
               </span>
             </td>
             {potentialEnter && (
-              <td className="p-2 rounded-r-lg font-bold border-2 bg-gray-100">
+              <td className="p-2 rounded-r-lg font-bold  bg-purple-500">
                 <div className="flex flex-col items-center">
                   <Button
                     type="submit"
@@ -198,7 +198,7 @@ export const WagerRowDisplay = ({
               </td>
             )}
             {(potentialVoid || potentialSettle) && (
-              <td className="p-2 rounded-r-lg font-bold border-2 bg-gray-100">
+              <td className="w-1/6 p-2 rounded-r-lg font-bold  bg-purple-500">
                 {potentialSettle && (
                   <SettleWager wagerId={wager.id} buttonText={"Settle"} />
                 )}
@@ -208,7 +208,7 @@ export const WagerRowDisplay = ({
               </td>
             )}
             {!potentialEnter && !potentialSettle && !potentialVoid && (
-              <td className="p-2 rounded-r-lg font-bold border-2 bg-gray-100"></td>
+              <td className="p-2 rounded-r-lg font-bold  bg-purple-500"></td>
             )}
           </tr>
         </>

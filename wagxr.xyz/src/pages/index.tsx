@@ -87,7 +87,6 @@ const Page: NextPage = () => {
               <div className="flex-row">
                 <div className="sm:basis-full md:basis-1/3 lg:basis-1/3 justify-center m-2 p-3 shadow-md rounded-lg bg-white min-w-[250px] min-h-[50px] border-black border-[1px]">
                   <Connect />
-                  {isMounted && address && <Account />}
                 </div>
                 {isMounted && address && (
                   <div className="sm:basis-full md:basis-1/3 lg:basis-1/3 justify-center m-2 p-3 shadow-md rounded-lg bg-white min-h-[250px] overflow-hidden border-black border-[1px]">
