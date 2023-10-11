@@ -14,15 +14,21 @@ import {
 
 const Page: NextPage = () => {
   const isMounted = useIsMounted();
-  const { address, isConnected } = useAccount()
+  const { address, isConnected, connector } = useAccount()
   const { connect } = useConnect({
     connector: new MetaMaskConnector(),
   })
   const { chain } = useNetwork();
 
+  useEffect(() => {
+    if (!chain && !connector && !address && !isConnected) {
+      connect()
+    }
+  }, [chain, connector, isConnected])
+
   return (
     <>
-      {isMounted && !chain && (
+      {isMounted && !chain && !connector && (
         <div className="min-h-screen bg-green-200 font-normal text-center">
           <div className="flex flex-row md:p-5 md:flex-row lg:flex-row justify-center">
             <div className="sm:basis-full md:basis-1/3 lg:basis-1/3  m-2 p-3 shadow-md rounded-lg bg-white min-w-[250px] min-h-[50px] border-black border-[1px]">
@@ -72,10 +78,10 @@ const Page: NextPage = () => {
         </div>
       )}
       {isMounted && chain && (chain.unsupported || chain.id !== goerli.id) && (
-        <div className="min-h-screen bg-green-200 font-normal">
+        <div className="min-h-screen bg-green-200 font-normal text-center">
           <div className="flex flex-col md:p-5 md:flex-row lg:flex-row justify-center">
             <div className="sm:basis-full md:basis-1/3 lg:basis-1/3  m-2 p-3 shadow-md rounded-lg bg-white min-w-[250px] min-h-[50px] border-black border-[1px]">
-              <span className="text-center">
+              <span className="">
                 Currently only available on Goerli. Please switch networks!
               </span>
             </div>
