@@ -1,16 +1,31 @@
-import { useAccount, useNetwork, useSigner } from "wagmi";
+import { useAccount, useConnect, useDisconnect, useNetwork } from 'wagmi'
+import { InjectedConnector } from 'wagmi/connectors/injected'
 import { Account, Connect, App, NetworkSwitcher } from "../components";
 import { WagersList, PriceFeed } from "../components/wagers";
 import { Label } from "../components/common";
 import { useIsMounted } from "../hooks";
 import type { NextPage } from "next";
 import Link from "next/link";
+import { MetaMaskConnector } from "wagmi/connectors/metaMask";
+import { useEffect } from 'react';
+import {
+  goerli,
+} from "@wagmi/core/chains";
 
 const Page: NextPage = () => {
   const isMounted = useIsMounted();
-  const { address, isConnected } = useAccount();
-  const { data: signer } = useSigner();
+  const { address, isConnected } = useAccount()
+  const { connect } = useConnect({
+    connector: new MetaMaskConnector(),
+  })
+  const { disconnect } = useDisconnect()
   const { chain } = useNetwork();
+
+  useEffect(() => {
+    if (!chain && !isConnected) {
+      connect()
+    }
+  }, [isConnected, address, chain])
 
   return (
     <>
@@ -63,7 +78,7 @@ const Page: NextPage = () => {
           </div>
         </div>
       )}
-      {isMounted && chain && chain.unsupported && (
+      {isMounted && chain && (chain.unsupported || chain.id !== goerli.id) && (
         <div className="min-h-screen bg-green-200 font-normal">
           <div className="flex flex-col md:p-5 md:flex-row lg:flex-row justify-center">
             <div className="sm:basis-full md:basis-1/3 lg:basis-1/3  m-2 p-3 shadow-md rounded-lg bg-white min-w-[250px] min-h-[50px] border-black border-[1px]">
@@ -75,7 +90,7 @@ const Page: NextPage = () => {
         </div>
       )}
 
-      {isMounted && chain && !chain.unsupported && ( //            {isMounted && chain && !chain.unsupported && (
+      {isMounted && chain && !chain.unsupported && (
         <>
           <div className="min-h-screen bg-green-200 font-normal">
             <div className="hidden md:flex lg:flex">
@@ -90,10 +105,9 @@ const Page: NextPage = () => {
                 </div>
                 {isMounted && address && (
                   <div className="sm:basis-full md:basis-1/3 lg:basis-1/3 justify-center m-2 p-3 shadow-md rounded-lg bg-white min-h-[250px] overflow-hidden border-black border-[1px]">
-                    {chain && signer && isConnected && (
+                    {chain && (
                       <div className="pt-2">
                         <App
-                          signer={signer}
                           signerAddress={address}
                           chainId={chain.id}
                         />

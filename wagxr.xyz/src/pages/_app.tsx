@@ -2,22 +2,12 @@ import Script from "next/script";
 import { NextSeo } from "next-seo";
 import * as React from "react";
 import type { AppProps } from "next/app";
-import { WagmiConfig, createClient, configureChains } from "wagmi";
+import { WagmiConfig, createConfig, configureChains } from 'wagmi'
 import {
-  localhost,
   goerli,
-  mainnet,
-  optimism,
-  optimismGoerli,
-  polygonMumbai,
-  polygon,
-  hardhat,
 } from "@wagmi/core/chains";
-import NextHead from "next/head";
 import { alchemyProvider } from "wagmi/providers/alchemy";
-import { publicProvider } from "wagmi/providers/public";
 import { CoinbaseWalletConnector } from "wagmi/connectors/coinbaseWallet";
-import { InjectedConnector } from "wagmi/connectors/injected";
 import { WalletConnectConnector } from "wagmi/connectors/walletConnect";
 import { MetaMaskConnector } from "wagmi/connectors/metaMask";
 import "../styles/globals.css";
@@ -25,25 +15,14 @@ import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
 
 const alchemyId = process.env.NEXT_PUBLIC_ALCHEMY_ID;
 
-const { chains, provider } = configureChains(
-  [
-    goerli,
-    //mainnet,
-    // optimism,
-    // optimismGoerli,
-    //polygonMumbai,
-    //polygon,
-    hardhat,
-  ],
-  [
-    alchemyProvider({ apiKey: alchemyId!, priority: 0 }),
-    publicProvider({ priority: 1 }),
-  ]
-);
+const { chains, publicClient } = configureChains(
+  [goerli],
+  [alchemyProvider({ apiKey: alchemyId! })],
+)
 
-const client = createClient({
+const config = createConfig({
   autoConnect: true,
-  provider,
+  publicClient: publicClient,
   connectors: [
     //new InjectedConnector({ chains }),
     new MetaMaskConnector({ chains }),
@@ -51,16 +30,18 @@ const client = createClient({
       chains,
       options: {
         appName: "wagxr.xyz",
+        // jsonRpcUrl: `https://eth-mainnet.alchemyapi.io/v2/${alchemyId!}`,
       },
     }),
-    new WalletConnectConnector({
-      chains,
-      options: {
-        qrcode: true,
-      },
-    }),
+    // new WalletConnectConnector({
+    //   chains,
+    //   options: {
+    //     showQrModal: true,
+    //     projectId: 'wagxr.xyz',
+    //   },
+    // }),
   ],
-});
+})
 
 const apolloClient = new ApolloClient({
   uri: "http://localhost:8000/subgraphs/name/WagerRegistry",
@@ -69,7 +50,7 @@ const apolloClient = new ApolloClient({
 
 function App({ Component, pageProps }: AppProps) {
   return (
-    <WagmiConfig client={client}>
+    <WagmiConfig config={config}>
       <NextSeo
         title="wagxr.xyz"
         description=""
