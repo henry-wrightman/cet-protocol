@@ -7,7 +7,7 @@ export type ChainResult = {
 };
 
 export function useContractWrite(
-  address: string,
+  address: any,
   abi: any,
   functionName: string,
   args: any
@@ -23,6 +23,6 @@ export function useContractWrite(
   return {
     loading: contractRead.isLoading,
     error: contractRead.error,
-    data: (contractRead.data as String) ?? "",
+    data: contractRead.data ?? "",
   } as ChainResult;
 }

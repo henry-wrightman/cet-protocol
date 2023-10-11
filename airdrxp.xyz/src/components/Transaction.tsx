@@ -29,7 +29,7 @@ export const Transaction = ({
   tx: ((overrideConfig?: any) => void) | undefined;
   error: Error | null;
   buttonClassAdditions?: string;
-  data: TransactionReceipt | undefined;
+  data: any | undefined;
   isLoading: boolean;
   isSuccess: boolean;
   successCallback?: (tx?: TransactionReceipt) => void;

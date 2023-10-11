@@ -248,7 +248,7 @@ export const WagersList = () => {
   return (
     <>
       <div className="flex flex-col">
-        <table className="w-full border-black-100 border-separate border-spacing-x-0 border-spacing-y-2 bg-white rounded-md">
+        <table className="w-full border-black-100 border-separate border-spacing-x-0 border-spacing-y-2 bg-white">
           <thead>
             <tr className="">
               <th className="p-1 text-black">
@@ -309,7 +309,7 @@ export const WagersList = () => {
           </thead>
           <tbody></tbody>
         </table>
-        <table className="w-full border-separate border-spacing-x-0 border-spacing-y-2">
+        <table className="w-full border-separate">
           <thead className="border-[2px] border-black">
             <tr>
               <th className="p-1 font-light text-black w-10">#</th>
@@ -344,7 +344,7 @@ export const WagersList = () => {
                 return (
                   <>
                     <tr
-                      className={`text-center cursor-pointer hover:text-white hover:bg-purple-500 h-[40px] ${
+                      className={`m-2 text-center cursor-pointer hover:text-white hover:bg-purple-500 h-[40px] ${
                         expandedWager && expandedWager.id == wager.id
                           ? "bg-purple-500 text-white"
                           : ""
@@ -395,7 +395,7 @@ export const WagersList = () => {
                       <td className="p-1">
                         {type.replace("wm.", "")} | {ta}
                       </td>
-                      <td className="p-1">{getWagerState(wager.state)}</td>
+                      <td className={`${expandedWager ? `text-black` : `text-white`} p-1`}>{getWagerState(wager.state)}</td>
                       <td className="p-1 rounded-r-lg">
                         {blocknumber == 0 ? (
                           Loading(20, 20)

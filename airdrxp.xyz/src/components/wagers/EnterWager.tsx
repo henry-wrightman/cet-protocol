@@ -30,13 +30,11 @@ export const EnterWager = ({
     [ethers.constants.AddressZero, "0"]
   );
   const { config, error } = usePrepareContractWrite({
-    address: REGISTRY_ADDRESSES[network],
+    address: `0x${REGISTRY_ADDRESSES[network]}`,
     abi: REG_ABI,
     functionName: "enterWager",
     args: [ethers.BigNumber.from(wagerId), partyTwoEquityData, wagerData],
-    overrides: {
-      value: ethers.utils.parseEther(wagerAmount),
-    },
+    value: ethers.utils.parseEther(wagerAmount).toBigInt(),
     onError: (err) => {
       console.log("err: " + err);
     },

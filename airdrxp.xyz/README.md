@@ -1,7 +1,5 @@
 # airdrxp.xyz
 
-demo for conditional airdrops
-
 
 ## Startup
 

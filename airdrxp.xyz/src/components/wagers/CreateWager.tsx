@@ -51,32 +51,31 @@ export const CreateWager = ({
       ["0", "0"],
     ]
   ); // 2-sided
+
   const equityDataD = useDebounce(equityData, 2000);
   const wagerDataD = useDebounce(wagerData, 2000);
   const blockDataD = useDebounce(blockData, 2000);
   const partiesDataD = useDebounce(partiesData, 2000);
   const { config, error } = usePrepareContractWrite({
-    address: REGISTRY_ADDRESSES[network],
+    address: `0x${REGISTRY_ADDRESSES[network]}`,
     abi: REG_ABI,
     functionName: "createWager",
+    value: ethers.utils.parseEther(wagerAmount).toBigInt(),
     args: [
       {
         parties: partiesDataD,
         partyOneWagerData: wagerDataD,
-        partyTwoWagerData: [],
+        partyTwoWagerData: "0x",
         equityData: equityDataD,
         blockData: blockDataD,
-        supplementalOracleData: [],
-        result: [],
+        result: "0x",
         state: ethers.BigNumber.from("1"),
         wagerModule,
         oracleModule,
         oracleSource,
+        supplementalOracleData: "0x",
       },
     ],
-    overrides: {
-      value: ethers.utils.parseEther(wagerAmount),
-    },
     onError: (err) => {
       console.log("err: " + err);
     },
@@ -84,6 +83,7 @@ export const CreateWager = ({
       console.log("suc" + res);
     },
   });
+
   const { data: tx, write } = useContractWrite(config);
   const { isLoading, isSuccess, data } = useWaitForTransaction({
     hash: tx?.hash,

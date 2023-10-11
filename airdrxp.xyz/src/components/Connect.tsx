@@ -4,12 +4,14 @@ import {
   useDisconnect,
   useSwitchNetwork,
   useNetwork,
+  useEnsName,
 } from "wagmi";
 import { useIsMounted } from "../hooks";
 import { Button, Error, Select } from "./common";
 import { InjectedConnector } from "wagmi/connectors/injected";
 import { NETWORK } from "../utils/constants";
 import { SelectOption } from "./wagers";
+import { shortenHex } from "../utils/formatters";
 
 const NETWORK_OPTIONS = ["goerli"].map((x) => {
   return {
@@ -20,15 +22,17 @@ const NETWORK_OPTIONS = ["goerli"].map((x) => {
 
 export const Connect = () => {
   const isMounted = useIsMounted();
-  const { address } = useAccount();
+  const { address, isConnected, connector } = useAccount();
   const { chain } = useNetwork();
+  const { data: ensNameData } = useEnsName({ address });
+  const { disconnect } = useDisconnect()
+  
   const { connect, connectors, error, pendingConnector } = useConnect({
     onError(error) {
       console.log(error);
     },
     connector: new InjectedConnector(),
   });
-  const { disconnect } = useDisconnect();
 
   return (
     <>
@@ -45,13 +49,22 @@ export const Connect = () => {
               //useSwitchNetwork()
             }}
           />
-          <Button className="w-full h-[40px]" onClick={() => disconnect()}>
-            Disconnect
-          </Button>
+          <Select
+            name="accountDropdown"
+            placeholder={`${shortenHex(address ?? "", 3)}`}
+            options={[{ label: "Disconnect", value: "disconnect" }]}
+            className="w-[50%]"
+            defaultValue={`${shortenHex(address ?? "")}`}
+            onSelect={(option: SelectOption) => {
+              if (option.label === "Disconnect") {
+                disconnect();
+              }
+            }}
+          />
         </div>
       )}
 
-      {!address &&
+      {!address && !isConnected && 
         connectors
           .filter((x) => isMounted && x.ready)
           .map((x) => (
