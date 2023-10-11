@@ -164,7 +164,7 @@ export const WagerConfirmationModal = ({
               className="flex flex-auto mt-2 p-4 rounded-3xl cursor-pointer w-[250px] rounded-md font-bold text-black p-3 bg-gray-200"
               onClick={() =>
                 navigator.clipboard.writeText(
-                  process.env.HOSTURL + "/wager/" +
+                  process.env.NEXT_PUBLIC_HOSTURL + "/wager/" +
                     ethers.utils.defaultAbiCoder
                       .decode(["uint256"], data.logs[0].topics[2])[0]
                       .toString()

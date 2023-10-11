@@ -20,20 +20,14 @@ const Page: NextPage = () => {
   })
   const { chain } = useNetwork();
 
-  useEffect(() => {
-    if (!chain && !isConnected) {
-      connect()
-    }
-  }, [isConnected, address, chain])
-
   return (
     <>
       {isMounted && !chain && (
-        <div className="min-h-screen bg-green-200 font-normal">
+        <div className="min-h-screen bg-green-200 font-normal text-center">
           <div className="flex flex-row md:p-5 md:flex-row lg:flex-row justify-center">
-            <div className="text-center sm:basis-full md:basis-1/3 lg:basis-1/3  m-2 p-3 shadow-md rounded-lg bg-white min-w-[250px] min-h-[50px] border-black border-[1px]">
+            <div className="sm:basis-full md:basis-1/3 lg:basis-1/3  m-2 p-3 shadow-md rounded-lg bg-white min-w-[250px] min-h-[50px] border-black border-[1px]">
               <div className="">
-                <span className="text-center">
+                <span className="">
                   Please install a web3 wallet to continue!
                 </span>
               </div>
