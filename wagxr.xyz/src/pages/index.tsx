@@ -11,7 +11,6 @@ const Page: NextPage = () => {
   const { address, isConnected } = useAccount();
   const { data: signer } = useSigner();
   const { chain } = useNetwork();
-  console.log(chain);
 
   return (
     <>
