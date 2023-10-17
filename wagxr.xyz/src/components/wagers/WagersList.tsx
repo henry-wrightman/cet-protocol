@@ -395,7 +395,7 @@ export const WagersList = () => {
                       <td className="p-1">
                         {type.replace("wm.", "")} | {ta}
                       </td>
-                      <td className={`${expandedWager ? `text-black` : `text-white`} p-1`}>{getWagerState(wager.state)}</td>
+                      <td className={`text-white p-1`}>{getWagerState(wager.state)}</td>
                       <td className="p-1 rounded-r-lg">
                         {blocknumber == 0 ? (
                           Loading(20, 20)
