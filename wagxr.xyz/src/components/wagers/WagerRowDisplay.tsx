@@ -142,26 +142,26 @@ export const WagerRowDisplay = ({
     <>
       {wager && (
         <>
-          <tr className="m-1 bg-purple-500 text-left h-[40px] text-sm text-white">
+          <tr className="m-1 bg-purple-500 text-center h-[40px] text-sm text-white">
             <td className="p-2 rounded-l-lg font-bold bg-purple-500"></td>
             <td className="p-2 font-bold bg-purple-500">
-              <span className="m-1 float-left">Party One&apos;s Wager</span>
+              <span className="m-1 float-center">Party One&apos;s Wager</span>
 
-              <span className="m-1 float-left font-normal">
+              <span className="m-1 float-center font-normal">
                 {partyOneWagerFormatted}
               </span>
             </td>
             <td className="p-2 font-bold bg-purple-500">
-              <span className="m-1 float-left">Party Two&apos;s Wager</span>
+              <span className="m-1 float-center">Party Two&apos;s Wager</span>
 
-              <span className="m-1 float-left font-normal">
+              <span className="m-1 float-center font-normal">
                 {partyTwoWagerFormatted}
               </span>
             </td>
             <td className="p-2 font-bold  bg-purple-500">
-              <span className="m-1 float-left">Winner</span>
+              <span className="m-1 float-center">Winner</span>
 
-              <span className="m-1 float-left font-normal">
+              <span className="m-1 float-center font-normal">
                 {wager.winner ? (
                   <span className="p-1 bg-green-400 rounded-md">
                     {wager.winner.slice(0, 6)}
@@ -172,14 +172,14 @@ export const WagerRowDisplay = ({
               </span>
             </td>
             <td className={`p-2 font-bold  bg-purple-500`}>
-              <span className="m-1 float-left">Outcome</span>
+              <span className="m-1 float-center">Outcome</span>
               {wagerMetadata && (
-                <span className="m-1 float-right font-normal">
+                <span className="m-1 float-center font-normal">
                   {wagerMetadata}
                 </span>
               )}
 
-              <span className="m-1 float-left font-normal">
+              <span className="m-1 float-center font-normal">
                 {wagerResultFormatted}
               </span>
             </td>
