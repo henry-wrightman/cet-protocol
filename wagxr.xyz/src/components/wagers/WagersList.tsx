@@ -323,7 +323,7 @@ export const WagersList = () => {
           <tbody>
             {data &&
               data.wagers.length > 0 &&
-              data.wagers.map((wager: Wager) => {
+              [...data.wagers].sort((a,b) => b.expirationBlock - a.expirationBlock).map((wager: Wager) => {
                 if (!wager.partyOne.length || wager.partyOne.length <= 0)
                   return;
                 const wagerModule = MODULES[network].filter(
