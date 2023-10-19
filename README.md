@@ -16,4 +16,4 @@ this [dapp](https://github.com/henry-wrightman/cet-protocol/blob/main/wagxr.xyz/
 
 ### [airdrxp.xyz](https://airdrxp.xyz) (WIP)
 
-WIP
+this [dapp](https://github.com/henry-wrightman/cet-protocol/blob/main/airdrxp.xyz/README.md) demonstrates the cet-protocol for something like conditional airdrops, where NFTs could be dropped to recipients based off of on-chain preconditions reliant on an oracle.
