@@ -400,12 +400,18 @@ export const WagersList = () => {
                         {blocknumber == 0 ? (
                           Loading(20, 20)
                         ) : (
-                          <Countdown
+                          <>
+                          {wager.state === "0" && wager?.expirationBlock <= blocknumber ? (
+                            <span className={`${expandedWager && expandedWager.id == wager.id ? 'text-white' : ''} font-bold`}>requires settlement</span>
+                          ) : (
+                            <Countdown
                             targetDate={
                               Date.now() +
                               (wager?.expirationBlock - blocknumber) * 12 * 1000
                             }
                           ></Countdown>
+                          )}
+                          </>
                         )}
                       </td>
                     </tr>

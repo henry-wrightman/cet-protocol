@@ -5,12 +5,14 @@ import { WagersList, PriceFeed } from "../components/wagers";
 import { Label } from "../components/common";
 import { useIsMounted } from "../hooks";
 import type { NextPage } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { MetaMaskConnector } from "wagmi/connectors/metaMask";
 import { useEffect } from 'react';
 import {
   goerli,
 } from "@wagmi/core/chains";
+import githubIcon from "../public/github-mark.svg";
 
 const Page: NextPage = () => {
   const isMounted = useIsMounted();
@@ -94,7 +96,22 @@ const Page: NextPage = () => {
           <div className="min-h-screen bg-green-200 font-normal">
             <div className="hidden md:flex lg:flex">
               <div className="h-[10px] m-1 p-2 w-full text-left cursor-pointer">
-                {/* TODO MENU */}
+                <div className="float-right">
+                    <a
+                      target={"_blank"}
+                      href={
+                        "https://github.com/henry-wrightman/cet-protocol"
+                      }
+                      rel="noreferrer"
+                    >
+                      <Image
+                        width={17}
+                        height={17}
+                        src={githubIcon}
+                        alt="el"
+                      ></Image>
+                    </a>
+                 </div> 
               </div>
             </div>
             <div className="flex flex-col md:p-5 md:flex-row lg:flex-row">
