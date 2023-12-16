@@ -1,14 +1,12 @@
 # conditional equity transfer protocol
 
-feel free to fork, contribute, mock/critique etc. i have a feeling these types of "settlement" protos might grow a bit more prominent, so decided to try and make one (crudely)
-
 ### cet-protocol
 
 this is a [poc](https://github.com/henry-wrightman/cet-protocol/contracts) of an on-chain conditional equity transfer protocol that is meaant to be somewhat composable with pluggable modules that account for the transfer conditions, equity, and oracle/data resolution.
 
 ## subgraphs
 - https://api.thegraph.com/subgraphs/name/henry-wrightman/1v1-goerli (goerli)
-- https://api.thegraph.com/subgraphs/name/henry-wrightman/1v1-mumbai (mumbai)
+- https://api.thegraph.com/subgraphs/name/henry-wrightman/1v1-mumbai (mumbai) (undeployed)
 
 ### [wagxr.xyz](https://wagxr.xyz)
 
