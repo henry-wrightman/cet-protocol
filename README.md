@@ -2,10 +2,11 @@
 
 ### cet-protocol
 
-this is a [poc](https://github.com/henry-wrightman/cet-protocol/contracts) of an on-chain conditional equity transfer protocol that is meaant to be somewhat composable with pluggable modules that account for the transfer conditions, equity, and oracle/data resolution.
+this is a [poc](https://github.com/henry-wrightman/cet-protocol/contracts) of an on-chain conditional equity transfer protocol that is meaant to be somewhat composable with pluggable modules that account for the transfer conditions, equity, and oracle/data resolution. instead of using a central registry with potential proofs (e.g via Merkle Tree) & self-maintained, it strives to leverage external oracles for _specific_ conditional inquiries, such as ChainLink for conditions reliant on asset price.
 
 ## subgraphs
 - https://api.thegraph.com/subgraphs/name/henry-wrightman/1v1-goerli (goerli)
+- https://api.thegraph.com/subgraphs/name/henry-wrightman/1v1-mumbai (mumbai)
 
 ### [wagxr.xyz](https://wagxr.xyz)
 
